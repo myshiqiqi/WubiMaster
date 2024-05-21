@@ -93,6 +93,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private bool canUpdateRimeWubi;
 
+        [ObservableProperty]
+        private bool isFromLocal;
+
         public SettingsViewModel()
         {
             registryHelper = new RegistryHelper();
@@ -237,21 +240,26 @@ namespace WubiMaster.ViewModels
         {
             try
             {
+                //获取目录下（不包含子目录）的文件和子目录
                 DirectoryInfo dir = new DirectoryInfo(srcPath);
-                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //获取目录下（不包含子目录）的文件和子目录
+                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();
                 foreach (FileSystemInfo i in fileinfo)
                 {
-                    if (i is DirectoryInfo)     //判断是否文件夹
+                    //判断是否文件夹
+                    if (i is DirectoryInfo)
                     {
                         if (!Directory.Exists(destPath + "\\" + i.Name))
                         {
-                            Directory.CreateDirectory(destPath + "\\" + i.Name);   //目标目录下不存在此文件夹即创建子文件夹
+                            //目标目录下不存在此文件夹即创建子文件夹
+                            Directory.CreateDirectory(destPath + "\\" + i.Name);
                         }
-                        CopyDirectory(i.FullName, destPath + "\\" + i.Name);    //递归调用复制子文件夹
+                        //递归调用复制子文件夹
+                        CopyDirectory(i.FullName, destPath + "\\" + i.Name);
                     }
                     else
                     {
-                        File.Copy(i.FullName, destPath + "\\" + i.Name, true);      //不是文件夹即复制文件，true表示可以覆盖同名文件
+                        //不是文件夹即复制文件，true表示可以覆盖同名文件
+                        File.Copy(i.FullName, destPath + "\\" + i.Name, true);
                     }
                 }
             }
@@ -276,6 +284,31 @@ namespace WubiMaster.ViewModels
             if (result != true)
                 return;
 
+            if (isFromLocal)
+            {
+                // 从本地选择 rime-wubi.zip 文件
+                var openFileDialog = new OpenFileDialog()
+                {
+                    Filter = "rime-wubi.zip (.zip)|*.zip"
+                };
+
+                var dialog_result = (bool)openFileDialog.ShowDialog();
+                if (dialog_result)
+                {
+                    var rime_wubi_zip = openFileDialog.FileName;
+
+                    // 将本地zip文件移动到指定目录
+                    if (File.Exists(GlobalValues.WubiZipPath))
+                        File.Delete(GlobalValues.WubiZipPath);
+                    File.Copy(rime_wubi_zip, GlobalValues.WubiZipPath);
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             // 停止服务
             ServiceHelper.KillService();
 
@@ -283,17 +316,20 @@ namespace WubiMaster.ViewModels
             LodingView lodingView = new LodingView();
             App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
 
-            // 删除从github下载的旧方案
-            if (File.Exists(GlobalValues.WubiZipPath))
-                File.Delete(GlobalValues.WubiZipPath);
-
-            // 从github下载方案
-            var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
-            if (!down_value)
+            if (!isFromLocal)
             {
-                lodingView.ClosePop();
-                this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
-                return;
+                // 删除从github下载的旧方案
+                if (File.Exists(GlobalValues.WubiZipPath))
+                    File.Delete(GlobalValues.WubiZipPath);
+
+                // 从github下载方案
+                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+                if (!down_value)
+                {
+                    lodingView.ClosePop();
+                    this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
+                    return;
+                }
             }
 
             await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>
@@ -394,6 +430,31 @@ namespace WubiMaster.ViewModels
             if (result != true)
                 return;
 
+            if (isFromLocal)
+            {
+                // 从本地选择 rime-wubi.zip 文件
+                var openFileDialog = new OpenFileDialog()
+                {
+                    Filter = "rime-wubi.zip (.zip)|*.zip"
+                };
+
+                var dialog_result = (bool)openFileDialog.ShowDialog();
+                if (dialog_result)
+                {
+                    var rime_wubi_zip = openFileDialog.FileName;
+
+                    // 将本地zip文件移动到指定目录
+                    if (File.Exists(GlobalValues.WubiZipPath))
+                        File.Delete(GlobalValues.WubiZipPath);
+                    File.Copy(rime_wubi_zip, GlobalValues.WubiZipPath);
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             // 停止服务
             ServiceHelper.KillService();
 
@@ -401,17 +462,20 @@ namespace WubiMaster.ViewModels
             LodingView lodingView = new LodingView();
             App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
 
-            // 删除从github下载的旧方案
-            if (File.Exists(GlobalValues.WubiZipPath))
-                File.Delete(GlobalValues.WubiZipPath);
-
-            // 从github下载方案
-            var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
-            if (!down_value)
+            if (!isFromLocal)
             {
-                lodingView.ClosePop();
-                this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
-                return;
+                // 删除从github下载的旧方案
+                if (File.Exists(GlobalValues.WubiZipPath))
+                    File.Delete(GlobalValues.WubiZipPath);
+
+                // 从github下载方案
+                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+                if (!down_value)
+                {
+                    lodingView.ClosePop();
+                    this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
+                    return;
+                }
             }
 
             await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>

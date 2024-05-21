@@ -92,6 +92,8 @@
                                         Content="更新"
                                         IsEnabled="{Binding CanUpdateRimeWubi}"
                                         Style="{StaticResource SettingButtonStyle}" />
+
+                                <CheckBox IsChecked="{Binding IsFromLocal, Mode=TwoWay}" Content="从本地加载"/>
                             </StackPanel>
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>

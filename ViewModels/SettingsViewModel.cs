@@ -90,6 +90,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private string wubiSchemaTip;
 
+        [ObservableProperty]
+        private bool canUpdateRimeWubi;
+
         public SettingsViewModel()
         {
             registryHelper = new RegistryHelper();
@@ -259,7 +262,7 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public async Task InitializeSchema()
+        public async Task GetRimeWubiAsync()
         {
             // 先检测rime环境
             if (string.IsNullOrEmpty(GlobalValues.UserPath) || string.IsNullOrEmpty(GlobalValues.ProcessPath))
@@ -343,7 +346,8 @@ namespace WubiMaster.ViewModels
                     // 并在该文件中添加初始化信息
                     string wubi_master_info = "";
                     wubi_master_info += "中书君标记文件，请勿删除！\n\r";
-                    wubi_master_info += $"初始化时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_info += $"五笔类型：86\n\r";
                     File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
 
                     // 首页同步，默认五笔方案个性为86
@@ -363,6 +367,98 @@ namespace WubiMaster.ViewModels
                 {
                     // 启动服务
                     UpdateWubiSchemaTip();
+                    lodingView.ClosePop();
+                    ServiceHelper.RunService();
+                    await Task.Delay(500);
+                    CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
+                }
+            });
+        }
+
+        [RelayCommand]
+        public async Task UpdateRimeWubiAsync()
+        {
+            // 获取当前五笔版本
+            string wubi_type = ConfigHelper.ReadConfigByString("running_schema", "none");
+            if (wubi_type == "none") return;
+
+            // 先检测rime环境
+            if (string.IsNullOrEmpty(GlobalValues.UserPath) || string.IsNullOrEmpty(GlobalValues.ProcessPath))
+            {
+                this.ShowMessage("未检测到 Rime 引擎的安装信息，请先安装 Rime 程序！", DialogType.Warring);
+                return;
+            }
+
+            // 在配置前，先提示会将原有的方案覆盖
+            bool? result = this.ShowAskMessage("请知悉：本次操作将在不删除配置的情况下更新方案配置信息", DialogType.Normal);
+            if (result != true)
+                return;
+
+            // 停止服务
+            ServiceHelper.KillService();
+
+            // 异步加载 loading
+            LodingView lodingView = new LodingView();
+            App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
+
+            // 删除从github下载的旧方案
+            if (File.Exists(GlobalValues.WubiZipPath))
+                File.Delete(GlobalValues.WubiZipPath);
+
+            // 从github下载方案
+            var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+            if (!down_value)
+            {
+                lodingView.ClosePop();
+                this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
+                return;
+            }
+
+            await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>
+            {
+                try
+                {
+                    // 将下载好的方案zip解压
+                    ZipHelper.DecompressZip(GlobalValues.WubiZipPath, GlobalValues.UserPath);
+
+                    // 将解压的方案文件复制到用户目录下，然后删除
+                    string wubi_file = GlobalValues.UserPath + "\\" + GlobalValues.WubiFileName;
+                    if (Directory.Exists(wubi_file))
+                        CopyDirectory(wubi_file, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{wubi_file}");
+                    Directory.Delete(wubi_file, true);
+
+                    // 要点：更新操作时，将对应五笔版本的tables下的信息复制到用户目录下
+                    string table_path = "";
+                    if (wubi_type == "86") table_path = @$"{GlobalValues.UserPath}\tables\86";
+                    else if (wubi_type == "98") table_path = @$"{GlobalValues.UserPath}\tables\98";
+                    else table_path = @$"{GlobalValues.UserPath}\tables\06";
+                    if (Directory.Exists(table_path))
+                        CopyDirectory(table_path, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{table_path}");
+
+                    // 更新 wubi master 文本信息
+                    string wubi_master_info = "";
+                    wubi_master_info += "中书君标记文件，请勿删除！\n\r";
+                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_info += $"五笔类型：{wubi_type}\n\r";
+                    if (File.Exists(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey))
+                        File.Delete(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey);
+                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
+
+                    lodingView.ClosePop();
+                    this.ShowMessage("更新成功", DialogType.Success);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex.Message, true);
+                    this.ShowMessage($"更新失败: {ex.Message}", DialogType.Error);
+                    return;
+                }
+                finally
+                {
                     lodingView.ClosePop();
                     ServiceHelper.RunService();
                     await Task.Delay(500);
@@ -689,16 +785,20 @@ namespace WubiMaster.ViewModels
                 string wubi_master_key = GlobalValues.UserPath + GlobalValues.SchemaKey;
                 bool hasKey = File.Exists(wubi_master_key);
                 if (hasKey)
-                    WubiSchemaTip = "已初始化 Rime 引擎";
+                {
+                    WubiSchemaTip = "已初始化五笔引擎";
+                    CanUpdateRimeWubi = true;
+                }
                 else
                 {
-                    WubiSchemaTip = "Rime 引擎未初始化";
+                    WubiSchemaTip = "五笔引擎未初始化";
+                    CanUpdateRimeWubi = false;
                     WeakReferenceMessenger.Default.Send<string, string>("", "ChangeShcemaState");
                 }
             }
             catch (Exception ex)
             {
-                WubiSchemaTip = "Rime 引擎未初始化";
+                WubiSchemaTip = "五笔引擎未初始化";
                 WeakReferenceMessenger.Default.Send<string, string>("", "ChangeShcemaState");
                 LogHelper.Error(ex.Message);
             }

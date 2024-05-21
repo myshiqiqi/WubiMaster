@@ -25,7 +25,8 @@
                                         Height="35"
                                         Margin="0">
                                     <Grid>
-                                        <TextBlock HorizontalAlignment="Center"
+                                        <TextBlock x:Name="bg_icon" 
+                                                   HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="../Fonts/#iconfont"
                                                    FontSize="100"
@@ -44,15 +45,15 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource bg-300}" />
+                            <Setter TargetName="bg_icon" Property="Foreground" Value="{DynamicResource bg-300}" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="bg_icon" Property="Opacity" Value="0.8" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="1" />
+                            <Setter TargetName="bg_icon" Property="Opacity" Value="1" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -73,9 +73,9 @@
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
 
-                    <c:SettingPanel Title="初始化"
+                    <c:SettingPanel Title="五笔引擎"
                                     IconText="&#xe617;"
-                                    SubTitle="初始化 Rime 引擎的基础配置信息">
+                                    SubTitle="支持从 Github 和本地加载五笔方案配置信息">
                         <c:SettingPanel.SettingContent>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock HorizontalAlignment="Left"
@@ -84,8 +84,13 @@
                                            Foreground="{DynamicResource text-200}"
                                            Text="{Binding WubiSchemaTip}" />
 
-                                <Button Command="{Binding InitializeSchemaCommand}"
+                                <Button Command="{Binding GetRimeWubiCommand}"
                                         Content="初始化"
+                                        Style="{StaticResource SettingButtonStyle}" />
+
+                                <Button Command="{Binding UpdateRimeWubiCommand}"
+                                        Content="更新"
+                                        IsEnabled="{Binding CanUpdateRimeWubi}"
                                         Style="{StaticResource SettingButtonStyle}" />
                             </StackPanel>
                         </c:SettingPanel.SettingContent>

@@ -102,7 +102,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="Foreground" Value="{DynamicResource text-100}" />
-            <Setter Property="MinWidth" Value="120" />
+            <Setter Property="MinWidth" Value="50" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
@@ -119,7 +119,8 @@
 
                                 <Grid>
                                     <ContentPresenter x:Name="ContentSite"
-                                                      Width="0" Height="0"
+                                                      Width="0"
+                                                      Height="0"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"
                                                       ContentSource="Header"
@@ -133,7 +134,197 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Center"
+    <Grid>
+        <TabControl Grid.Row="1">
+            <!--文本垂直模式-->
+            <TabItem IsEnabled="False" IsSelected="True">
+                <Grid TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
+                    <Border Width="110"
+                            Height="160"
+                            Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
+                            BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
+                            BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
+                            CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid>
+                                <Border Height="60"
+                                        Margin="3"
+                                        VerticalAlignment="Top"
+                                        Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
+                                        CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
+                                    <TextBlock Width="10"
+                                               Margin="2,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="12"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}"
+                                               Text="ksvt"
+                                               TextWrapping="Wrap" />
+                                </Border>
+
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.RowSpan="4"
+                                        Grid.Column="0"
+                                        Margin="2"
+                                        Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                        CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
+
+                                <TextBlock Grid.Row="1"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           Margin="0,4,0,0"
+                                           Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
+                                           Text="㊀"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="1"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           Margin="0,4,0,0"
+                                           Text="㊁"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="2"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           Margin="0,4,0,0"
+                                           Text="㊂"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Row="2"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           FontSize="14"
+                                           Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
+                                           Text="中书君"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Row="2"
+                                           Grid.Column="1"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           FontSize="14"
+                                           Text="五笔斋"
+                                           TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Row="2"
+                                           Grid.Column="2"
+                                           Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                           FontSize="14"
+                                           Text="空山明月"
+                                           TextWrapping="Wrap" />
+
+                                <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〈"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               Margin="0,-5,0,0"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               Text=""
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〉"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="3" Grid.Column="1">
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〈"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               Margin="0,-5,0,0"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               Text=""
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〉"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="3" Grid.Column="2">
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〈"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               Margin="0,-5,0,0"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               Text=""
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
+                                               FontFamily="../Fonts/#黑体字根"
+                                               FontSize="10"
+                                               RenderTransformOrigin="0.5,0.5"
+                                               Text="〉"
+                                               TextWrapping="Wrap">
+                                        <TextBlock.RenderTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+
+    <!--<Grid HorizontalAlignment="Center"  Visibility="Collapsed"
           VerticalAlignment="Center"
           Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -151,9 +342,11 @@
                 BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
                 BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                 CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-            <!--<Border.Effect>
+    -->
+    <!--<Border.Effect>
                 <DropShadowEffect Color="{Binding ElementName=color_scheme_control, Path=ShadowColor}" />
             </Border.Effect>-->
+    <!--
 
             <Grid TextBlock.FontFamily="{Binding ElementName=color_scheme_control, Path=FontFace}"
                   TextBlock.FontSize="{Binding ElementName=color_scheme_control, Path=FontPoint}"
@@ -172,9 +365,11 @@
                         <Border Padding="{Binding ElementName=color_scheme_control, Path=HilitePadding}"
                                 Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
-                            <!--<Border.Effect>
+    -->
+    <!--<Border.Effect>
                             <DropShadowEffect Color="{Binding ElementName=color_scheme_control, Path=HilitedShadowColor}" />
                         </Border.Effect>-->
+    <!--
                             <TextBlock Foreground="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}" Text="knvt" />
                         </Border>
                     </StackPanel>
@@ -182,9 +377,11 @@
 
                 <TabControl Grid.Row="1">
 
-                    <!--横排模式-->
-                    <TabItem IsEnabled="False">
-                        <Grid>
+    -->
+    <!--横排模式-->
+    <!--
+                    <TabItem IsEnabled="False" IsSelected="False">
+                        <Grid Visibility="Collapsed">
                             <StackPanel Margin="{Binding ElementName=color_scheme_control, Path=BorderPadding}" Orientation="{Binding ElementName=color_scheme_control, Path=Horizontal, Converter={StaticResource Bool2Orientation}}">
 
                                 <Border Padding="{Binding ElementName=color_scheme_control, Path=HilitePadding}"
@@ -194,9 +391,11 @@
                                         CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}"
                                         SnapsToDevicePixels="True"
                                         UseLayoutRounding="True">
-                                    <!--<Border.Effect>
+    -->
+    <!--<Border.Effect>
                             <DropShadowEffect Color="{Binding ElementName=color_scheme_control, Path=HilitedCandidateShadowColor}" />
                         </Border.Effect>-->
+    <!--
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -236,9 +435,11 @@
                                         BorderBrush="{Binding ElementName=color_scheme_control, Path=CandidateBorderColor}"
                                         BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                                         CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-                                    <!--<Border.Effect>
+    -->
+    <!--<Border.Effect>
                             <DropShadowEffect Color="{Binding ElementName=color_scheme_control, Path=CandidateShadowColor}" />
                         </Border.Effect>-->
+    <!--
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" SharedSizeGroup="MarkTextGroup" />
@@ -273,9 +474,11 @@
                                         BorderBrush="{Binding ElementName=color_scheme_control, Path=CandidateBorderColor}"
                                         BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                                         CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-                                    <!--<Border.Effect>
+    -->
+    <!--<Border.Effect>
                             <DropShadowEffect Color="{Binding ElementName=color_scheme_control, Path=CandidateShadowColor}" />
                         </Border.Effect>-->
+    <!--
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" SharedSizeGroup="MarkTextGroup" />
@@ -307,14 +510,18 @@
                         </Grid>
                     </TabItem>
 
-                    <!--纵排模式-->
-                    <TabItem IsEnabled="False" IsSelected="True">
-                        <Grid Width="20"
+    -->
+    <!--纵排模式-->
+    <!--
+                    <TabItem IsEnabled="False" IsSelected="False">
+                        <Grid Width="20" Visibility="Collapsed"
                               Height="20"
                               Background="Green" />
                     </TabItem>
 
-                    <!--文本垂直模式-->
+    -->
+    <!--文本垂直模式-->
+    <!--
                     <TabItem IsEnabled="False" IsSelected="True">
                         <Grid Width="20"
                               Height="20"
@@ -326,5 +533,5 @@
 
             </Grid>
         </Border>
-    </Grid>
+    </Grid>-->
 </UserControl>

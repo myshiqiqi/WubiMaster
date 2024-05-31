@@ -24,10 +24,10 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("Author", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty BackColorProperty =
-            DependencyProperty.Register("BackColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("BackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty BorderColorProperty =
-            DependencyProperty.Register("BorderColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("BorderColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty CandidateBackColorProperty =
             DependencyProperty.Register("CandidateBackColor", typeof(Brush), typeof(ColorSchemeControl));
@@ -51,10 +51,10 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty HilitedBackColorProperty =
-            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
 
         public static readonly DependencyProperty HilitedCandidateBackColorProperty =
-            DependencyProperty.Register("HilitedCandidateBackColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("HilitedCandidateBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty HilitedCandidateBorderColorProperty =
             DependencyProperty.Register("HilitedCandidateBorderColor", typeof(Brush), typeof(ColorSchemeControl));
@@ -63,13 +63,13 @@ namespace WubiMaster.Controls
                     DependencyProperty.Register("HilitedCandidateShadowColor", typeof(Color), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty HilitedCandidateTextColorProperty =
-                            DependencyProperty.Register("HilitedCandidateTextColor", typeof(Brush), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("HilitedCandidateTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty HilitedCommentTextColorProperty =
-            DependencyProperty.Register("HilitedCommentTextColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("HilitedCommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty HilitedLabelColorProperty =
-                    DependencyProperty.Register("HilitedLabelColor", typeof(Brush), typeof(ColorSchemeControl));
+                    DependencyProperty.Register("HilitedLabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty HilitedMarkColorProperty =
             DependencyProperty.Register("HilitedMarkColor", typeof(Brush), typeof(ColorSchemeControl));
@@ -78,7 +78,7 @@ namespace WubiMaster.Controls
                                     DependencyProperty.Register("HilitedShadowColor", typeof(Color), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty HilitedTextColorProperty =
-                            DependencyProperty.Register("HilitedTextColor", typeof(Brush), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("HilitedTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty LabelColorProperty =
                     DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl));
@@ -326,7 +326,7 @@ namespace WubiMaster.Controls
         }
 
         public static readonly DependencyProperty TextColorProperty =
-            DependencyProperty.Register("TextColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("TextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
 
 
@@ -406,7 +406,7 @@ namespace WubiMaster.Controls
         }
 
         public static readonly DependencyProperty BorderWidthProperty =
-            DependencyProperty.Register("BorderWidth", typeof(double), typeof(ColorSchemeControl));
+            DependencyProperty.Register("BorderWidth", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(2.0));
 
 
 
@@ -543,7 +543,7 @@ namespace WubiMaster.Controls
         }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl));
+            DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
 
 
         /// <summary>
@@ -556,7 +556,7 @@ namespace WubiMaster.Controls
         }
 
         public static readonly DependencyProperty RoundCornerProperty =
-            DependencyProperty.Register("RoundCorner", typeof(double), typeof(ColorSchemeControl));
+            DependencyProperty.Register("RoundCorner", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
 
 
         /// <summary>

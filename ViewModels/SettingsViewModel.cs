@@ -311,6 +311,7 @@ namespace WubiMaster.ViewModels
 
             // 停止服务
             ServiceHelper.KillService();
+            await Task.Delay(100);
 
             // 异步加载 loading
             LodingView lodingView = new LodingView();
@@ -378,15 +379,15 @@ namespace WubiMaster.ViewModels
                         CopyDirectory(wubi_file, GlobalValues.UserPath);
                     Directory.Delete(wubi_file, true);
 
-                    // 添加初始化成功的标记，标记为 WubiMaster.txt
+                    // 添加初始化成功的标记，标记为 wubi_master.txt
                     // 并在该文件中添加初始化信息
-                    string wubi_master_info = "";
-                    wubi_master_info += "中书君标记文件，请勿删除！\n\r";
-                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
-                    wubi_master_info += $"五笔类型：86\n\r";
-                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
+                    string wubi_master_str = "";
+                    wubi_master_str += "中书君标记文件，请勿删除！\n\r";
+                    wubi_master_str += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_str += $"五笔类型：86\n\r";
+                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_str);
 
-                    // 首页同步，默认五笔方案个性为86
+                    // 首页同步，默认五笔方案设置为86
                     WeakReferenceMessenger.Default.Send<string, string>("86", "ChangeShcemaState");
 
                     lodingView.ClosePop();

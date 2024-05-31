@@ -39,7 +39,7 @@ namespace WubiMaster.Controls
                     DependencyProperty.Register("CandidateShadowColor", typeof(Color), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CandidateTextColorProperty =
-                            DependencyProperty.Register("CandidateTextColor", typeof(Brush), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("CandidateTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty ColorFormatProperty =
                                     DependencyProperty.Register("ColorFormat", typeof(string), typeof(ColorSchemeControl));
@@ -48,7 +48,7 @@ namespace WubiMaster.Controls
                     DependencyProperty.Register("ColorName", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CommentTextColorProperty =
-            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl));
+            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty HilitedBackColorProperty =
             DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
@@ -81,7 +81,7 @@ namespace WubiMaster.Controls
                             DependencyProperty.Register("HilitedTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public static readonly DependencyProperty LabelColorProperty =
-                    DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl));
+                    DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty NextPageColorProperty =
             DependencyProperty.Register("NextPageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));

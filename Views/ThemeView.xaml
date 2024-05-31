@@ -131,6 +131,78 @@
                                                    BorderThickness="2" />
                                     </Grid>
 
+                                    <!--模板样式-->
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="模板样式" />
+
+                                        <Grid Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Margin="0,10,0,0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource text-100}"
+                                                           Text="布局样式" />
+                                                <c:StateToggleButton Width="120"
+                                                                     Height="28"
+                                                                     HorizontalAlignment="Right"
+                                                                     VerticalAlignment="Center"
+                                                                     CheckedState="标准"
+                                                                     Command="{Binding ChangeHorizontalCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     UnCheckedState="古卷" />
+                                            </Grid>
+
+                                            <Grid Grid.Row="1" Margin="0,10,0,0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource text-100}"
+                                                           Text="边界样式" />
+                                                <c:StateToggleButton Width="120"
+                                                                     Height="28"
+                                                                     HorizontalAlignment="Right"
+                                                                     VerticalAlignment="Center"
+                                                                     CheckedState="方正"
+                                                                     Command="{Binding ChangeHorizontalCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     UnCheckedState="半月" />
+                                            </Grid>
+
+                                            <Grid Grid.Row="2" Margin="0,10,0,0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource text-100}"
+                                                           Text="编码位置" />
+                                                <c:StateToggleButton Width="120"
+                                                                     Height="28"
+                                                                     HorizontalAlignment="Right"
+                                                                     VerticalAlignment="Center"
+                                                                     CheckedState="高亮"
+                                                                     Command="{Binding ChangeHorizontalCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     UnCheckedState="行内" />
+                                            </Grid>
+                                        </Grid>
+
+                                        <Separator Grid.Row="2"
+                                                   Margin="0,10"
+                                                   BorderBrush="{DynamicResource bg-300}"
+                                                   BorderThickness="2" />
+                                    </Grid>
+
                                     <Grid Grid.Row="1">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />

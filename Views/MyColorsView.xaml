@@ -31,30 +31,34 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="data_template">
-            <Border Margin="5"
-                    Background="{DynamicResource bg-200}"
-                    CornerRadius="10">
+            <Border Margin="20,10" CornerRadius="10">
                 <Grid Margin="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
+                        <RowDefinition Height="30" />
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="15"
-                               FontWeight="Bold"
-                               Foreground="{DynamicResource primary-100}"
-                               Text="{Binding UsedColor.name}" />
+                               FontSize="14"
+                               Foreground="{DynamicResource text-100}"
+                               Text="{Binding UsedColor.name}"
+                               TextTrimming="WordEllipsis" />
 
                     <c:ColorSchemeControl Grid.Row="1" ColorModel="{Binding .}" />
 
-                    <Grid Grid.Row="2" Margin="0,5,0,0">
-                        <!--<Button Width="80"
-                                Height="28"
-                                Content="应用" />-->
-                    </Grid>
+                    <!--<Grid Grid.Row="2" Margin="0,10">
+                        <Button Width="80"
+                                Height="30"
+                                HorizontalAlignment="Left"
+                                Content="应用" />
+
+                        <Button Width="80"
+                                Height="30"
+                                HorizontalAlignment="Right"
+                                Content="删除" />
+                    </Grid>-->
                 </Grid>
             </Border>
 
@@ -79,23 +83,11 @@
         </b:Interaction.Triggers>
 
         <ScrollViewer>
-            <StackPanel>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="极简横排" />
-
-                    <ItemsControl Grid.Row="1"
-                                  ItemsSource="{Binding MyColors}"
-                                  Style="{StaticResource ColorstemsControlStyle}" />
-                </Grid>
-
-                <ItemsControl ItemsSource="{Binding MyColors}" Style="{StaticResource ColorstemsControlStyle}" />
-                <ItemsControl ItemsSource="{Binding MyColors}" Style="{StaticResource ColorstemsControlStyle}" />
-                <ItemsControl ItemsSource="{Binding MyColors}" Style="{StaticResource ColorstemsControlStyle}" />
-            </StackPanel>
+            <Grid>
+                <ItemsControl Grid.Row="1"
+                              ItemsSource="{Binding MyColors}"
+                              Style="{StaticResource ColorstemsControlStyle}" />
+            </Grid>
         </ScrollViewer>
 
     </Grid>

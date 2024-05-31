@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -924,7 +925,7 @@ namespace WubiMaster.Controls
 
             ColorStyle styleModel = c.ColorModel.Style;
             ColorScheme schemeModel = c.ColorModel.UsedColor;
-            string color_format = schemeModel.color_format??="abgr";
+            string color_format = schemeModel.color_format ??= "abgr";
 
             // 公共
             c.TextColor = c.BrushConvter(schemeModel.text_color, colorFormat: color_format);
@@ -982,6 +983,8 @@ namespace WubiMaster.Controls
             c.Horizontal = bool.Parse(styleModel.horizontal);
             c.InlinePreedit = bool.Parse(styleModel.inline_preedit);
             c.UnInlinePreedit = !c.InlinePreedit;
+            c.TextVertical = bool.Parse(styleModel.vertical_text ?? "false");
+            c.TextHorizontal = !c.TextVertical;
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
@@ -1056,6 +1059,28 @@ namespace WubiMaster.Controls
 
         public static readonly DependencyProperty BorderPaddingProperty =
             DependencyProperty.Register("BorderPadding", typeof(Thickness), typeof(ColorSchemeControl));
+
+
+        // 文本纵向显示模式
+        public bool TextVertical
+        {
+            get { return (bool)GetValue(TextVerticalProperty); }
+            set { SetValue(TextVerticalProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextVerticalProperty =
+            DependencyProperty.Register("TextVertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
+        // 文本非纵向显示模式
+        public bool TextHorizontal
+        {
+            get { return (bool)GetValue(TextHorizontalProperty); }
+            set { SetValue(TextHorizontalProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextHorizontalProperty =
+            DependencyProperty.Register("TextHorizontal", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
+
 
 
 

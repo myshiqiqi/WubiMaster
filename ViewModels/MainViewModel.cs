@@ -241,8 +241,11 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void MaxWindow(object obj)
         {
+            Border main_border = obj as Border;
+
             if (App.IsMaximized)
             {
+                main_border.Width = 1000;
                 App.Current.MainWindow.WindowState = WindowState.Normal;
                 App.Current.MainWindow.Width = 1000;
                 App.Current.MainWindow.Height = 700;
@@ -251,6 +254,9 @@ namespace WubiMaster.ViewModels
             }
             else
             {
+                var width_ratio = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
+                main_border.Width = 700 * width_ratio;
+
                 App.Current.MainWindow.WindowState = WindowState.Maximized;
 
                 App.IsMaximized = true;

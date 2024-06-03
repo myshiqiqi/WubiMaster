@@ -24,7 +24,9 @@ namespace WubiMaster.Views
             {
                 if (App.IsMaximized)
                 {
+                    main_border.Width = 1000;
                     this.WindowState = WindowState.Normal;
+
                     this.Width = 1000;
                     this.Height = 700;
 
@@ -32,6 +34,9 @@ namespace WubiMaster.Views
                 }
                 else
                 {
+                    var width_ratio = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
+                    main_border.Width = 700 * width_ratio;
+
                     this.WindowState = WindowState.Maximized;
 
                     App.IsMaximized = true;

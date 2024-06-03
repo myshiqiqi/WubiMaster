@@ -378,7 +378,8 @@
                                                     <DoubleAnimation AccelerationRatio="0.3"
                                                                      DecelerationRatio="0.2"
                                                                      Storyboard.TargetProperty="(Border.Opacity)"
-                                                                     From="1" To="0"
+                                                                     From="1"
+                                                                     To="0"
                                                                      Duration="0:0:1.5" />
                                                 </Storyboard>
                                             </BeginStoryboard>
@@ -390,7 +391,8 @@
                                             <BeginStoryboard>
                                                 <Storyboard>
                                                     <DoubleAnimation Storyboard.TargetProperty="(Border.Opacity)"
-                                                                     From="0" To="1"
+                                                                     From="0"
+                                                                     To="1"
                                                                      Duration="0:0:0.5" />
                                                 </Storyboard>
                                             </BeginStoryboard>
@@ -416,12 +418,10 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Width="50"
-                                     Margin="5"
-                                     HorizontalAlignment="Right">
+                            <Viewbox Width="50" HorizontalAlignment="Center">
                                 <Grid>
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -429,7 +429,8 @@
                                                Foreground="{DynamicResource bg-300}"
                                                Text="&#xe67c;" />
 
-                                    <c:RimeLogo Width="5" Height="5"
+                                    <c:RimeLogo Width="5"
+                                                Height="5"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 IconColor="{DynamicResource primary-100}"

@@ -32,247 +32,254 @@
         </b:EventTrigger>
     </b:Interaction.Triggers>
 
-    <Border Background="{DynamicResource bg-100}"
-            BorderBrush="{DynamicResource bg-300}"
-            BorderThickness="2"
-            CornerRadius="15"
-            SnapsToDevicePixels="True"
-            UseLayoutRounding="True">
+    <Viewbox>
+        <Border x:Name="main_border"
+                Width="1000"
+                Height="700"
+                Background="{DynamicResource bg-100}"
+                BorderBrush="{DynamicResource bg-300}"
+                BorderThickness="2"
+                CornerRadius="15"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True">
 
-        <Grid Margin="2">
+            <Grid Margin="2">
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="220" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                <!--Title Bar-->
-                <Border Grid.ColumnSpan="2"
-                        Height="30"
-                        Margin="-2,-2,-2,0"
-                        Padding="6,0"
-                        VerticalAlignment="Top"
-                        Panel.ZIndex="100"
-                        Background="{DynamicResource bg-300}"
-                        CornerRadius="14 14 0 0 "
-                        MouseDown="Border_MouseDown"
-                        MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                    <!--Title Bar-->
+                    <Border Grid.ColumnSpan="2"
+                            Height="30"
+                            Margin="-2,-2,-2,0"
+                            Padding="6,0"
+                            VerticalAlignment="Top"
+                            Panel.ZIndex="100"
+                            Background="{DynamicResource bg-300}"
+                            CornerRadius="14 14 0 0 "
+                            MouseDown="Border_MouseDown"
+                            MouseLeftButtonDown="Border_MouseLeftButtonDown">
 
-                    <StackPanel HorizontalAlignment="{Binding WinStateLayout}"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                RenderTransformOrigin="0.5,0.5">
-                        <StackPanel.RenderTransform>
-                            <RotateTransform Angle="{Binding WinStateLayout, Converter={StaticResource WinState2Angle}}" />
-                        </StackPanel.RenderTransform>
+                        <StackPanel HorizontalAlignment="{Binding WinStateLayout}"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    RenderTransformOrigin="0.5,0.5">
+                            <StackPanel.RenderTransform>
+                                <RotateTransform Angle="{Binding WinStateLayout, Converter={StaticResource WinState2Angle}}" />
+                            </StackPanel.RenderTransform>
 
-                        <c:WinowStateButton Width="15"
-                                            Height="15"
-                                            ButtonBackground="Red"
-                                            ButtonCommand="{Binding CloseWindowCommand}"
-                                            IconColor="Black"
-                                            IconContent="&#xeca0;" />
+                            <c:WinowStateButton Width="15"
+                                                Height="15"
+                                                ButtonBackground="Red"
+                                                ButtonCommand="{Binding CloseWindowCommand}"
+                                                IconColor="Black"
+                                                IconContent="&#xeca0;" />
 
-                        <c:WinowStateButton Width="15"
-                                            Height="15"
-                                            Margin="5,0,0,0"
-                                            ButtonBackground="{DynamicResource bg-100}"
-                                            ButtonCommand="{Binding MaxWindowCommand}"
-                                            IconColor="{DynamicResource primary-100}"
-                                            IconContent="&#xe651;" />
+                            <c:WinowStateButton Width="15"
+                                                Height="15"
+                                                Margin="5,0,0,0"
+                                                ButtonBackground="{DynamicResource bg-100}"
+                                                ButtonCommand="{Binding MaxWindowCommand}"
+                                                CommandParameter="{Binding ElementName=main_border}"
+                                                IconColor="{DynamicResource primary-100}"
+                                                IconContent="&#xe651;" />
 
-                        <c:WinowStateButton Width="15"
-                                            Height="15"
-                                            Margin="5,0,0,0"
-                                            ButtonBackground="{DynamicResource bg-100}"
-                                            ButtonCommand="{Binding MinWindowCommand}"
-                                            IconColor="{DynamicResource primary-100}"
-                                            IconContent="&#xe650;" />
-                    </StackPanel>
-                </Border>
+                            <c:WinowStateButton Width="15"
+                                                Height="15"
+                                                Margin="5,0,0,0"
+                                                ButtonBackground="{DynamicResource bg-100}"
+                                                ButtonCommand="{Binding MinWindowCommand}"
+                                                IconColor="{DynamicResource primary-100}"
+                                                IconContent="&#xe650;" />
+                        </StackPanel>
+                    </Border>
 
-                <!--Nav Button-->
-                <Grid Grid.Row="1" Grid.Column="0">
+                    <!--Nav Button-->
+                    <Grid Grid.Row="1" Grid.Column="0">
 
-                    <Border Background="{DynamicResource bg-100}" CornerRadius="10">
+                        <Border Background="{DynamicResource bg-100}" CornerRadius="10">
 
-                        <Grid Margin="15,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <!--Logo-->
-                            <Grid Grid.Row="0" Margin="15,25,15,0">
+                            <Grid Margin="15,0">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid MaxWidth="100"
-                                      MaxHeight="100"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center">
+                                <!--Logo-->
+                                <Grid Grid.Row="0" Margin="15,25,15,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                    <!--插件-->
-                                    <ContentControl Content="{Binding PluginControl}" FocusVisualStyle="{x:Null}" />
+                                    <Grid MaxWidth="100"
+                                          MaxHeight="100"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center">
+
+                                        <!--插件-->
+                                        <ContentControl Content="{Binding PluginControl}" FocusVisualStyle="{x:Null}" />
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="1"
+                                                Margin="0,5,0,0"
+                                                TextBlock.FontFamily="../Fonts/#演示佛系体">
+                                        <TextBlock Margin="0,5,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Bottom"
+                                                   FontSize="18"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource text-100}"
+                                                   Text="中书君" />
+
+                                        <TextBlock Margin="0,5,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Bottom"
+                                                   FontSize="16"
+                                                   FontWeight="Normal"
+                                                   Foreground="{DynamicResource text-200}"
+                                                   Text="中州韵管理器" />
+                                    </StackPanel>
                                 </Grid>
 
-                                <StackPanel Grid.Row="1"
-                                            Margin="0,5,0,0"
-                                            TextBlock.FontFamily="../Fonts/#演示佛系体">
-                                    <TextBlock Margin="0,5,0,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
-                                               FontSize="18"
-                                               FontWeight="Bold"
-                                               Foreground="{DynamicResource text-100}"
-                                               Text="中书君" />
+                                <StackPanel x:Name="navStackPanel"
+                                            Grid.Row="1"
+                                            VerticalAlignment="Center">
 
-                                    <TextBlock Margin="0,5,0,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
-                                               FontSize="16"
-                                               FontWeight="Normal"
-                                               Foreground="{DynamicResource text-200}"
-                                               Text="中州韵管理器" />
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:InvokeCommandAction Command="{Binding LoadedNavCommand}" CommandParameter="{Binding ElementName=navStackPanel}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <c:NavButton IconText="&#xe627;"
+                                                 IsSelected="True"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Home"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="主页" />
+
+                                    <c:NavButton IconText="&#xe638;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Attribute"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="属性设置" />
+
+                                    <c:NavButton IconText="&#xe6be;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Etymon"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="字根反查" />
+
+                                    <c:NavButton IconText="&#xe614;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Lexicon"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="词库管理" />
+
+                                    <c:NavButton IconText="&#xe6c0;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="EtymonKey"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="字根表" />
+
+                                    <c:NavButton IconText="&#xe6c6;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Themes"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="皮肤" />
+
+                                    <c:NavButton IconText="&#xe603;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Settings"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="设置" />
+
+                                    <c:NavButton IconText="&#xe613;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="About"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="关于" />
+
+                                    <c:NavButton IconText="&#xe6da;"
+                                                 NavCommand="{Binding ChangePageCommand}"
+                                                 NavName="Test"
+                                                 Style="{StaticResource NavButtonStyle}"
+                                                 Text="测试"
+                                                 Visibility="{Binding ShowTestView, Converter={StaticResource Bool2Visibility}}" />
                                 </StackPanel>
+
+                                <Button Grid.Row="2"
+                                        Height="40"
+                                        Margin="10,0,10,30"
+                                        Background="{DynamicResource primary-200}"
+                                        Command="{Binding DeployCommand}">
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="../Fonts/#iconfont"
+                                                       FontSize="20"
+                                                       Foreground="{DynamicResource bg-100}"
+                                                       Text="&#xe63a;">
+                                                <TextBlock.Effect>
+                                                    <DropShadowEffect BlurRadius="3"
+                                                                      Direction="-45"
+                                                                      ShadowDepth="1" />
+                                                </TextBlock.Effect>
+                                            </TextBlock>
+
+                                            <TextBlock Grid.Column="2"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource bg-100}"
+                                                       Text="部署" />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
                             </Grid>
+                        </Border>
 
-                            <StackPanel x:Name="navStackPanel"
+                        <Border Width="2"
+                                Margin="0,30"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                Panel.ZIndex="100"
+                                Background="{DynamicResource bg-300}" />
+                    </Grid>
+
+                    <!--Pages-->
+                    <Grid Grid.Row="1" Grid.Column="1">
+
+                        <ContentControl x:Name="Pages"
                                         Grid.Row="1"
-                                        VerticalAlignment="Center">
-
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding LoadedNavCommand}" CommandParameter="{Binding ElementName=navStackPanel}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-
-                                <c:NavButton IconText="&#xe627;"
-                                             IsSelected="True"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Home"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="主页" />
-
-                                <c:NavButton IconText="&#xe638;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Attribute"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="属性设置" />
-
-                                <c:NavButton IconText="&#xe6be;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Etymon"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="字根反查" />
-
-                                <c:NavButton IconText="&#xe614;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Lexicon"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="词库管理" />
-
-                                <c:NavButton IconText="&#xe6c0;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="EtymonKey"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="字根表" />
-
-                                <c:NavButton IconText="&#xe6c6;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Themes"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="皮肤" />
-
-                                <c:NavButton IconText="&#xe603;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Settings"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="设置" />
-
-                                <c:NavButton IconText="&#xe613;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="About"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="关于" />
-
-                                <c:NavButton IconText="&#xe6da;"
-                                             NavCommand="{Binding ChangePageCommand}"
-                                             NavName="Test"
-                                             Style="{StaticResource NavButtonStyle}"
-                                             Text="测试"
-                                             Visibility="{Binding ShowTestView, Converter={StaticResource Bool2Visibility}}" />
-                            </StackPanel>
-
-                            <Button Grid.Row="2"
-                                    Height="40"
-                                    Margin="10,0,10,30"
-                                    Background="{DynamicResource primary-200}"
-                                    Command="{Binding DeployCommand}">
-                                <Button.Content>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="10" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock HorizontalAlignment="Right"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="../Fonts/#iconfont"
-                                                   FontSize="20"
-                                                   Foreground="{DynamicResource bg-100}"
-                                                   Text="&#xe63a;">
-                                            <TextBlock.Effect>
-                                                <DropShadowEffect BlurRadius="3"
-                                                                  Direction="-45"
-                                                                  ShadowDepth="1" />
-                                            </TextBlock.Effect>
-                                        </TextBlock>
-
-                                        <TextBlock Grid.Column="2"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource bg-100}"
-                                                   Text="部署" />
-                                    </Grid>
-                                </Button.Content>
-                            </Button>
-                        </Grid>
-                    </Border>
-
-                    <Border Width="2"
-                            Margin="0,30"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Stretch"
-                            Panel.ZIndex="100"
-                            Background="{DynamicResource bg-300}" />
+                                        Margin="30"
+                                        Content="{Binding CurrentView}"
+                                        FocusVisualStyle="{x:Null}" />
+                    </Grid>
                 </Grid>
 
-                <!--Pages-->
-                <Grid Grid.Row="1" Grid.Column="1">
+                <Grid Visibility="{Binding MaskLayerVisable}">
 
-                    <ContentControl x:Name="Pages"
-                                    Grid.Row="1"
-                                    Margin="30"
-                                    Content="{Binding CurrentView}"
-                                    FocusVisualStyle="{x:Null}" />
+                    <Border Background="{DynamicResource primary-100}"
+                            CornerRadius="15"
+                            Opacity="0.1" />
                 </Grid>
             </Grid>
+        </Border>
+    </Viewbox>
 
-            <Grid Visibility="{Binding MaskLayerVisable}">
-
-                <Border Background="{DynamicResource primary-100}"
-                        CornerRadius="15"
-                        Opacity="0.1" />
-            </Grid>
-        </Grid>
-    </Border>
 </Window>

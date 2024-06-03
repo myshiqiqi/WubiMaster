@@ -56,5 +56,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Button Command="{Binding ElementName=window_state_button, Path=ButtonCommand}" Style="{StaticResource button_style}" />
+    <Button Command="{Binding ElementName=window_state_button, Path=ButtonCommand}"
+            CommandParameter="{Binding ElementName=window_state_button, Path=CommandParameter}"
+            Style="{StaticResource button_style}" />
 </UserControl>

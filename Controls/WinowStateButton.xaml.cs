@@ -13,8 +13,11 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty ButtonCommandProperty =
             DependencyProperty.Register("ButtonCommand", typeof(RelayCommand<object>), typeof(WinowStateButton));
 
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(WinowStateButton));
+
         public static readonly DependencyProperty IconColorProperty =
-                            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(WinowStateButton));
+                                    DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(WinowStateButton));
 
         public static readonly DependencyProperty IconContentProperty =
                     DependencyProperty.Register("IconContent", typeof(string), typeof(WinowStateButton));
@@ -34,6 +37,12 @@ namespace WubiMaster.Controls
         {
             get { return (RelayCommand<object>)GetValue(ButtonCommandProperty); }
             set { SetValue(ButtonCommandProperty, value); }
+        }
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
         }
 
         public SolidColorBrush IconColor

@@ -984,7 +984,18 @@ namespace WubiMaster.Controls
             c.InlinePreedit = bool.Parse(styleModel.inline_preedit);
             c.UnInlinePreedit = !c.InlinePreedit;
             c.TextVertical = bool.Parse(styleModel.vertical_text ?? "false");
-            c.TextHorizontal = !c.TextVertical;
+            // # 如果方本采用纵书模式，则横向布局和纵向布局都将无效
+            if (c.TextVertical)
+            {
+                c.Vertical = false;
+                c.Horizontal = false;
+            }
+            else
+            {
+                c.Horizontal = bool.Parse(styleModel.horizontal ?? "false");
+                c.Vertical = !c.Horizontal;
+            }
+
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
@@ -1071,15 +1082,16 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty TextVerticalProperty =
             DependencyProperty.Register("TextVertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
 
-        // 文本非纵向显示模式
-        public bool TextHorizontal
+        public bool Vertical
         {
-            get { return (bool)GetValue(TextHorizontalProperty); }
-            set { SetValue(TextHorizontalProperty, value); }
+            get { return (bool)GetValue(VerticalProperty); }
+            set { SetValue(VerticalProperty, value); }
         }
 
-        public static readonly DependencyProperty TextHorizontalProperty =
-            DependencyProperty.Register("TextHorizontal", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty VerticalProperty =
+            DependencyProperty.Register("Vertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
+
 
 
 

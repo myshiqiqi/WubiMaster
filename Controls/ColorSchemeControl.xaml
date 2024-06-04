@@ -277,7 +277,7 @@
                         <Grid Margin="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
-                                <RowDefinition />
+                                <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
 
                             <Grid>
@@ -328,7 +328,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Border Grid.ColumnSpan="4"
-                                            Margin="2"
+                                            Margin="5"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
 
@@ -360,23 +360,23 @@
 
                                     <Border Grid.ColumnSpan="4"
                                             Margin="2"
-                                            Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                            Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
 
                                     <TextBlock Grid.Column="1"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                Style="{StaticResource label_style}"
                                                Text="㊁" />
 
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="2"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
                                                Style="{StaticResource text_style}"
                                                Text="五笔斋" />
 
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="3"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
                                                Style="{StaticResource spelling_style}"
                                                Text="〈  〉" />
                                 </Grid>
@@ -391,23 +391,23 @@
 
                                     <Border Grid.ColumnSpan="4"
                                             Margin="2"
-                                            Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                            Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
 
                                     <TextBlock Grid.Column="1"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                Style="{StaticResource label_style}"
                                                Text="㊂" />
 
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="2"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
                                                Style="{StaticResource text_style}"
                                                Text="空山明月" />
 
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="3"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
                                                Style="{StaticResource spelling_style}"
                                                Text="〈  〉" />
                                 </Grid>

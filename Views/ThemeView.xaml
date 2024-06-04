@@ -159,8 +159,8 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="横书"
-                                                                     Command="{Binding ChangeHorizontalCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                      Command="{Binding ChangeHorizontalCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.vertical_text, Mode=TwoWay}"
                                                                      UnCheckedState="纵书" />
                                             </Grid>
 
@@ -175,8 +175,6 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="方正"
-                                                                     Command="{Binding ChangeHorizontalCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
                                                                      UnCheckedState="半月" />
                                             </Grid>
 
@@ -191,8 +189,7 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="高亮"
-                                                                     Command="{Binding ChangeHorizontalCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     IsChecked="{Binding CurrentColor.Style.inline_preedit, Mode=TwoWay}"
                                                                      UnCheckedState="行内" />
                                             </Grid>
                                         </Grid>

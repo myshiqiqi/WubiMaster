@@ -996,12 +996,33 @@ namespace WubiMaster.Controls
                 c.Vertical = !c.Horizontal;
             }
 
+            // # 判断是不是天圆地方（半月）模式
+            if (true)
+            {
+                c.IsBanYueMode = true;
+            }
+
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
 
             Console.WriteLine();
         }
+
+
+        /// <summary>
+        /// 是否是启用天圆地方模式
+        /// 也叫半月模式
+        /// </summary>
+        public bool IsBanYueMode
+        {
+            get { return (bool)GetValue(IsBanYueModeProperty); }
+            set { SetValue(IsBanYueModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsBanYueModeProperty =
+            DependencyProperty.Register("IsBanYueMode", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
 
 
         /// <summary>

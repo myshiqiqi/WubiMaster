@@ -84,7 +84,6 @@
     </Content>
     <Resource Include="Fonts\iconfont.ttf" />
     <Resource Include="Fonts\方正启体_GBK.ttf" />
-    <Resource Include="Fonts\演示佛系体.ttf" />
     <Resource Include="Fonts\黑体字根.ttf" />
     <Resource Include="Images\donation.jpg" />
     <Resource Include="Images\JinriShici\低头.png" />

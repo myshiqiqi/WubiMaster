@@ -75,6 +75,7 @@ namespace WubiMaster.Models
         public string candidate_abbreviate_length { get; set; }
         public string click_to_capture { get; set; }
         public string color_scheme { get; set; }
+        public string color_scheme_dark { get; set; }
         public string color_theme_dark { get; set; }
         public string comment_font_face { get; set; }
         public string comment_font_point { get; set; }

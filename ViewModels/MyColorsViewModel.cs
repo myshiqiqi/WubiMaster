@@ -59,6 +59,7 @@ namespace WubiMaster.ViewModels
                         sModel.Style = cModel.style;
                         sModel.UsedColor = cModel.preset_color_schemes.FirstOrDefault().Value;
                         sModel.Style.vertical_text = "false";
+                        sModel.Style.horizontal = "false";
                         MyColors.Add(sModel);
                     }
                     catch (Exception ex)

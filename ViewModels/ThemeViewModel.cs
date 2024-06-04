@@ -80,11 +80,13 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetColor()
         {
-            if (WeaselCustomDetails == null)
+            // 如果包含 custom 文件，先将其删除掉
+            if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
             {
-                this.ShowMessage("请先配置码表版本！", DialogType.Warring);
-                return;
+                File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
             }
+
+            // 将 colors 文件下的主题数据写入到 custom 外观文件中去
             WriteWeaselCustonDetails();
 
             string colorScheme = ColorsList[ColorIndex].description.color_name;
@@ -261,7 +263,9 @@ namespace WubiMaster.ViewModels
         {
             try
             {
-                WeaselCustomDetails.patch.preset_color_schemes.Clear();
+                WeaselCustomDetails = new WeaselCustomModel();
+                WeaselCustomDetails.patch = new CustomPatch();
+                WeaselCustomDetails.patch.preset_color_schemes = new Dictionary<string, ColorScheme>();
                 WeaselCustomDetails.patch.style = CurrentColor.Style;
                 string name = ColorsList[ColorIndex].description.color_name;
                 WeaselCustomDetails.patch.preset_color_schemes.Add(name, CurrentColor.UsedColor);

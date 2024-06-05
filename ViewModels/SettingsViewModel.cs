@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Win32;
-using Microsoft.Xaml.Behaviors.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,14 +15,21 @@ using System.Windows.Threading;
 using WubiMaster.Common;
 using WubiMaster.Models;
 using WubiMaster.Views.PopViews;
-using static WubiMaster.Common.RegistryHelper;
 
 namespace WubiMaster.ViewModels
 {
     public partial class SettingsViewModel : ObservableRecipient
     {
+        #region ObservablePropertys
+
+        [ObservableProperty]
+        private bool autoStart;
+
         [ObservableProperty]
         private string backupPath;
+
+        [ObservableProperty]
+        private bool canUpdateRimeWubi;
 
         [ObservableProperty]
         private bool cobboxThemesEnable;
@@ -33,6 +39,9 @@ namespace WubiMaster.ViewModels
 
         [ObservableProperty]
         private string defaultCikuFile;
+
+        [ObservableProperty]
+        private bool isFromLocal;
 
         [ObservableProperty]
         private bool isRandomThemes;
@@ -90,11 +99,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private string wubiSchemaTip;
 
-        [ObservableProperty]
-        private bool canUpdateRimeWubi;
+        #endregion ObservablePropertys
 
-        [ObservableProperty]
-        private bool isFromLocal;
+        private static readonly HttpClient client = new HttpClient();
 
         public SettingsViewModel()
         {
@@ -113,6 +120,39 @@ namespace WubiMaster.ViewModels
             InitLogBackList();
             CheckService();
             LoadConfig();
+        }
+
+        public static void CopyDirectory(string srcPath, string destPath)
+        {
+            try
+            {
+                //获取目录下（不包含子目录）的文件和子目录
+                DirectoryInfo dir = new DirectoryInfo(srcPath);
+                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();
+                foreach (FileSystemInfo i in fileinfo)
+                {
+                    //判断是否文件夹
+                    if (i is DirectoryInfo)
+                    {
+                        if (!Directory.Exists(destPath + "\\" + i.Name))
+                        {
+                            //目标目录下不存在此文件夹即创建子文件夹
+                            Directory.CreateDirectory(destPath + "\\" + i.Name);
+                        }
+                        //递归调用复制子文件夹
+                        CopyDirectory(i.FullName, destPath + "\\" + i.Name);
+                    }
+                    else
+                    {
+                        //不是文件夹即复制文件，true表示可以覆盖同名文件
+                        File.Copy(i.FullName, destPath + "\\" + i.Name, true);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         [RelayCommand]
@@ -209,66 +249,6 @@ namespace WubiMaster.ViewModels
             ServiceIsRun = ServiceHelper.FindService();
         }
 
-        static readonly HttpClient client = new HttpClient();
-        /// <summary>
-        /// 从github下载五笔方案
-        /// </summary>
-        private async Task<bool> DownLoadWubiSchemaAsync(string zipUrl, string savePath)
-        {
-            try
-            {
-                // 使用HttpClient下载ZIP文件  
-                HttpResponseMessage response = await client.GetAsync(zipUrl);
-                response.EnsureSuccessStatusCode();
-
-                // 获取ZIP文件的字节流  
-                byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
-
-                // 将字节流写入到本地ZIP文件
-                File.WriteAllBytes(savePath, contentBytes);
-
-                return true;
-            }
-            catch (HttpRequestException ex)
-            {
-                LogHelper.Error("从 github 下载五笔方案异常：" + ex.ToString());
-                return false;
-            }
-        }
-
-        public static void CopyDirectory(string srcPath, string destPath)
-        {
-            try
-            {
-                //获取目录下（不包含子目录）的文件和子目录
-                DirectoryInfo dir = new DirectoryInfo(srcPath);
-                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();
-                foreach (FileSystemInfo i in fileinfo)
-                {
-                    //判断是否文件夹
-                    if (i is DirectoryInfo)
-                    {
-                        if (!Directory.Exists(destPath + "\\" + i.Name))
-                        {
-                            //目标目录下不存在此文件夹即创建子文件夹
-                            Directory.CreateDirectory(destPath + "\\" + i.Name);
-                        }
-                        //递归调用复制子文件夹
-                        CopyDirectory(i.FullName, destPath + "\\" + i.Name);
-                    }
-                    else
-                    {
-                        //不是文件夹即复制文件，true表示可以覆盖同名文件
-                        File.Copy(i.FullName, destPath + "\\" + i.Name, true);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
         [RelayCommand]
         public async Task GetRimeWubiAsync()
         {
@@ -301,7 +281,6 @@ namespace WubiMaster.ViewModels
                     if (File.Exists(GlobalValues.WubiZipPath))
                         File.Delete(GlobalValues.WubiZipPath);
                     File.Copy(rime_wubi_zip, GlobalValues.WubiZipPath);
-
                 }
                 else
                 {
@@ -413,126 +392,6 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public async Task UpdateRimeWubiAsync()
-        {
-            // 获取当前五笔版本
-            string wubi_type = ConfigHelper.ReadConfigByString("running_schema", "none");
-            if (wubi_type == "none") return;
-
-            // 先检测rime环境
-            if (string.IsNullOrEmpty(GlobalValues.UserPath) || string.IsNullOrEmpty(GlobalValues.ProcessPath))
-            {
-                this.ShowMessage("未检测到 Rime 引擎的安装信息，请先安装 Rime 程序！", DialogType.Warring);
-                return;
-            }
-
-            // 在配置前，先提示会将原有的方案覆盖
-            bool? result = this.ShowAskMessage("请知悉：本次操作将在不删除配置的情况下更新方案配置信息", DialogType.Normal);
-            if (result != true)
-                return;
-
-            if (isFromLocal)
-            {
-                // 从本地选择 rime-wubi.zip 文件
-                var openFileDialog = new OpenFileDialog()
-                {
-                    Filter = "rime-wubi.zip (.zip)|*.zip"
-                };
-
-                var dialog_result = (bool)openFileDialog.ShowDialog();
-                if (dialog_result)
-                {
-                    var rime_wubi_zip = openFileDialog.FileName;
-
-                    // 将本地zip文件移动到指定目录
-                    if (File.Exists(GlobalValues.WubiZipPath))
-                        File.Delete(GlobalValues.WubiZipPath);
-                    File.Copy(rime_wubi_zip, GlobalValues.WubiZipPath);
-
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            // 停止服务
-            ServiceHelper.KillService();
-
-            // 异步加载 loading
-            LodingView lodingView = new LodingView();
-            App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
-
-            if (!isFromLocal)
-            {
-                // 删除从github下载的旧方案
-                if (File.Exists(GlobalValues.WubiZipPath))
-                    File.Delete(GlobalValues.WubiZipPath);
-
-                // 从github下载方案
-                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
-                if (!down_value)
-                {
-                    lodingView.ClosePop();
-                    this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
-                    return;
-                }
-            }
-
-            await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>
-            {
-                try
-                {
-                    // 将下载好的方案zip解压
-                    ZipHelper.DecompressZip(GlobalValues.WubiZipPath, GlobalValues.UserPath);
-
-                    // 将解压的方案文件复制到用户目录下，然后删除
-                    string wubi_file = GlobalValues.UserPath + "\\" + GlobalValues.WubiFileName;
-                    if (Directory.Exists(wubi_file))
-                        CopyDirectory(wubi_file, GlobalValues.UserPath);
-                    else
-                        throw new Exception($"找到不到路径：{wubi_file}");
-                    Directory.Delete(wubi_file, true);
-
-                    // 要点：更新操作时，将对应五笔版本的tables下的信息复制到用户目录下
-                    string table_path = "";
-                    if (wubi_type == "86") table_path = @$"{GlobalValues.UserPath}\tables\86";
-                    else if (wubi_type == "98") table_path = @$"{GlobalValues.UserPath}\tables\98";
-                    else table_path = @$"{GlobalValues.UserPath}\tables\06";
-                    if (Directory.Exists(table_path))
-                        CopyDirectory(table_path, GlobalValues.UserPath);
-                    else
-                        throw new Exception($"找到不到路径：{table_path}");
-
-                    // 更新 wubi master 文本信息
-                    string wubi_master_info = "";
-                    wubi_master_info += "中书君标记文件，请勿删除！\n\r";
-                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
-                    wubi_master_info += $"五笔类型：{wubi_type}\n\r";
-                    if (File.Exists(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey))
-                        File.Delete(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey);
-                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
-
-                    lodingView.ClosePop();
-                    this.ShowMessage("更新成功", DialogType.Success);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex.Message, true);
-                    this.ShowMessage($"更新失败: {ex.Message}", DialogType.Error);
-                    return;
-                }
-                finally
-                {
-                    lodingView.ClosePop();
-                    ServiceHelper.RunService();
-                    await Task.Delay(500);
-                    CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
-                }
-            });
-        }
-
-        [RelayCommand]
         public void OpenLogPath()
         {
             string path = GlobalValues.AppDirectory + "Logs";
@@ -626,6 +485,31 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
+        public void SetAutoStart()
+        {
+            var exeName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
+            if (AutoStart)
+            {
+                if (!StartAutomaticallyCreate(exeName))
+                {
+                    this.ShowMessage("设置程序开机自启失败！", DialogType.Error);
+                    AutoStart = false;
+                }
+            }
+            else
+            {
+                if (!StartAutomaticallyDel(exeName))
+                {
+                    this.ShowMessage("取消程序开机自启失败！", DialogType.Error);
+                    AutoStart = true;
+                }
+            }
+
+            ConfigHelper.WriteConfigByBool("auto_start", AutoStart);
+        }
+
+        [RelayCommand]
         public void SetBackupPath()
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -688,6 +572,125 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
+        public async Task UpdateRimeWubiAsync()
+        {
+            // 获取当前五笔版本
+            string wubi_type = ConfigHelper.ReadConfigByString("running_schema", "none");
+            if (wubi_type == "none") return;
+
+            // 先检测rime环境
+            if (string.IsNullOrEmpty(GlobalValues.UserPath) || string.IsNullOrEmpty(GlobalValues.ProcessPath))
+            {
+                this.ShowMessage("未检测到 Rime 引擎的安装信息，请先安装 Rime 程序！", DialogType.Warring);
+                return;
+            }
+
+            // 在配置前，先提示会将原有的方案覆盖
+            bool? result = this.ShowAskMessage("请知悉：本次操作将在不删除配置的情况下更新方案配置信息", DialogType.Normal);
+            if (result != true)
+                return;
+
+            if (isFromLocal)
+            {
+                // 从本地选择 rime-wubi.zip 文件
+                var openFileDialog = new OpenFileDialog()
+                {
+                    Filter = "rime-wubi.zip (.zip)|*.zip"
+                };
+
+                var dialog_result = (bool)openFileDialog.ShowDialog();
+                if (dialog_result)
+                {
+                    var rime_wubi_zip = openFileDialog.FileName;
+
+                    // 将本地zip文件移动到指定目录
+                    if (File.Exists(GlobalValues.WubiZipPath))
+                        File.Delete(GlobalValues.WubiZipPath);
+                    File.Copy(rime_wubi_zip, GlobalValues.WubiZipPath);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // 停止服务
+            ServiceHelper.KillService();
+
+            // 异步加载 loading
+            LodingView lodingView = new LodingView();
+            App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
+
+            if (!isFromLocal)
+            {
+                // 删除从github下载的旧方案
+                if (File.Exists(GlobalValues.WubiZipPath))
+                    File.Delete(GlobalValues.WubiZipPath);
+
+                // 从github下载方案
+                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+                if (!down_value)
+                {
+                    lodingView.ClosePop();
+                    this.ShowMessage("网络情况不佳，无法从 Github 获取五笔方案资源", DialogType.Error);
+                    return;
+                }
+            }
+
+            await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>
+            {
+                try
+                {
+                    // 将下载好的方案zip解压
+                    ZipHelper.DecompressZip(GlobalValues.WubiZipPath, GlobalValues.UserPath);
+
+                    // 将解压的方案文件复制到用户目录下，然后删除
+                    string wubi_file = GlobalValues.UserPath + "\\" + GlobalValues.WubiFileName;
+                    if (Directory.Exists(wubi_file))
+                        CopyDirectory(wubi_file, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{wubi_file}");
+                    Directory.Delete(wubi_file, true);
+
+                    // 要点：更新操作时，将对应五笔版本的tables下的信息复制到用户目录下
+                    string table_path = "";
+                    if (wubi_type == "86") table_path = @$"{GlobalValues.UserPath}\tables\86";
+                    else if (wubi_type == "98") table_path = @$"{GlobalValues.UserPath}\tables\98";
+                    else table_path = @$"{GlobalValues.UserPath}\tables\06";
+                    if (Directory.Exists(table_path))
+                        CopyDirectory(table_path, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{table_path}");
+
+                    // 更新 wubi master 文本信息
+                    string wubi_master_info = "";
+                    wubi_master_info += "中书君标记文件，请勿删除！\n\r";
+                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_info += $"五笔类型：{wubi_type}\n\r";
+                    if (File.Exists(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey))
+                        File.Delete(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey);
+                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
+
+                    lodingView.ClosePop();
+                    this.ShowMessage("更新成功", DialogType.Success);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex.Message, true);
+                    this.ShowMessage($"更新失败: {ex.Message}", DialogType.Error);
+                    return;
+                }
+                finally
+                {
+                    lodingView.ClosePop();
+                    ServiceHelper.RunService();
+                    await Task.Delay(500);
+                    CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
+                }
+            });
+        }
+
+        [RelayCommand]
         public void WinStateLayout(object obj)
         {
             WinStateChecked = bool.Parse(obj?.ToString());
@@ -727,6 +730,32 @@ namespace WubiMaster.ViewModels
                     break;
             }
             QuickSpellChange();
+        }
+
+        /// <summary>
+        /// 从github下载五笔方案
+        /// </summary>
+        private async Task<bool> DownLoadWubiSchemaAsync(string zipUrl, string savePath)
+        {
+            try
+            {
+                // 使用HttpClient下载ZIP文件
+                HttpResponseMessage response = await client.GetAsync(zipUrl);
+                response.EnsureSuccessStatusCode();
+
+                // 获取ZIP文件的字节流
+                byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
+
+                // 将字节流写入到本地ZIP文件
+                File.WriteAllBytes(savePath, contentBytes);
+
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                LogHelper.Error("从 github 下载五笔方案异常：" + ex.ToString());
+                return false;
+            }
         }
 
         private void InitLogBackList()
@@ -841,7 +870,65 @@ namespace WubiMaster.ViewModels
             // 加载插件名称
             string plugName = ConfigHelper.ReadConfigByString("plugin_name");
             PluginIndex = string.IsNullOrEmpty(plugName) ? 0 : PluginsList.IndexOf(plugName);
+
+            // 加载是否自动启动
+            AutoStart = ConfigHelper.ReadConfigByBool("auto_start");
         }
+
+        #region 开机自启
+
+        /// <summary>
+        /// 开机自启创建
+        /// </summary>
+        /// <param name="exeName">程序名称</param>
+        /// <returns></returns>
+        public bool StartAutomaticallyCreate(string exeName)
+        {
+            try
+            {
+                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\" + exeName + ".lnk");
+                //设置快捷方式的目标所在的位置(源程序完整路径)
+                shortcut.TargetPath = System.Windows.Forms.Application.ExecutablePath;
+                //应用程序的工作目录
+                //当用户没有指定一个具体的目录时，快捷方式的目标应用程序将使用该属性所指定的目录来装载或保存文件。
+                shortcut.WorkingDirectory = System.Environment.CurrentDirectory;
+                //目标应用程序窗口类型(1.Normal window普通窗口,3.Maximized最大化窗口,7.Minimized最小化)
+                shortcut.WindowStyle = 1;
+                //快捷方式的描述
+                shortcut.Description = exeName + "_Ink";
+                //设置快捷键(如果有必要的话.)
+                //shortcut.Hotkey = "CTRL+ALT+D";
+                shortcut.Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 开机自启删除
+        /// </summary>
+        /// <param name="exeName">程序名称</param>
+        /// <returns></returns>
+        public bool StartAutomaticallyDel(string exeName)
+        {
+            try
+            {
+                File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\" + exeName + ".lnk");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+            }
+            return false;
+        }
+
+        #endregion 开机自启
 
         private void UpdateWubiSchemaTip()
         {

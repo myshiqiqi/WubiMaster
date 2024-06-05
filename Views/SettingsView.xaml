@@ -93,7 +93,7 @@
                                         IsEnabled="{Binding CanUpdateRimeWubi}"
                                         Style="{StaticResource SettingButtonStyle}" />
 
-                                <CheckBox IsChecked="{Binding IsFromLocal, Mode=TwoWay}" Content="从本地加载"/>
+                                <CheckBox Content="从本地加载" IsChecked="{Binding IsFromLocal, Mode=TwoWay}" />
                             </StackPanel>
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
@@ -194,6 +194,27 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </CheckBox>
+                            </StackPanel>
+                        </c:SettingPanel.SettingContent>
+                    </c:SettingPanel>
+
+                    <c:SettingPanel Title="开机自启"
+                                    IconText="&#xe76e;"
+                                    SubTitle="开机自动启动中书君">
+                        <c:SettingPanel.SettingContent>
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              IsChecked="{Binding AutoStart, Mode=TwoWay}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Checked">
+                                            <b:InvokeCommandAction Command="{Binding SetAutoStartCommand}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Unchecked">
+                                            <b:InvokeCommandAction Command="{Binding SetAutoStartCommand}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ToggleButton>
                             </StackPanel>
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>

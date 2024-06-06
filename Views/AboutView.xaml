@@ -26,6 +26,7 @@
     </UserControl.Resources>
 
     <Grid>
+
         <StackPanel>
             <Grid Style="{StaticResource grid_style}">
                 <StackPanel>

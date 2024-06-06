@@ -264,6 +264,16 @@
                     <!--Pages-->
                     <Grid Grid.Row="1" Grid.Column="1">
 
+                        <Grid Margin="20">
+                            <Viewbox>
+                                <TextBlock FontFamily="../Fonts/#iconfont"
+                                           Foreground="{DynamicResource primary-100}"
+                                           Opacity="0.1"
+                                           Text="{Binding BackIconText}" />
+                            </Viewbox>
+
+                        </Grid>
+
                         <ContentControl x:Name="Pages"
                                         Grid.Row="1"
                                         Margin="30"

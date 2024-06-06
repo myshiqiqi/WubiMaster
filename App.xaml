@@ -33,6 +33,8 @@
                 <ResourceDictionary Source="/Styles/LexiconViewStyle.xaml" />
                 <ResourceDictionary Source="/Styles/PageStyle.xaml" />
                 <ResourceDictionary Source="/Styles/CommonStyle.xaml" />
+
+                <ResourceDictionary Source="/Resource/IconText.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

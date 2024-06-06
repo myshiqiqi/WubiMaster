@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="&#xe68c;">&#xe68c;</sys:String>
+    <sys:String x:Key="&#xe68f;">&#xe68f;</sys:String>
+    <sys:String x:Key="&#xe690;">&#xe690;</sys:String>
+    <sys:String x:Key="&#xe693;">&#xe693;</sys:String>
+    <sys:String x:Key="&#xe697;">&#xe697;</sys:String>
+    <sys:String x:Key="&#xe698;">&#xe698;</sys:String>
+    <sys:String x:Key="&#xe699;">&#xe699;</sys:String>
+    <sys:String x:Key="&#xe69a;">&#xe69a;</sys:String>
+    <sys:String x:Key="&#xe69b;">&#xe69b;</sys:String>
+    <sys:String x:Key="&#xe69c;">&#xe69c;</sys:String>
+    <sys:String x:Key="&#xe69f;">&#xe69f;</sys:String>
+    <sys:String x:Key="&#xe6a1;">&#xe6a1;</sys:String>
+    <sys:String x:Key="&#xe6a4;">&#xe6a4;</sys:String>
+    <sys:String x:Key="&#xe6a5;">&#xe6a5;</sys:String>
+    <sys:String x:Key="&#xe6a7;">&#xe6a7;</sys:String>
+    <sys:String x:Key="&#xe6a8;">&#xe6a8;</sys:String>
+    <sys:String x:Key="&#xe6a9;">&#xe6a9;</sys:String>
+    <sys:String x:Key="&#xe6aa;">&#xe6aa;</sys:String>
+    <sys:String x:Key="&#xe6ac;">&#xe6ac;</sys:String>
+    <sys:String x:Key="&#xe6ad;">&#xe6ad;</sys:String>
+    <sys:String x:Key="&#xe6ae;">&#xe6ae;</sys:String>
+    <sys:String x:Key="&#xe6af;">&#xe6af;</sys:String>
+    <sys:String x:Key="&#xe6b0;">&#xe6b0;</sys:String>
+    <sys:String x:Key="&#xe6b1;">&#xe6b1;</sys:String>
+    <sys:String x:Key="&#xe6b2;">&#xe6b2;</sys:String>
+    <sys:String x:Key="&#xe6b3;">&#xe6b3;</sys:String>
+    <sys:String x:Key="&#xe6b5;">&#xe6b5;</sys:String>
+    <sys:String x:Key="&#xe6b7;">&#xe6b7;</sys:String>
+</ResourceDictionary>

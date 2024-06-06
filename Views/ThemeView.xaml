@@ -56,7 +56,6 @@
 
                         <ScrollViewer Grid.Row="1">
                             <Grid>
-                                <Border Background="{DynamicResource bg-100}" CornerRadius="0" />
 
                                 <StackPanel>
 
@@ -159,7 +158,7 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="横书"
-                                                                      Command="{Binding ChangeHorizontalCommand}"
+                                                                     Command="{Binding ChangeHorizontalCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.vertical_text, Mode=TwoWay}"
                                                                      UnCheckedState="纵书" />
                                             </Grid>

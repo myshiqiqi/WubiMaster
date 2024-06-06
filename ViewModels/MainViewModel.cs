@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WubiMaster.Common;
 using WubiMaster.Controls;
+using WubiMaster.Models;
 using WubiMaster.Views;
 using static WubiMaster.Common.RegistryHelper;
 
@@ -16,6 +18,9 @@ namespace WubiMaster.ViewModels
 {
     public partial class MainViewModel : ObservableRecipient
     {
+        [ObservableProperty]
+        private string backIconText;
+
         [ObservableProperty]
         private object currentView;
 
@@ -53,6 +58,7 @@ namespace WubiMaster.ViewModels
             ReadProcessPathRegistry();
             ReadServerRegistry();
             LaodAllSpellingDataAsync();
+            SetBackIconText();
             LoadConfig();
         }
 
@@ -406,6 +412,20 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        private void SetBackIconText()
+        {
+            List<string> icon_texts = new List<string>();
+            var backIconDict = new ResourceDictionary();
+            backIconDict.Source = new Uri("pack://application:,,,/WubiMaster;component/Resource/IconText.xaml");
+            foreach (string name in backIconDict.Keys)
+            {
+                string text = backIconDict[name].ToString();
+                icon_texts.Add(text);
+            }
+            Random rd = new Random();
+            int index = rd.Next(icon_texts.Count);
+            BackIconText = icon_texts[index];
+        }
         private void ShowMaskLayer(object recipient, string message)
         {
             bool isShow = bool.Parse(message);

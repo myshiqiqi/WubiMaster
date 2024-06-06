@@ -39,11 +39,28 @@
                 Background="{DynamicResource bg-100}"
                 BorderBrush="{DynamicResource bg-300}"
                 BorderThickness="2"
-                CornerRadius="15"
+                CornerRadius="15 15 0 15"
                 SnapsToDevicePixels="True"
                 UseLayoutRounding="True">
 
             <Grid Margin="2">
+                <Grid Width="50"
+                      Height="50"
+                      Margin="0,0,-4,-3"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Panel.ZIndex="100">
+                    <Viewbox>
+                        <TextBlock FontFamily="../Fonts/#iconfont"
+                                   Foreground="{DynamicResource accent-100}"
+                                   RenderTransformOrigin="0.5, 0.5"
+                                   Text="&#xe64c;">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="270" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Viewbox>
+                </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>

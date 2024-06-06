@@ -30,29 +30,36 @@
         <StackPanel>
             <Grid Style="{StaticResource grid_style}">
                 <StackPanel>
-                    <TextBlock Style="{StaticResource title_style}" Text="软件版本号" />
-                    <TextBlock Style="{StaticResource info_style}" Text="v0.0.2.20240401-alpha" />
+                    <TextBlock Style="{StaticResource title_style}" Text="{StaticResource AboutStr1}" />
+                    <TextBlock Style="{StaticResource info_style}" Text="{StaticResource AboutStr2}" />
                 </StackPanel>
             </Grid>
 
             <Grid Style="{StaticResource grid_style}">
                 <StackPanel>
-                    <TextBlock Style="{StaticResource title_style}" Text="作者" />
-                    <TextBlock Style="{StaticResource info_style}" Text="空山明月" />
+                    <TextBlock Style="{StaticResource title_style}" Text="{StaticResource AboutStr3}" />
+                    <TextBlock Style="{StaticResource info_style}" Text="{StaticResource AboutStr4}" />
                 </StackPanel>
             </Grid>
 
             <Grid Style="{StaticResource grid_style}">
                 <StackPanel>
-                    <TextBlock Style="{StaticResource title_style}" Text="联系邮箱" />
-                    <TextBlock Style="{StaticResource info_style}" Text="mrshiqiqi@126.com" />
+                    <TextBlock Style="{StaticResource title_style}" Text="{StaticResource AboutStr5}" />
+                    <TextBlock Style="{StaticResource info_style}" Text="{StaticResource AboutStr6}" />
                 </StackPanel>
             </Grid>
 
             <Grid Style="{StaticResource grid_style}">
                 <StackPanel>
-                    <TextBlock Style="{StaticResource title_style}" Text="项目地址" />
-                    <TextBlock Style="{StaticResource info_style}" Text="https://gitee.com/hi-coder/WubiMaster" />
+                    <TextBlock Style="{StaticResource title_style}" Text="{StaticResource AboutStr7}" />
+                    <TextBlock Style="{StaticResource info_style}" Text="{StaticResource AboutStr8}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Style="{StaticResource grid_style}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource title_style}" Text="{StaticResource AboutStr9}" />
+                    <TextBlock Style="{StaticResource info_style}" Text="{StaticResource AboutStr10}" />
                 </StackPanel>
             </Grid>
         </StackPanel>

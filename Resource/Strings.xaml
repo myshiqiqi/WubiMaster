@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--About View-->
+    <sys:String x:Key="AboutStr1">软件版本号</sys:String>
+    <sys:String x:Key="AboutStr2">0.1.31.20240605-alpha</sys:String>
+    <sys:String x:Key="AboutStr3">作者</sys:String>
+    <sys:String x:Key="AboutStr4">空山明月</sys:String>
+    <sys:String x:Key="AboutStr5">联系邮箱</sys:String>
+    <sys:String x:Key="AboutStr6">mrshiqiqi@126.com</sys:String>
+    <sys:String x:Key="AboutStr7">项目地址</sys:String>
+    <sys:String x:Key="AboutStr8">https://gitee.com/hi-coder/WubiMaster</sys:String>
+    <sys:String x:Key="AboutStr9">方案地址</sys:String>
+    <sys:String x:Key="AboutStr10">https://gitee.com/hi-coder/rime-wubi</sys:String>
+</ResourceDictionary>

@@ -35,6 +35,7 @@
                 <ResourceDictionary Source="/Styles/CommonStyle.xaml" />
 
                 <ResourceDictionary Source="/Resource/IconText.xaml" />
+                <ResourceDictionary Source="/Resource/Strings.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

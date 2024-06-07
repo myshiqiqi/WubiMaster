@@ -32,6 +32,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private WeaselModel weaselDetails;
 
+        [ObservableProperty]
+        private bool autoColor;
+
         private string weaselPath = "";
 
         private ColorsModel default_color;
@@ -262,21 +265,31 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        [RelayCommand]
+        public void SetAutoColor()
+        {
+
+            ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
+        }
+
         private void LoadConfig()
         {
-            if (WeaselDetails != null)
-            {
-                if (WeaselCustomDetails == null)
-                {
-                    ColorIndex = 0;
-                    string shemeName = ColorsList[0].description.color_name;
-                    ChangeTheme(shemeName);
-                }
-                else
-                {
-                    LoadCustomColor();
-                }
-            }
+            // 加载rime外观跟随主题
+            AutoColor = ConfigHelper.ReadConfigByBool("auto_color");
+
+            //if (WeaselDetails != null)
+            //{
+            //    if (WeaselCustomDetails == null)
+            //    {
+            //        ColorIndex = 0;
+            //        string shemeName = ColorsList[0].description.color_name;
+            //        ChangeTheme(shemeName);
+            //    }
+            //    else
+            //    {
+            //        LoadCustomColor();
+            //    }
+            //}
         }
         private void LoadCustomColor()
         {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -32,6 +33,8 @@ namespace WubiMaster.ViewModels
         private WeaselModel weaselDetails;
 
         private string weaselPath = "";
+
+        private ColorsModel default_color;
 
         public ThemeViewModel()
         {
@@ -75,6 +78,40 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void DeleteColor()
         {
+            try
+            {
+                var ask = this.ShowAskMessage("被删除的主题无法恢复，确定要执行删除操作吗？");
+                if (!((bool)ask))
+                {
+                    return;
+                }
+
+                string color_name = CurrentColor.Style.color_scheme;
+                ColorSchemeModel csModel = new ColorSchemeModel();
+                csModel.Style = default_color.style;
+                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
+                CurrentColor = csModel;
+
+                string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
+                if (File.Exists(yaml_name))
+                {
+                    File.Delete(yaml_name);
+                }
+                else
+                {
+                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
+                    return;
+                }
+
+                LoadColorShemes();
+                ColorIndex = 0;
+                this.ShowMessage("主题删除成功！", DialogType.Success);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("主题删除失败！", DialogType.Fail);
+            }
         }
 
         [RelayCommand]
@@ -177,6 +214,11 @@ namespace WubiMaster.ViewModels
                         FileInfo file = files[i];
                         string colorTxt = File.ReadAllText(file.FullName);
                         ColorsModel cModel = YamlHelper.Deserizlize<ColorsModel>(colorTxt);
+                        if (cModel.description.color_name == "default")
+                        {
+                            default_color = cModel;
+                            continue;
+                        }
                         ColorsList.Add(cModel);
                     }
                     catch (Exception ex)

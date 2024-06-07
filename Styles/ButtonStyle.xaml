@@ -25,7 +25,7 @@
                                         Height="35"
                                         Margin="0">
                                     <Grid>
-                                        <TextBlock x:Name="bg_icon" 
+                                        <TextBlock x:Name="bg_icon"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="../Fonts/#iconfont"

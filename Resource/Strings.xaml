@@ -4,7 +4,7 @@
 
     <!--About View-->
     <sys:String x:Key="AboutStr1">软件版本号</sys:String>
-    <sys:String x:Key="AboutStr2">0.1.32.20240606-alpha</sys:String>
+    <sys:String x:Key="AboutStr2">0.1.33.20240607-alpha</sys:String>
     <sys:String x:Key="AboutStr3">作者</sys:String>
     <sys:String x:Key="AboutStr4">空山明月</sys:String>
     <sys:String x:Key="AboutStr5">联系邮箱</sys:String>

@@ -29,4 +29,12 @@
     <sys:String x:Key="&#xe6b3;">&#xe6b3;</sys:String>
     <sys:String x:Key="&#xe6b5;">&#xe6b5;</sys:String>
     <sys:String x:Key="&#xe6b7;">&#xe6b7;</sys:String>
+    <sys:String x:Key="&#xe684;">&#xe684;</sys:String>
+    <sys:String x:Key="&#xe652;">&#xe652;</sys:String>
+    <sys:String x:Key="&#xe653;">&#xe653;</sys:String>
+    <sys:String x:Key="&#xe62e;">&#xe62e;</sys:String>
+    <sys:String x:Key="&#xe630;">&#xe630;</sys:String>
+    <sys:String x:Key="&#xe63a;">&#xe63a;</sys:String>
+    <sys:String x:Key="&#xe643;">&#xe643;</sys:String>
+    <sys:String x:Key="&#xe632;">&#xe632;</sys:String>
 </ResourceDictionary>

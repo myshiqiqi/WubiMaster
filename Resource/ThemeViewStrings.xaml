@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="ThemeStr1">设计器</sys:String>
+    <sys:String x:Key="ThemeStr2">跟随主题</sys:String>
+    <sys:String x:Key="ThemeStr3">是否启用皮肤跟随主题功能</sys:String>
+    <sys:String x:Key="ThemeStr4">选择皮肤</sys:String>
+    <sys:String x:Key="ThemeStr5">应用</sys:String>
+    <sys:String x:Key="ThemeStr6">删除</sys:String>
+    <sys:String x:Key="ThemeStr7">模板样式</sys:String>
+    <sys:String x:Key="ThemeStr8">文本样式</sys:String>
+    <sys:String x:Key="ThemeStr9">横书</sys:String>
+    <sys:String x:Key="ThemeStr10">纵书</sys:String>
+    <sys:String x:Key="ThemeStr11">边界样式</sys:String>
+    <sys:String x:Key="ThemeStr12">方正</sys:String>
+    <sys:String x:Key="ThemeStr13">半月</sys:String>
+    <sys:String x:Key="ThemeStr14">编码样式</sys:String>
+    <sys:String x:Key="ThemeStr15">高亮</sys:String>
+    <sys:String x:Key="ThemeStr16">行内</sys:String>
+    <sys:String x:Key="ThemeStr17">候选显示</sys:String>
+    <sys:String x:Key="ThemeStr18">横排/竖排</sys:String>
+    <sys:String x:Key="ThemeStr19">竖排</sys:String>
+    <sys:String x:Key="ThemeStr20">横排</sys:String>
+</ResourceDictionary>

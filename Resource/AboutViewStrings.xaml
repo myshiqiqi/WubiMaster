@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!--About View-->
     <sys:String x:Key="AboutStr1">软件版本号</sys:String>
     <sys:String x:Key="AboutStr2">0.1.33.20240607-alpha</sys:String>
     <sys:String x:Key="AboutStr3">作者</sys:String>

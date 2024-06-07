@@ -26,7 +26,7 @@
         <TabControl>
             <TabItem IsSelected="True">
                 <TabItem.Header>
-                    <TextBlock FontSize="15" Text="设计器" />
+                    <TextBlock FontSize="15" Text="{StaticResource ThemeStr1}" />
                 </TabItem.Header>
 
                 <!--皮肤编辑-->
@@ -67,7 +67,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="跟随主题" />
+                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr2}" />
 
                                         <StackPanel Grid.Row="1"
                                                     HorizontalAlignment="Right"
@@ -76,7 +76,7 @@
                                                        VerticalAlignment="Center"
                                                        FontSize="15"
                                                        Foreground="{DynamicResource text-200}"
-                                                       Text="是否启用皮肤跟随主题功能" />
+                                                       Text="{StaticResource ThemeStr3}" />
                                             <ToggleButton />
                                         </StackPanel>
 
@@ -93,7 +93,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="选择皮肤" />
+                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr4}" />
 
                                         <StackPanel Grid.Row="1"
                                                     HorizontalAlignment="Right"
@@ -116,11 +116,11 @@
 
                                             <Button Margin="0,0,12,0"
                                                     Command="{Binding SetColorCommand}"
-                                                    Content="应用"
+                                                    Content="{StaticResource ThemeStr5}"
                                                     Style="{StaticResource TVButtonStyle}" />
 
                                             <Button Command="{Binding DeleteColorCommand}"
-                                                    Content="删除"
+                                                    Content="{StaticResource ThemeStr6}"
                                                     Style="{StaticResource TVButtonStyle}" />
                                         </StackPanel>
 
@@ -138,7 +138,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="模板样式" />
+                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr7}" />
 
                                         <Grid Grid.Row="1">
                                             <Grid.RowDefinitions>
@@ -152,15 +152,15 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="文本样式" />
+                                                           Text="{StaticResource ThemeStr8}" />
                                                 <c:StateToggleButton Width="120"
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="横书"
+                                                                     CheckedState="{StaticResource ThemeStr9}"
                                                                      Command="{Binding ChangeHorizontalCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.vertical_text, Mode=TwoWay}"
-                                                                     UnCheckedState="纵书" />
+                                                                     UnCheckedState="{StaticResource ThemeStr10}" />
                                             </Grid>
 
                                             <Grid Grid.Row="1" Margin="0,10,0,0">
@@ -168,13 +168,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="边界样式" />
+                                                           Text="{StaticResource ThemeStr11}" />
                                                 <c:StateToggleButton Width="120"
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="方正"
-                                                                     UnCheckedState="半月" />
+                                                                     CheckedState="{StaticResource ThemeStr12}"
+                                                                     UnCheckedState="{StaticResource ThemeStr13}" />
                                             </Grid>
 
                                             <Grid Grid.Row="2" Margin="0,10,0,0">
@@ -182,14 +182,14 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="编码样式" />
+                                                           Text="{StaticResource ThemeStr14}" />
                                                 <c:StateToggleButton Width="120"
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="高亮"
+                                                                     CheckedState="{StaticResource ThemeStr15}"
                                                                      IsChecked="{Binding CurrentColor.Style.inline_preedit, Mode=TwoWay}"
-                                                                     UnCheckedState="行内" />
+                                                                     UnCheckedState="{StaticResource ThemeStr16}" />
                                             </Grid>
                                         </Grid>
 
@@ -206,7 +206,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="候选显示" />
+                                        <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr17}" />
 
                                         <Grid Grid.Row="1">
                                             <Grid.RowDefinitions>
@@ -221,15 +221,15 @@
                                                 <TextBlock VerticalAlignment="Center"
                                                            FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="横排/竖排" />
+                                                           Text="{StaticResource ThemeStr18}" />
                                                 <c:StateToggleButton Width="120"
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="竖排"
+                                                                     CheckedState="{StaticResource ThemeStr19}"
                                                                      Command="{Binding ChangeHorizontalCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
-                                                                     UnCheckedState="横排" />
+                                                                     UnCheckedState="{StaticResource ThemeStr20}" />
                                             </Grid>
 
                                             <Grid Grid.Row="1" Margin="0,10,0,0">

@@ -3,8 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="ThemeStr1">设计器</sys:String>
-    <sys:String x:Key="ThemeStr2">跟随主题</sys:String>
-    <sys:String x:Key="ThemeStr3">是否启用皮肤跟随主题功能</sys:String>
+    <sys:String x:Key="ThemeStr2">智能换肤</sys:String>
+    <sys:String x:Key="ThemeStr3">皮肤跟随主题</sys:String>
     <sys:String x:Key="ThemeStr4">选择皮肤</sys:String>
     <sys:String x:Key="ThemeStr5">应用</sys:String>
     <sys:String x:Key="ThemeStr6">删除</sys:String>
@@ -22,4 +22,5 @@
     <sys:String x:Key="ThemeStr18">横排/竖排</sys:String>
     <sys:String x:Key="ThemeStr19">竖排</sys:String>
     <sys:String x:Key="ThemeStr20">横排</sys:String>
+    <sys:String x:Key="ThemeStr21">随机换肤</sys:String>
 </ResourceDictionary>

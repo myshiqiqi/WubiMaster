@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using WubiMaster.Common;
@@ -35,6 +36,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private bool autoColor;
 
+        [ObservableProperty]
+        private bool randomColor;
+
         private string weaselPath = "";
 
         private ColorsModel default_color;
@@ -42,9 +46,15 @@ namespace WubiMaster.ViewModels
         public ThemeViewModel()
         {
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
+            WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
 
             LoadColorShemes();
             LoadConfig();
+        }
+
+        private void ChangeAutoColor(object recipient, string message)
+        {
+            SetAutoColor();
         }
 
         [RelayCommand]
@@ -268,14 +278,53 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetAutoColor()
         {
+            if (AutoColor)
+            {
+                SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                CurrentColor.UsedColor.color_format = "argb";
+                CurrentColor.UsedColor.hilited_candidate_back_color = ColorConvter(hilited_candidate_back_color.ToString(), colorFormat: "argb").ToString();
+                CurrentColor.UsedColor.back_color = back_color.ToString();
+                string shemeName = ColorsList[ColorIndex].description.color_name;
+                ChangeTheme(shemeName);
+                CurrentColor = CurrentColor;
+            }
+            else
+            {
+                LoadColorShemes();
+                ColorIndex = 0;
+                string shemeName = ColorsList[ColorIndex].description.color_name;
+                ChangeTheme(shemeName);
+            }
 
             ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
+            // 如果包含 custom 文件，先将其删除掉
+            if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
+            {
+                File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
+            }
+
+            // 将 colors 文件下的主题数据写入到 custom 外观文件中去
+            WriteWeaselCustonDetails();
+
+            string colorScheme = ColorsList[ColorIndex].description.color_name;
+            ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
+            CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
+        }
+
+        [RelayCommand]
+        public void SetRandomColor()
+        {
+
+            ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
         private void LoadConfig()
         {
-            // 加载rime外观跟随主题
-            AutoColor = ConfigHelper.ReadConfigByBool("auto_color");
+            // 加载当前使用的主题
+            ColorIndex = 0;
+            string shemeName = ColorsList[0].description.color_name;
+            ChangeTheme(shemeName);
 
             //if (WeaselDetails != null)
             //{
@@ -290,6 +339,13 @@ namespace WubiMaster.ViewModels
             //        LoadCustomColor();
             //    }
             //}
+
+            // 加载rime外观跟随主题
+            AutoColor = ConfigHelper.ReadConfigByBool("auto_color");
+
+            // 加载rime外观随机更换
+            RandomColor = ConfigHelper.ReadConfigByBool("random_color");
+
         }
         private void LoadCustomColor()
         {

@@ -236,11 +236,20 @@ namespace WubiMaster.ViewModels
                 var themeModel = ThemeList.FirstOrDefault(t => t.Value == theme);
                 ThemeIndex = ThemeList.IndexOf(themeModel);
                 ConfigHelper.WriteConfigByString("theme_value", theme);
+
+                SetAutoColor();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void SetAutoColor()
+        {
+            bool auto_color = ConfigHelper.ReadConfigByBool("auto_color");
+            if (auto_color)
+                WeakReferenceMessenger.Default.Send<string, string>("ChangeAutoColor", "ChangeAutoColor");
         }
 
         [RelayCommand]

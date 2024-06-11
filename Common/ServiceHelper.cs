@@ -124,5 +124,11 @@ namespace WubiMaster.Common
 
             return userName;
         }
+
+        public static void Deployer()
+        {
+            if (FindService())
+                CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
+        }
     }
 }

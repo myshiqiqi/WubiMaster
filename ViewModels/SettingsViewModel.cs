@@ -237,19 +237,12 @@ namespace WubiMaster.ViewModels
                 ThemeIndex = ThemeList.IndexOf(themeModel);
                 ConfigHelper.WriteConfigByString("theme_value", theme);
 
-                SetAutoColor();
+                WeakReferenceMessenger.Default.Send<string, string>("ChangeAutoColor", "ChangeAutoColor");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private void SetAutoColor()
-        {
-            bool auto_color = ConfigHelper.ReadConfigByBool("auto_color");
-            if (auto_color)
-                WeakReferenceMessenger.Default.Send<string, string>("ChangeAutoColor", "ChangeAutoColor");
         }
 
         [RelayCommand]
@@ -484,7 +477,6 @@ namespace WubiMaster.ViewModels
                 CobboxThemesEnable = false;
                 Random random = new Random();
                 ThemeIndex = random.Next(0, ThemeList.Count);
-                ChangeTheme(ThemeList[ThemeIndex].Value);
             }
             else
             {
@@ -840,7 +832,8 @@ namespace WubiMaster.ViewModels
             if (IsRandomThemes)
             {
                 CobboxThemesEnable = false;
-                RandomThemes();
+                int index = new Random().Next(ThemeList.Count);
+                ChangeTheme(ThemeList[index].Value);
             }
             else
             {

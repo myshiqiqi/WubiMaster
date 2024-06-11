@@ -17,7 +17,7 @@ namespace WubiMaster.ViewModels
         private bool autoColor;
 
         [ObservableProperty]
-        private int colorIndex;
+        private int colorIndex = -1;
 
         [ObservableProperty]
         private List<ColorsModel> colorsList;
@@ -50,15 +50,7 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public void ChangeHorizontal(object obj)
-        {
-            var tempColor = CurrentColor;
-            CurrentColor = null;
-            CurrentColor = tempColor;
-        }
-
-        [RelayCommand]
-        public void ChangeTheme(object obj)
+        public void ChangeColor(object obj)
         {
             if (obj == null) return;
 
@@ -80,6 +72,14 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("选中的样式在外观文件中不存在！", DialogType.Error);
             }
+        }
+
+        [RelayCommand]
+        public void ChangeHorizontal(object obj)
+        {
+            var tempColor = CurrentColor;
+            CurrentColor = null;
+            CurrentColor = tempColor;
         }
 
         [RelayCommand]
@@ -124,73 +124,76 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetAutoColor()
         {
-            try
+            App.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (CurrentColor == null)
-                    LoadCurrentColor();
-
-                if (AutoColor)
+                try
                 {
-                    SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                    SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                    SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                    SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                    SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
-                    SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
-                    SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
-                    SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
-                    SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                    SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
-                    SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                    SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                    SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                    SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                    if (CurrentColor == null)
+                        LoadCurrentColor();
 
-                    //CurrentColor.UsedColor.color_format = "argb";
-                    CurrentColor.UsedColor.text_color = ColorToStr(text_color.ToString());
-                    CurrentColor.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
-                    CurrentColor.UsedColor.label_color = ColorToStr(label_color.ToString());
-                    CurrentColor.UsedColor.back_color = ColorToStr(back_color.ToString());
-                    CurrentColor.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
-                    CurrentColor.UsedColor.border_color = ColorToStr(border_color.ToString());
-                    CurrentColor.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
-                    CurrentColor.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
-                    CurrentColor.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
-                    CurrentColor.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
-                    CurrentColor.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
-                    CurrentColor.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
-                    CurrentColor.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
-                    CurrentColor.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+                    if (AutoColor)
+                    {
+                        SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
+                        SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
+                        SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
+                        SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
+                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                        SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
 
-                    string shemeName = ColorsList[ColorIndex].description.color_name;
-                    ChangeTheme(shemeName);
-                    CurrentColor = CurrentColor;
+                        //CurrentColor.UsedColor.color_format = "argb";
+                        CurrentColor.UsedColor.text_color = ColorToStr(text_color.ToString());
+                        CurrentColor.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
+                        CurrentColor.UsedColor.label_color = ColorToStr(label_color.ToString());
+                        CurrentColor.UsedColor.back_color = ColorToStr(back_color.ToString());
+                        CurrentColor.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
+                        CurrentColor.UsedColor.border_color = ColorToStr(border_color.ToString());
+                        CurrentColor.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
+                        CurrentColor.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
+                        CurrentColor.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
+                        CurrentColor.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
+                        CurrentColor.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
+                        CurrentColor.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
+                        CurrentColor.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
+                        CurrentColor.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+
+                        string shemeName = ColorsList[ColorIndex].description.color_name;
+                        ChangeColor(shemeName);
+                        CurrentColor = CurrentColor;
+                    }
+                    else
+                    {
+                        LoadColorShemes();
+                        LoadCurrentColor();
+                    }
+
+                    ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
+                    // 如果包含 custom 文件，先将其删除掉
+                    if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
+                    {
+                        File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
+                    }
+
+                    // 将 colors 文件下的主题数据写入到 custom 外观文件中去
+                    WriteWeaselCustonDetails();
+
+                    string colorScheme = ColorsList[ColorIndex].description.color_name;
+                    ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
+                    ServiceHelper.Deployer();
                 }
-                else
+                catch (Exception ex)
                 {
-                    LoadColorShemes();
-                    LoadCurrentColor();
+                    LogHelper.Error(ex.ToString());
+                    this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
                 }
-
-                ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
-                // 如果包含 custom 文件，先将其删除掉
-                if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
-                {
-                    File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
-                }
-
-                // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-                WriteWeaselCustonDetails();
-
-                string colorScheme = ColorsList[ColorIndex].description.color_name;
-                ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-                ServiceHelper.Deployer();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
-            }
+            });
         }
 
         [RelayCommand]
@@ -214,13 +217,26 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetRandomColor()
         {
+            if (RandomColor)
+            {
+                Random rd = new Random();
+                int index = rd.Next(ColorsList.Count);
+                var rdModel = ColorsList[index];
+
+                ChangeColor(rdModel.style.color_scheme);
+                ServiceHelper.Deployer();
+            }
+
             ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
         [RelayCommand]
         public void ViewLoaded()
         {
-            LoadCurrentColor();
+            if (ColorIndex == -1)
+                LoadCurrentColor();
+            if (RandomColor)
+                SetRandomColor();
         }
 
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x000000", string colorFormat = "abgr")
@@ -232,7 +248,8 @@ namespace WubiMaster.ViewModels
 
         private void ChangeAutoColor(object recipient, string message)
         {
-            SetAutoColor();
+            if (AutoColor)
+                SetAutoColor();
         }
 
         private void ChangeColorScheme(object recipient, string message)
@@ -421,7 +438,7 @@ namespace WubiMaster.ViewModels
 
             // 加载当前使用的主题
             string shemeName = WeaselCustomDetails.patch.style.color_scheme;
-            ChangeTheme(shemeName);
+            ChangeColor(shemeName);
         }
 
         private void LoadCustomColor()

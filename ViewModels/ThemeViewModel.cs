@@ -230,13 +230,16 @@ namespace WubiMaster.ViewModels
             ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
+        private bool is_loaded = false;
         [RelayCommand]
         public void ViewLoaded()
         {
+            if (is_loaded) return;
+
             if (ColorIndex == -1)
                 LoadCurrentColor();
-            if (RandomColor)
-                SetRandomColor();
+
+            is_loaded = true;
         }
 
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x000000", string colorFormat = "abgr")
@@ -248,6 +251,8 @@ namespace WubiMaster.ViewModels
 
         private void ChangeAutoColor(object recipient, string message)
         {
+            if (RandomColor)
+                SetRandomColor();
             if (AutoColor)
                 SetAutoColor();
         }

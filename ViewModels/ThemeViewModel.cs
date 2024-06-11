@@ -275,16 +275,63 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        private string ColorToStr(string color_str, string color_format = "argb", string result_format = "abgr")
+        {
+            string color_result = "";
+            color_str = color_str.Contains("#") ? color_str.Substring(1, color_str.Length - 1) : color_str;
+            var color_array = color_str.ToArray().Select( c => c.ToString()).ToList();
+
+            switch (result_format)
+            {
+                case "argb":
+                    break;
+                case "agbr":
+                    break;
+                default:  // 默认是返回 abgr 格式
+                    color_result = $"{color_array[0]}{color_array[1]}{color_array[6]}{color_array[7]}{color_array[4]}{color_array[5]}{color_array[2]}{color_array[3]}";
+                    break;
+            }
+            color_result = $"0x{color_result}";
+
+            return color_result;
+        }
+
         [RelayCommand]
         public void SetAutoColor()
         {
             if (AutoColor)
             {
-                SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
                 SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                CurrentColor.UsedColor.color_format = "argb";
-                CurrentColor.UsedColor.hilited_candidate_back_color = ColorConvter(hilited_candidate_back_color.ToString(), colorFormat: "argb").ToString();
-                CurrentColor.UsedColor.back_color = back_color.ToString();
+                SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
+                SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
+                SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
+                SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
+                SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+
+                //CurrentColor.UsedColor.color_format = "argb";
+                CurrentColor.UsedColor.text_color = ColorToStr(text_color.ToString());
+                CurrentColor.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
+                CurrentColor.UsedColor.label_color = ColorToStr(label_color.ToString());
+                CurrentColor.UsedColor.back_color = ColorToStr(back_color.ToString());
+                CurrentColor.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
+                CurrentColor.UsedColor.border_color = ColorToStr(border_color.ToString());
+                CurrentColor.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
+                CurrentColor.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
+                CurrentColor.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
+                CurrentColor.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
+                CurrentColor.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
+                CurrentColor.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
+                CurrentColor.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
+                CurrentColor.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+
                 string shemeName = ColorsList[ColorIndex].description.color_name;
                 ChangeTheme(shemeName);
                 CurrentColor = CurrentColor;

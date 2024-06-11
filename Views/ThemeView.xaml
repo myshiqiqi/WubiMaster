@@ -21,6 +21,12 @@
         <com:Str2Brush x:Key="Str2Brush" />
     </UserControl.Resources>
 
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+
     <Grid>
 
         <TabControl>

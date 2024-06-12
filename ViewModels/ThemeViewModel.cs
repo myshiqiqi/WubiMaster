@@ -184,7 +184,7 @@ namespace WubiMaster.ViewModels
                     }
 
                     // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-                    WriteWeaselCustonDetails();
+                    SaveWeaselCustom();
 
                     string colorScheme = ColorsList[ColorIndex].description.color_name;
                     ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
@@ -208,7 +208,7 @@ namespace WubiMaster.ViewModels
             }
 
             // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-            WriteWeaselCustonDetails();
+            SaveWeaselCustom();
 
             string colorScheme = ColorsList[ColorIndex].description.color_name;
             ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
@@ -472,7 +472,7 @@ namespace WubiMaster.ViewModels
             }
         }
 
-        private void WriteWeaselCustonDetails()
+        private void SaveWeaselCustom()
         {
             try
             {

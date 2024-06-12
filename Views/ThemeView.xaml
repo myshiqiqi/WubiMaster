@@ -222,6 +222,7 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr12}"
+                                                                     Command="{Binding UpdateCurrentColorCommand}"
                                                                      UnCheckedState="{StaticResource ThemeStr13}" />
                                             </Grid>
 

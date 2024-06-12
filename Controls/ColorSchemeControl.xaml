@@ -502,9 +502,9 @@
 
                                     <Border Grid.RowSpan="4"
                                             Grid.Column="0"
-                                            Margin="2"
+                                            Margin="{Binding ElementName=color_scheme_control,Path=HiliteBorderMargin}"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
 
                                     <TextBlock Grid.Row="1"
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"

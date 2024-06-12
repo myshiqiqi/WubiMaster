@@ -923,6 +923,34 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
+
+        /// <summary>
+        /// 高亮背景圆角值
+        /// </summary>
+        public CornerRadius HiliteBorderCorner
+        {
+            get { return (CornerRadius)GetValue(HiliteBorderCornerProperty); }
+            set { SetValue(HiliteBorderCornerProperty, value); }
+        }
+
+        public static readonly DependencyProperty HiliteBorderCornerProperty =
+            DependencyProperty.Register("HiliteBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+        // 高亮背景与边框间的外边距
+        public Thickness HiliteBorderMargin
+        {
+            get { return (Thickness)GetValue(HiliteBorderMarginProperty); }
+            set { SetValue(HiliteBorderMarginProperty, value); }
+        }
+
+        public static readonly DependencyProperty HiliteBorderMarginProperty =
+            DependencyProperty.Register("HiliteBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
+
+
+
+
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -975,7 +1003,6 @@ namespace WubiMaster.Controls
             c.CandidateBorderColor = c.BrushConvter(schemeModel.candidate_border_color, schemeModel.back_color, colorFormat: color_format);
 
             // 布局
-            /**「天圓地方」佈局：由 margin 與 hilite_padding 確定, 當margin <= hilite_padding時生效**/
             c.HilitePadding = double.Parse(styleModel.layout.hilite_padding) - c.BorderWidth;
             c.HiliteSpacing = double.Parse(styleModel.layout.hilite_spacing);
             c.HiSpacingMargin = new Thickness(c.HiliteSpacing, 0, c.HiliteSpacing, 0);
@@ -1005,10 +1032,20 @@ namespace WubiMaster.Controls
             }
 
             // # 判断是不是天圆地方（半月）模式
-            if (true)
+            /**「天圓地方」佈局：由 margin 與 hilite_padding 確定, 當margin <= hilite_padding時生效**/
+            if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
             {
                 c.IsBanYueMode = true;
+                c.HiliteBorderCorner = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                c.HiliteBorderMargin = new Thickness(0);
             }
+            else
+            {
+                c.IsBanYueMode = false;
+                c.HiliteBorderCorner = new CornerRadius(c.RoundCorner);
+                c.HiliteBorderMargin = new Thickness(c.MarginX - c.HilitePadding);
+            }
+
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);

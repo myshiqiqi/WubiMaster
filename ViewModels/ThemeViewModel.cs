@@ -42,6 +42,8 @@ namespace WubiMaster.ViewModels
 
         public ThemeViewModel()
         {
+            ColorsList = new List<ColorsModel>();
+
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
 
@@ -347,7 +349,7 @@ namespace WubiMaster.ViewModels
                 DirectoryInfo dInfo = new DirectoryInfo(colorsDirectory);
                 FileInfo[] files = dInfo.GetFiles();
 
-                ColorsList = new List<ColorsModel>();
+                var  _colorsList = new List<ColorsModel>();
                 for (int i = 0; i < files.Length; i++)
                 {
                     try
@@ -360,7 +362,7 @@ namespace WubiMaster.ViewModels
                             default_color = cModel;
                             continue;
                         }
-                        ColorsList.Add(cModel);
+                        _colorsList.Add(cModel);
                     }
                     catch (Exception ex)
                     {
@@ -368,6 +370,8 @@ namespace WubiMaster.ViewModels
                         continue;
                     }
                 }
+
+                ColorsList = _colorsList;
             }
             catch (Exception ex)
             {

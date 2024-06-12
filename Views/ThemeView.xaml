@@ -253,7 +253,6 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="单个"
-                                                                     IsChecked="{Binding .}"
                                                                      UnCheckedState="全体" />
                                             </Grid>
                                         </UniformGrid>

@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Ribbon;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WubiMaster.Common;
 using WubiMaster.Models;
 
@@ -21,8 +10,17 @@ namespace WubiMaster.Controls
 {
     public partial class ColorSchemeControl : UserControl
     {
+        public static readonly DependencyProperty AlignTypeProperty =
+            DependencyProperty.Register("AlignType", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("center"));
+
+        public static readonly DependencyProperty AntialiasModeProperty =
+            DependencyProperty.Register("AntialiasMode", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("default"));
+
+        public static readonly DependencyProperty AsciiTipFollowCursorProperty =
+            DependencyProperty.Register("AsciiTipFollowCursor", typeof(bool), typeof(ColorSchemeControl));
+
         public static readonly DependencyProperty AuthorProperty =
-            DependencyProperty.Register("Author", typeof(string), typeof(ColorSchemeControl));
+                                    DependencyProperty.Register("Author", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty BackColorProperty =
             DependencyProperty.Register("BackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
@@ -30,29 +28,89 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty BorderColorProperty =
             DependencyProperty.Register("BorderColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
+        public static readonly DependencyProperty BorderPaddingProperty =
+            DependencyProperty.Register("BorderPadding", typeof(Thickness), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty BorderWidthProperty =
+            DependencyProperty.Register("BorderWidth", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(2.0));
+
+        public static readonly DependencyProperty CandidateAbbreviateLengthProperty =
+            DependencyProperty.Register("CandidateAbbreviateLength", typeof(string), typeof(ColorSchemeControl));
+
         public static readonly DependencyProperty CandidateBackColorProperty =
-            DependencyProperty.Register("CandidateBackColor", typeof(Brush), typeof(ColorSchemeControl));
+                                    DependencyProperty.Register("CandidateBackColor", typeof(Brush), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CandidateBorderColorProperty =
             DependencyProperty.Register("CandidateBorderColor", typeof(Brush), typeof(ColorSchemeControl));
 
+        public static readonly DependencyProperty CandidateMarginProperty =
+            DependencyProperty.Register("CandidateMargin", typeof(Thickness), typeof(ColorSchemeControl));
+
         public static readonly DependencyProperty CandidateShadowColorProperty =
-                    DependencyProperty.Register("CandidateShadowColor", typeof(Color), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("CandidateShadowColor", typeof(Color), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty CandidateSpacingProperty =
+            DependencyProperty.Register("CandidateSpacing", typeof(double), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CandidateTextColorProperty =
-                            DependencyProperty.Register("CandidateTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+                                    DependencyProperty.Register("CandidateTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty ClickToCaptureProperty =
+            DependencyProperty.Register("ClickToCapture", typeof(bool), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty ColorFormatProperty =
-                                    DependencyProperty.Register("ColorFormat", typeof(string), typeof(ColorSchemeControl));
+                                            DependencyProperty.Register("ColorFormat", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorMaxWidthProperty =
+            DependencyProperty.Register("ColorMaxWidth", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorMinHeightProperty =
+            DependencyProperty.Register("ColorMinHeight", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorMinWidthProperty =
+            DependencyProperty.Register("ColorMinWidth", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorModelProperty =
+            DependencyProperty.Register("ColorModel", typeof(ColorSchemeModel), typeof(ColorSchemeControl), new PropertyMetadata(new PropertyChangedCallback(OnColorChanged)));
 
         public static readonly DependencyProperty ColorNameProperty =
-                    DependencyProperty.Register("ColorName", typeof(string), typeof(ColorSchemeControl));
+                                                    DependencyProperty.Register("ColorName", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorSchemeProperty =
+            DependencyProperty.Register("ColorScheme", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ColorThemeDarkProperty =
+            DependencyProperty.Register("ColorThemeDark", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty CommentFontFaceProperty =
+            DependencyProperty.Register("CommentFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
+
+        public static readonly DependencyProperty CommentFontPointProperty =
+            DependencyProperty.Register("CommentFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
 
         public static readonly DependencyProperty CommentTextColorProperty =
-            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+                                            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
+
+        public static readonly DependencyProperty DisplayTrayIconProperty =
+            DependencyProperty.Register("DisplayTrayIcon", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty EnhancedPositionProperty =
+            DependencyProperty.Register("EnhancedPosition", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty FontFaceProperty =
+            DependencyProperty.Register("FontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
+
+        public static readonly DependencyProperty FontPointProperty =
+            DependencyProperty.Register("FontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
+
+        public static readonly DependencyProperty FullScreenProperty =
+            DependencyProperty.Register("FullScreen", typeof(bool), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty HilitedBackColorProperty =
-            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
+                                                            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
 
         public static readonly DependencyProperty HilitedCandidateBackColorProperty =
             DependencyProperty.Register("HilitedCandidateBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
@@ -81,22 +139,135 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty HilitedTextColorProperty =
                             DependencyProperty.Register("HilitedTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
+        public static readonly DependencyProperty HilitePaddingProperty =
+            DependencyProperty.Register("HilitePadding", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty HiliteSpacingProperty =
+            DependencyProperty.Register("HiliteSpacing", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty HiSpacingMarginProperty =
+            DependencyProperty.Register("HiSpacingMargin", typeof(Thickness), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty HorizontalProperty =
+            DependencyProperty.Register("Horizontal", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty InlinePreeditProperty =
+            DependencyProperty.Register("InlinePreedit", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty IsBanYueModeProperty =
+            DependencyProperty.Register("IsBanYueMode", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
         public static readonly DependencyProperty LabelColorProperty =
-                    DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+                                                                    DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty LabelFontFaceProperty =
+            DependencyProperty.Register("LabelFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
+
+        public static readonly DependencyProperty LabelFontPointProperty =
+            DependencyProperty.Register("LabelFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
+
+        public static readonly DependencyProperty LabelFormatProperty =
+            DependencyProperty.Register("LabelFormat", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty MarginXProperty =
+            DependencyProperty.Register("MarginX", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty MarginYProperty =
+            DependencyProperty.Register("MarginY", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty MarkTextProperty =
+            DependencyProperty.Register("MarkText", typeof(string), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty MaxHeightColorMaxHeightProperty =
+            DependencyProperty.Register("ColorMaxHeight", typeof(double), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty NextPageColorProperty =
-            DependencyProperty.Register("NextPageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));
+                                                                    DependencyProperty.Register("NextPageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));
+
+        public static readonly DependencyProperty PagingOnScrollProperty =
+            DependencyProperty.Register("PagingOnScroll", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty PreeditTypeProperty =
+            DependencyProperty.Register("PreeditType", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty PrevpageColorProperty =
-            DependencyProperty.Register("PrevpageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));
+                            DependencyProperty.Register("PrevpageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));
+
+        public static readonly DependencyProperty RoundCornerProperty =
+            DependencyProperty.Register("RoundCorner", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
 
         public static readonly DependencyProperty ShadowColorProperty =
-                            DependencyProperty.Register("ShadowColor", typeof(Color), typeof(ColorSchemeControl));
+                                    DependencyProperty.Register("ShadowColor", typeof(Color), typeof(ColorSchemeControl));
 
+        public static readonly DependencyProperty ShadowOffsetXProperty =
+            DependencyProperty.Register("ShadowOffsetX", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ShadowOffsetYProperty =
+            DependencyProperty.Register("ShadowOffsetY", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty ShadowRadiusProperty =
+            DependencyProperty.Register("ShadowRadius", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty SpacingMarginProperty =
+            DependencyProperty.Register("SpacingMargin", typeof(Thickness), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty SpacingProperty =
+            DependencyProperty.Register("Spacing", typeof(double), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty TextColorProperty =
+            DependencyProperty.Register("TextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty TextVerticalProperty =
+            DependencyProperty.Register("TextVertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty UnInlinePreeditProperty =
+            DependencyProperty.Register("UnInlinePreedit", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty VerticalAutoReverseProperty =
+            DependencyProperty.Register("VerticalAutoReverse", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty VerticalProperty =
+            DependencyProperty.Register("Vertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty VerticalTextLeftToRightProperty =
+            DependencyProperty.Register("VerticalTextLeftToRight", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty VerticalTextProperty =
+            DependencyProperty.Register("VerticalText", typeof(bool), typeof(ColorSchemeControl));
+
+        public static readonly DependencyProperty VerticalTextWithWrapProperty =
+            DependencyProperty.Register("VerticalTextWithWrap", typeof(bool), typeof(ColorSchemeControl));
 
         public ColorSchemeControl()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 标签、候选文字、注解文字之间的相对对齐方式 (top ; center ; bottom)
+        /// </summary>
+        public string AlignType
+        {
+            get { return (string)GetValue(AlignTypeProperty); }
+            set { SetValue(AlignTypeProperty, value); }
+        }
+
+        /// <summary>
+        /// antialias_mode (default；force_dword；cleartype；grayscale；aliased)
+        /// </summary>
+        public string AntialiasMode
+        {
+            get { return (string)GetValue(AntialiasModeProperty); }
+            set { SetValue(AntialiasModeProperty, value); }
+        }
+
+        /// <summary>
+        /// 切换 ASCII 模式时，提示跟随鼠标，而非输入光标
+        /// </summary>
+        public bool AsciiTipFollowCursor
+        {
+            get { return (bool)GetValue(AsciiTipFollowCursorProperty); }
+            set { SetValue(AsciiTipFollowCursorProperty, value); }
         }
 
         /// <summary>
@@ -127,6 +298,33 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 边框与主体间的内边距
+        /// </summary>
+        public Thickness BorderPadding
+        {
+            get { return (Thickness)GetValue(BorderPaddingProperty); }
+            set { SetValue(BorderPaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// 边框宽度
+        /// </summary>
+        public double BorderWidth
+        {
+            get { return (double)GetValue(BorderWidthProperty); }
+            set { SetValue(BorderWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选项略写，超过此数字则用省略号代替。设置为 0 则不启用此功能
+        /// </summary>
+        public string CandidateAbbreviateLength
+        {
+            get { return (string)GetValue(CandidateAbbreviateLengthProperty); }
+            set { SetValue(CandidateAbbreviateLengthProperty, value); }
+        }
+
+        /// <summary>
         /// 非高亮候选背景颜色
         /// </summary>
         public Brush CandidateBackColor
@@ -145,12 +343,30 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 候选项间的距离
+        /// </summary>
+        public Thickness CandidateMargin
+        {
+            get { return (Thickness)GetValue(CandidateMarginProperty); }
+            set { SetValue(CandidateMarginProperty, value); }
+        }
+
+        /// <summary>
         /// 非高亮候选背景块阴影颜色
         /// </summary>
         public Color CandidateShadowColor
         {
             get { return (Color)GetValue(CandidateShadowColorProperty); }
             set { SetValue(CandidateShadowColorProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选项之间的间距
+        /// </summary>
+        public double CandidateSpacing
+        {
+            get { return (double)GetValue(CandidateSpacingProperty); }
+            set { SetValue(CandidateSpacingProperty, value); }
         }
 
         /// <summary>
@@ -163,12 +379,66 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 鼠标点击候选项，创建截图
+        /// </summary>
+        public bool ClickToCapture
+        {
+            get { return (bool)GetValue(ClickToCaptureProperty); }
+            set { SetValue(ClickToCaptureProperty, value); }
+        }
+
+        /// <summary>
         /// 颜色格式：argb；rgba；abgr（默认）
         /// </summary>
         public string ColorFormat
         {
             get { return (string)GetValue(ColorFormatProperty); }
             set { SetValue(ColorFormatProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选框最大高度，0 不启用此功能
+        /// </summary>
+        public double ColorMaxHeight
+        {
+            get { return (double)GetValue(MaxHeightColorMaxHeightProperty); }
+            set { SetValue(MaxHeightColorMaxHeightProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选框最大宽度，0 不启用此功能
+        /// </summary>
+        public double ColorMaxWidth
+        {
+            get { return (double)GetValue(ColorMaxWidthProperty); }
+            set { SetValue(ColorMaxWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选框最小高度
+        /// </summary>
+        public double ColorMinHeight
+        {
+            get { return (double)GetValue(ColorMinHeightProperty); }
+            set { SetValue(ColorMinHeightProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选框最小宽度
+        /// </summary>
+        public double ColorMinWidth
+        {
+            get { return (double)GetValue(ColorMinWidthProperty); }
+            set { SetValue(ColorMinWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// 外观Model
+        /// </summary>
+        public ColorSchemeModel ColorModel
+        {
+            get { return (ColorSchemeModel)GetValue(ColorModelProperty); }
+            set { SetValue(ColorModelProperty, value); }
         }
 
         /// <summary>
@@ -181,12 +451,102 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 配色方案
+        /// </summary>
+        public string ColorScheme
+        {
+            get { return (string)GetValue(ColorSchemeProperty); }
+            set { SetValue(ColorSchemeProperty, value); }
+        }
+
+        /// <summary>
+        /// 设置系统为深色模式时的配色方案
+        /// </summary>
+        public string ColorThemeDark
+        {
+            get { return (string)GetValue(ColorThemeDarkProperty); }
+            set { SetValue(ColorThemeDarkProperty, value); }
+        }
+
+        /// <summary>
+        ///  注释字体
+        /// </summary>
+        public FontFamily CommentFontFace
+        {
+            get { return (FontFamily)GetValue(CommentFontFaceProperty); }
+            set { SetValue(CommentFontFaceProperty, value); }
+        }
+
+        /// <summary>
+        /// 注释字号
+        /// </summary>
+        public double CommentFontPoint
+        {
+            get { return (double)GetValue(CommentFontPointProperty); }
+            set { SetValue(CommentFontPointProperty, value); }
+        }
+
+        /// <summary>
         /// 注释文字颜色
         /// </summary>
         public Brush CommentTextColor
         {
             get { return (Brush)GetValue(CommentTextColorProperty); }
             set { SetValue(CommentTextColorProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选窗口圆角半径
+        /// </summary>
+        public double CornerRadius
+        {
+            get { return (double)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        /// <summary>
+        /// 托盘显示独立于语言栏的额外图标
+        /// </summary>
+        public bool DisplayTrayIcon
+        {
+            get { return (bool)GetValue(DisplayTrayIconProperty); }
+            set { SetValue(DisplayTrayIconProperty, value); }
+        }
+
+        /// <summary>
+        /// 无法定位候选框时，在窗口左上角显示候选框
+        /// </summary>
+        public bool EnhancedPosition
+        {
+            get { return (bool)GetValue(EnhancedPositionProperty); }
+            set { SetValue(EnhancedPositionProperty, value); }
+        }
+
+        /// <summary>
+        /// 全局字体
+        /// </summary>
+        public FontFamily FontFace
+        {
+            get { return (FontFamily)GetValue(FontFaceProperty); }
+            set { SetValue(FontFaceProperty, value); }
+        }
+
+        /// <summary>
+        /// 全局字号
+        /// </summary>
+        public double FontPoint
+        {
+            get { return (double)GetValue(FontPointProperty); }
+            set { SetValue(FontPointProperty, value); }
+        }
+
+        /// <summary>
+        /// 是否全屏模式
+        /// </summary>
+        public bool FullScreen
+        {
+            get { return (bool)GetValue(FullScreenProperty); }
+            set { SetValue(FullScreenProperty, value); }
         }
 
         /// <summary>
@@ -280,12 +640,119 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 高亮区域和内部文字的间距，影响高亮区域大小
+        /// </summary>
+        public double HilitePadding
+        {
+            get { return (double)GetValue(HilitePaddingProperty); }
+            set { SetValue(HilitePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选项和相应标签的间距，候选项与注解文字之间的距离
+        /// </summary>
+        public double HiliteSpacing
+        {
+            get { return (double)GetValue(HiliteSpacingProperty); }
+            set { SetValue(HiliteSpacingProperty, value); }
+        }
+
+        // 文字与标签及注解之间的距离
+        public Thickness HiSpacingMargin
+        {
+            get { return (Thickness)GetValue(HiSpacingMarginProperty); }
+            set { SetValue(HiSpacingMarginProperty, value); }
+        }
+
+        /// <summary>
+        /// 是否横向布局
+        /// </summary>
+        public bool Horizontal
+        {
+            get { return (bool)GetValue(HorizontalProperty); }
+            set { SetValue(HorizontalProperty, value); }
+        }
+
+        /// <summary>
+        /// 是否在行内显示预编辑区
+        /// </summary>
+        public bool InlinePreedit
+        {
+            get { return (bool)GetValue(InlinePreeditProperty); }
+            set { SetValue(InlinePreeditProperty, value); }
+        }
+
+        /// <summary>
+        /// 是否是启用天圆地方模式
+        /// 也叫半月模式
+        /// </summary>
+        public bool IsBanYueMode
+        {
+            get { return (bool)GetValue(IsBanYueModeProperty); }
+            set { SetValue(IsBanYueModeProperty, value); }
+        }
+
+        /// <summary>
         /// 标签文字颜色
         /// </summary>
         public Brush LabelColor
         {
             get { return (Brush)GetValue(LabelColorProperty); }
             set { SetValue(LabelColorProperty, value); }
+        }
+
+        /// <summary>
+        /// 标签字体
+        /// </summary>
+        public FontFamily LabelFontFace
+        {
+            get { return (FontFamily)GetValue(LabelFontFaceProperty); }
+            set { SetValue(LabelFontFaceProperty, value); }
+        }
+
+        /// <summary>
+        /// 标签字号
+        /// </summary>
+        public double LabelFontPoint
+        {
+            get { return (double)GetValue(LabelFontPointProperty); }
+            set { SetValue(LabelFontPointProperty, value); }
+        }
+
+        /// <summary>
+        /// 标签字符号
+        /// </summary>
+        public string LabelFormat
+        {
+            get { return (string)GetValue(LabelFormatProperty); }
+            set { SetValue(LabelFormatProperty, value); }
+        }
+
+        /// <summary>
+        /// 主体元素和候选框的左右、上下边距，为负值时，不显示候选框
+        /// </summary>
+        public double MarginX
+        {
+            get { return (double)GetValue(MarginXProperty); }
+            set { SetValue(MarginXProperty, value); }
+        }
+
+        /// <summary>
+        /// 主体元素和候选框的左右、上下边距，为负值时，不显示候选框
+        /// </summary>
+        public double MarginY
+        {
+            get { return (double)GetValue(MarginYProperty); }
+            set { SetValue(MarginYProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选项前的标记符号
+        /// </summary>
+        public string MarkText
+        {
+            get { return (string)GetValue(MarkTextProperty); }
+            set { SetValue(MarkTextProperty, value); }
         }
 
         /// <summary>
@@ -299,6 +766,24 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 在候选窗口上滑动滚轮的行为：true（翻页）；false（选中下一个候选）
+        /// </summary>
+        public bool PagingOnScroll
+        {
+            get { return (bool)GetValue(PagingOnScrollProperty); }
+            set { SetValue(PagingOnScrollProperty, value); }
+        }
+
+        /// <summary>
+        /// 预编辑区显示内容 composition（编码）；preview（高亮候选）；preview_all（全部候选）
+        /// </summary>
+        public string PreeditType
+        {
+            get { return (string)GetValue(PreeditTypeProperty); }
+            set { SetValue(PreeditTypeProperty, value); }
+        }
+
+        /// <summary>
         /// 翻页箭头颜色：上一页；不设置则不显示箭头
         /// inline_preedit: false
         /// </summary>
@@ -306,6 +791,15 @@ namespace WubiMaster.Controls
         {
             get { return (string)GetValue(PrevpageColorProperty); }
             set { SetValue(PrevpageColorProperty, value); }
+        }
+
+        /// <summary>
+        /// 候选背景色块圆角半径，别名 hilited_corner_radius
+        /// </summary>
+        public double RoundCorner
+        {
+            get { return (double)GetValue(RoundCornerProperty); }
+            set { SetValue(RoundCornerProperty, value); }
         }
 
         /// <summary>
@@ -318,196 +812,6 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
-        /// 默认文字颜色
-        /// </summary>
-        public Brush TextColor
-        {
-            get { return (Brush)GetValue(TextColorProperty); }
-            set { SetValue(TextColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty TextColorProperty =
-            DependencyProperty.Register("TextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
-
-
-
-        /// <summary>
-        /// 标签、候选文字、注解文字之间的相对对齐方式 (top ; center ; bottom)
-        /// </summary>
-        public string AlignType
-        {
-            get { return (string)GetValue(AlignTypeProperty); }
-            set { SetValue(AlignTypeProperty, value); }
-        }
-
-        public static readonly DependencyProperty AlignTypeProperty =
-            DependencyProperty.Register("AlignType", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("center"));
-
-
-        /// <summary>
-        /// 候选框最大高度，0 不启用此功能
-        /// </summary>
-        public double ColorMaxHeight
-        {
-            get { return (double)GetValue(MaxHeightColorMaxHeightProperty); }
-            set { SetValue(MaxHeightColorMaxHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty MaxHeightColorMaxHeightProperty =
-            DependencyProperty.Register("ColorMaxHeight", typeof(double), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 候选框最大宽度，0 不启用此功能
-        /// </summary>
-        public double ColorMaxWidth
-        {
-            get { return (double)GetValue(ColorMaxWidthProperty); }
-            set { SetValue(ColorMaxWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty ColorMaxWidthProperty =
-            DependencyProperty.Register("ColorMaxWidth", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 候选框最小高度
-        /// </summary>
-        public double ColorMinHeight
-        {
-            get { return (double)GetValue(ColorMinHeightProperty); }
-            set { SetValue(ColorMinHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty ColorMinHeightProperty =
-            DependencyProperty.Register("ColorMinHeight", typeof(double), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 候选框最小宽度
-        /// </summary>
-        public double ColorMinWidth
-        {
-            get { return (double)GetValue(ColorMinWidthProperty); }
-            set { SetValue(ColorMinWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty ColorMinWidthProperty =
-            DependencyProperty.Register("ColorMinWidth", typeof(double), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 边框宽度
-        /// </summary>
-        public double BorderWidth
-        {
-            get { return (double)GetValue(BorderWidthProperty); }
-            set { SetValue(BorderWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty BorderWidthProperty =
-            DependencyProperty.Register("BorderWidth", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(2.0));
-
-
-
-        /// <summary>
-        /// 主体元素和候选框的左右、上下边距，为负值时，不显示候选框
-        /// </summary>
-        public double MarginX
-        {
-            get { return (double)GetValue(MarginXProperty); }
-            set { SetValue(MarginXProperty, value); }
-        }
-
-        public static readonly DependencyProperty MarginXProperty =
-            DependencyProperty.Register("MarginX", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 主体元素和候选框的左右、上下边距，为负值时，不显示候选框
-        /// </summary>
-        public double MarginY
-        {
-            get { return (double)GetValue(MarginYProperty); }
-            set { SetValue(MarginYProperty, value); }
-        }
-
-        public static readonly DependencyProperty MarginYProperty =
-            DependencyProperty.Register("MarginY", typeof(double), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// inline_preedit 为 false 时，编码区域和候选区域的间距
-        /// </summary>
-        public double Spacing
-        {
-            get { return (double)GetValue(SpacingProperty); }
-            set { SetValue(SpacingProperty, value); }
-        }
-
-        public static readonly DependencyProperty SpacingProperty =
-            DependencyProperty.Register("Spacing", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 候选项之间的间距
-        /// </summary>
-        public double CandidateSpacing
-        {
-            get { return (double)GetValue(CandidateSpacingProperty); }
-            set { SetValue(CandidateSpacingProperty, value); }
-        }
-
-        public static readonly DependencyProperty CandidateSpacingProperty =
-            DependencyProperty.Register("CandidateSpacing", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 候选项和相应标签的间距，候选项与注解文字之间的距离
-        /// </summary>
-        public double HiliteSpacing
-        {
-            get { return (double)GetValue(HiliteSpacingProperty); }
-            set { SetValue(HiliteSpacingProperty, value); }
-        }
-
-        public static readonly DependencyProperty HiliteSpacingProperty =
-            DependencyProperty.Register("HiliteSpacing", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 高亮区域和内部文字的间距，影响高亮区域大小
-        /// </summary>
-        public double HilitePadding
-        {
-            get { return (double)GetValue(HilitePaddingProperty); }
-            set { SetValue(HilitePaddingProperty, value); }
-        }
-
-        public static readonly DependencyProperty HilitePaddingProperty =
-            DependencyProperty.Register("HilitePadding", typeof(double), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 阴影区域半径，为 0 不显示阴影；需要同时在配色方案中指定非透明的阴影颜色
-        /// </summary>
-        public double ShadowRadius
-        {
-            get { return (double)GetValue(ShadowRadiusProperty); }
-            set { SetValue(ShadowRadiusProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShadowRadiusProperty =
-            DependencyProperty.Register("ShadowRadius", typeof(double), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
         /// 阴影绘制的偏离距离
         /// </summary>
         public double ShadowOffsetX
@@ -515,11 +819,6 @@ namespace WubiMaster.Controls
             get { return (double)GetValue(ShadowOffsetXProperty); }
             set { SetValue(ShadowOffsetXProperty, value); }
         }
-
-        public static readonly DependencyProperty ShadowOffsetXProperty =
-            DependencyProperty.Register("ShadowOffsetX", typeof(double), typeof(ColorSchemeControl));
-
-
 
         /// <summary>
         /// 阴影绘制的偏离距离
@@ -530,212 +829,63 @@ namespace WubiMaster.Controls
             set { SetValue(ShadowOffsetYProperty, value); }
         }
 
-        public static readonly DependencyProperty ShadowOffsetYProperty =
-            DependencyProperty.Register("ShadowOffsetY", typeof(double), typeof(ColorSchemeControl));
-
-
         /// <summary>
-        /// 候选窗口圆角半径
+        /// 阴影区域半径，为 0 不显示阴影；需要同时在配色方案中指定非透明的阴影颜色
         /// </summary>
-        public double CornerRadius
+        public double ShadowRadius
         {
-            get { return (double)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get { return (double)GetValue(ShadowRadiusProperty); }
+            set { SetValue(ShadowRadiusProperty, value); }
         }
 
-        public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
-
-
         /// <summary>
-        /// 候选背景色块圆角半径，别名 hilited_corner_radius
+        /// inline_preedit 为 false 时，编码区域和候选区域的间距
         /// </summary>
-        public double RoundCorner
+        public double Spacing
         {
-            get { return (double)GetValue(RoundCornerProperty); }
-            set { SetValue(RoundCornerProperty, value); }
+            get { return (double)GetValue(SpacingProperty); }
+            set { SetValue(SpacingProperty, value); }
         }
 
-        public static readonly DependencyProperty RoundCornerProperty =
-            DependencyProperty.Register("RoundCorner", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
-
-
         /// <summary>
-        /// 配色方案
+        /// 编码区与候选项的距离
         /// </summary>
-        public string ColorScheme
+        public Thickness SpacingMargin
         {
-            get { return (string)GetValue(ColorSchemeProperty); }
-            set { SetValue(ColorSchemeProperty, value); }
+            get { return (Thickness)GetValue(SpacingMarginProperty); }
+            set { SetValue(SpacingMarginProperty, value); }
         }
 
-        public static readonly DependencyProperty ColorSchemeProperty =
-            DependencyProperty.Register("ColorScheme", typeof(string), typeof(ColorSchemeControl));
-
-
         /// <summary>
-        /// 设置系统为深色模式时的配色方案
+        /// 默认文字颜色
         /// </summary>
-        public string ColorThemeDark
+        public Brush TextColor
         {
-            get { return (string)GetValue(ColorThemeDarkProperty); }
-            set { SetValue(ColorThemeDarkProperty, value); }
+            get { return (Brush)GetValue(TextColorProperty); }
+            set { SetValue(TextColorProperty, value); }
         }
 
-        public static readonly DependencyProperty ColorThemeDarkProperty =
-            DependencyProperty.Register("ColorThemeDark", typeof(string), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 全局字体
-        /// </summary>
-        public FontFamily FontFace
+        // 文本纵向显示模式
+        public bool TextVertical
         {
-            get { return (FontFamily)GetValue(FontFaceProperty); }
-            set { SetValue(FontFaceProperty, value); }
+            get { return (bool)GetValue(TextVerticalProperty); }
+            set { SetValue(TextVerticalProperty, value); }
         }
 
-        public static readonly DependencyProperty FontFaceProperty =
-            DependencyProperty.Register("FontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
-
-
-
         /// <summary>
-        /// 标签字体
+        /// 是否取消在行内显示预编辑区
         /// </summary>
-        public FontFamily LabelFontFace
+        public bool UnInlinePreedit
         {
-            get { return (FontFamily)GetValue(LabelFontFaceProperty); }
-            set { SetValue(LabelFontFaceProperty, value); }
+            get { return (bool)GetValue(UnInlinePreeditProperty); }
+            set { SetValue(UnInlinePreeditProperty, value); }
         }
 
-        public static readonly DependencyProperty LabelFontFaceProperty =
-            DependencyProperty.Register("LabelFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
-
-
-        /// <summary>
-        ///  注释字体
-        /// </summary>
-        public FontFamily CommentFontFace
+        public bool Vertical
         {
-            get { return (FontFamily)GetValue(CommentFontFaceProperty); }
-            set { SetValue(CommentFontFaceProperty, value); }
+            get { return (bool)GetValue(VerticalProperty); }
+            set { SetValue(VerticalProperty, value); }
         }
-
-        public static readonly DependencyProperty CommentFontFaceProperty =
-            DependencyProperty.Register("CommentFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
-
-
-        /// <summary>
-        /// 全局字号
-        /// </summary>
-        public double FontPoint
-        {
-            get { return (double)GetValue(FontPointProperty); }
-            set { SetValue(FontPointProperty, value); }
-        }
-
-        public static readonly DependencyProperty FontPointProperty =
-            DependencyProperty.Register("FontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
-
-
-
-        /// <summary>
-        /// 标签字号
-        /// </summary>
-        public double LabelFontPoint
-        {
-            get { return (double)GetValue(LabelFontPointProperty); }
-            set { SetValue(LabelFontPointProperty, value); }
-        }
-
-        public static readonly DependencyProperty LabelFontPointProperty =
-            DependencyProperty.Register("LabelFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
-
-
-        /// <summary>
-        /// 注释字号
-        /// </summary>
-        public double CommentFontPoint
-        {
-            get { return (double)GetValue(CommentFontPointProperty); }
-            set { SetValue(CommentFontPointProperty, value); }
-        }
-
-        public static readonly DependencyProperty CommentFontPointProperty =
-            DependencyProperty.Register("CommentFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
-
-
-
-        /// <summary>
-        /// 是否全屏模式
-        /// </summary>
-        public bool FullScreen
-        {
-            get { return (bool)GetValue(FullScreenProperty); }
-            set { SetValue(FullScreenProperty, value); }
-        }
-
-        public static readonly DependencyProperty FullScreenProperty =
-            DependencyProperty.Register("FullScreen", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 是否横向布局
-        /// </summary>
-        public bool Horizontal
-        {
-            get { return (bool)GetValue(HorizontalProperty); }
-            set { SetValue(HorizontalProperty, value); }
-        }
-
-        public static readonly DependencyProperty HorizontalProperty =
-            DependencyProperty.Register("Horizontal", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-
-        /// <summary>
-        /// 是否启用竖排文本
-        /// </summary>
-        public bool VerticalText
-        {
-            get { return (bool)GetValue(VerticalTextProperty); }
-            set { SetValue(VerticalTextProperty, value); }
-        }
-
-        public static readonly DependencyProperty VerticalTextProperty =
-            DependencyProperty.Register("VerticalText", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 竖排方向是否从左到右
-        /// </summary>
-        public bool VerticalTextLeftToRight
-        {
-            get { return (bool)GetValue(VerticalTextLeftToRightProperty); }
-            set { SetValue(VerticalTextLeftToRightProperty, value); }
-        }
-
-        public static readonly DependencyProperty VerticalTextLeftToRightProperty =
-            DependencyProperty.Register("VerticalTextLeftToRight", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 文本竖排模式下是否自动换行
-        /// </summary>
-        public bool VerticalTextWithWrap
-        {
-            get { return (bool)GetValue(VerticalTextWithWrapProperty); }
-            set { SetValue(VerticalTextWithWrapProperty, value); }
-        }
-
-        public static readonly DependencyProperty VerticalTextWithWrapProperty =
-            DependencyProperty.Register("VerticalTextWithWrap", typeof(bool), typeof(ColorSchemeControl));
-
 
         /// <summary>
         /// 文本竖排模式下，候选窗口位于光标上方时倒序排序
@@ -746,180 +896,37 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalAutoReverseProperty, value); }
         }
 
-        public static readonly DependencyProperty VerticalAutoReverseProperty =
-            DependencyProperty.Register("VerticalAutoReverse", typeof(bool), typeof(ColorSchemeControl));
-
-
-
         /// <summary>
-        /// 是否在行内显示预编辑区
+        /// 是否启用竖排文本
         /// </summary>
-        public bool InlinePreedit
+        public bool VerticalText
         {
-            get { return (bool)GetValue(InlinePreeditProperty); }
-            set { SetValue(InlinePreeditProperty, value); }
+            get { return (bool)GetValue(VerticalTextProperty); }
+            set { SetValue(VerticalTextProperty, value); }
         }
 
-        public static readonly DependencyProperty InlinePreeditProperty =
-            DependencyProperty.Register("InlinePreedit", typeof(bool), typeof(ColorSchemeControl));
-
-
-
         /// <summary>
-        /// 预编辑区显示内容 composition（编码）；preview（高亮候选）；preview_all（全部候选）
+        /// 竖排方向是否从左到右
         /// </summary>
-        public string PreeditType
+        public bool VerticalTextLeftToRight
         {
-            get { return (string)GetValue(PreeditTypeProperty); }
-            set { SetValue(PreeditTypeProperty, value); }
+            get { return (bool)GetValue(VerticalTextLeftToRightProperty); }
+            set { SetValue(VerticalTextLeftToRightProperty, value); }
         }
 
-        public static readonly DependencyProperty PreeditTypeProperty =
-            DependencyProperty.Register("PreeditType", typeof(string), typeof(ColorSchemeControl));
-
-
-
         /// <summary>
-        /// 标签字符号
+        /// 文本竖排模式下是否自动换行
         /// </summary>
-        public string LabelFormat
+        public bool VerticalTextWithWrap
         {
-            get { return (string)GetValue(LabelFormatProperty); }
-            set { SetValue(LabelFormatProperty, value); }
+            get { return (bool)GetValue(VerticalTextWithWrapProperty); }
+            set { SetValue(VerticalTextWithWrapProperty, value); }
         }
-
-        public static readonly DependencyProperty LabelFormatProperty =
-            DependencyProperty.Register("LabelFormat", typeof(string), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 候选项前的标记符号
-        /// </summary>
-        public string MarkText
-        {
-            get { return (string)GetValue(MarkTextProperty); }
-            set { SetValue(MarkTextProperty, value); }
-        }
-
-        public static readonly DependencyProperty MarkTextProperty =
-            DependencyProperty.Register("MarkText", typeof(string), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 切换 ASCII 模式时，提示跟随鼠标，而非输入光标
-        /// </summary>
-        public bool AsciiTipFollowCursor
-        {
-            get { return (bool)GetValue(AsciiTipFollowCursorProperty); }
-            set { SetValue(AsciiTipFollowCursorProperty, value); }
-        }
-
-        public static readonly DependencyProperty AsciiTipFollowCursorProperty =
-            DependencyProperty.Register("AsciiTipFollowCursor", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-
-        /// <summary>
-        /// 无法定位候选框时，在窗口左上角显示候选框
-        /// </summary>
-        public bool EnhancedPosition
-        {
-            get { return (bool)GetValue(EnhancedPositionProperty); }
-            set { SetValue(EnhancedPositionProperty, value); }
-        }
-
-        public static readonly DependencyProperty EnhancedPositionProperty =
-            DependencyProperty.Register("EnhancedPosition", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 托盘显示独立于语言栏的额外图标
-        /// </summary>
-        public bool DisplayTrayIcon
-        {
-            get { return (bool)GetValue(DisplayTrayIconProperty); }
-            set { SetValue(DisplayTrayIconProperty, value); }
-        }
-
-        public static readonly DependencyProperty DisplayTrayIconProperty =
-            DependencyProperty.Register("DisplayTrayIcon", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// antialias_mode (default；force_dword；cleartype；grayscale；aliased)
-        /// </summary>
-        public string AntialiasMode
-        {
-            get { return (string)GetValue(AntialiasModeProperty); }
-            set { SetValue(AntialiasModeProperty, value); }
-        }
-
-        public static readonly DependencyProperty AntialiasModeProperty =
-            DependencyProperty.Register("AntialiasMode", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("default"));
-
-
-
-        /// <summary>
-        /// 候选项略写，超过此数字则用省略号代替。设置为 0 则不启用此功能
-        /// </summary>
-        public string CandidateAbbreviateLength
-        {
-            get { return (string)GetValue(CandidateAbbreviateLengthProperty); }
-            set { SetValue(CandidateAbbreviateLengthProperty, value); }
-        }
-
-        public static readonly DependencyProperty CandidateAbbreviateLengthProperty =
-            DependencyProperty.Register("CandidateAbbreviateLength", typeof(string), typeof(ColorSchemeControl));
-
-
-        /// <summary>
-        /// 在候选窗口上滑动滚轮的行为：true（翻页）；false（选中下一个候选）
-        /// </summary>
-        public bool PagingOnScroll
-        {
-            get { return (bool)GetValue(PagingOnScrollProperty); }
-            set { SetValue(PagingOnScrollProperty, value); }
-        }
-
-        public static readonly DependencyProperty PagingOnScrollProperty =
-            DependencyProperty.Register("PagingOnScroll", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 鼠标点击候选项，创建截图
-        /// </summary>
-        public bool ClickToCapture
-        {
-            get { return (bool)GetValue(ClickToCaptureProperty); }
-            set { SetValue(ClickToCaptureProperty, value); }
-        }
-
-        public static readonly DependencyProperty ClickToCaptureProperty =
-            DependencyProperty.Register("ClickToCapture", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 外观Model
-        /// </summary>
-        public ColorSchemeModel ColorModel
-        {
-            get { return (ColorSchemeModel)GetValue(ColorModelProperty); }
-            set { SetValue(ColorModelProperty, value); }
-        }
-
-        public static readonly DependencyProperty ColorModelProperty =
-            DependencyProperty.Register("ColorModel", typeof(ColorSchemeModel), typeof(ColorSchemeControl), new PropertyMetadata(new PropertyChangedCallback(OnColorChanged)));
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
-            
+
             ColorSchemeControl c = (ColorSchemeControl)d;
             c.ColorModel = e.NewValue as ColorSchemeModel;
 
@@ -968,6 +975,7 @@ namespace WubiMaster.Controls
             c.CandidateBorderColor = c.BrushConvter(schemeModel.candidate_border_color, schemeModel.back_color, colorFormat: color_format);
 
             // 布局
+            /**「天圓地方」佈局：由 margin 與 hilite_padding 確定, 當margin <= hilite_padding時生效**/
             c.HilitePadding = double.Parse(styleModel.layout.hilite_padding) - c.BorderWidth;
             c.HiliteSpacing = double.Parse(styleModel.layout.hilite_spacing);
             c.HiSpacingMargin = new Thickness(c.HiliteSpacing, 0, c.HiliteSpacing, 0);
@@ -1002,120 +1010,11 @@ namespace WubiMaster.Controls
                 c.IsBanYueMode = true;
             }
 
-
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
 
             Console.WriteLine();
         }
-
-
-        /// <summary>
-        /// 是否是启用天圆地方模式
-        /// 也叫半月模式
-        /// </summary>
-        public bool IsBanYueMode
-        {
-            get { return (bool)GetValue(IsBanYueModeProperty); }
-            set { SetValue(IsBanYueModeProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsBanYueModeProperty =
-            DependencyProperty.Register("IsBanYueMode", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
-
-
-
-        /// <summary>
-        /// 是否取消在行内显示预编辑区
-        /// </summary>
-        public bool UnInlinePreedit
-        {
-            get { return (bool)GetValue(UnInlinePreeditProperty); }
-            set { SetValue(UnInlinePreeditProperty, value); }
-        }
-
-        public static readonly DependencyProperty UnInlinePreeditProperty =
-            DependencyProperty.Register("UnInlinePreedit", typeof(bool), typeof(ColorSchemeControl));
-
-
-
-        // 文字与标签及注解之间的距离
-        public Thickness HiSpacingMargin
-        {
-            get { return (Thickness)GetValue(HiSpacingMarginProperty); }
-            set { SetValue(HiSpacingMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty HiSpacingMarginProperty =
-            DependencyProperty.Register("HiSpacingMargin", typeof(Thickness), typeof(ColorSchemeControl));
-
-
-
-
-        /// <summary>
-        /// 编码区与候选项的距离
-        /// </summary>
-        public Thickness SpacingMargin
-        {
-            get { return (Thickness)GetValue(SpacingMarginProperty); }
-            set { SetValue(SpacingMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty SpacingMarginProperty =
-            DependencyProperty.Register("SpacingMargin", typeof(Thickness), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 候选项间的距离
-        /// </summary>
-        public Thickness CandidateMargin
-        {
-            get { return (Thickness)GetValue(CandidateMarginProperty); }
-            set { SetValue(CandidateMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty CandidateMarginProperty =
-            DependencyProperty.Register("CandidateMargin", typeof(Thickness), typeof(ColorSchemeControl));
-
-
-
-        /// <summary>
-        /// 边框与主体间的内边距
-        /// </summary>
-        public Thickness BorderPadding
-        {
-            get { return (Thickness)GetValue(BorderPaddingProperty); }
-            set { SetValue(BorderPaddingProperty, value); }
-        }
-
-        public static readonly DependencyProperty BorderPaddingProperty =
-            DependencyProperty.Register("BorderPadding", typeof(Thickness), typeof(ColorSchemeControl));
-
-
-        // 文本纵向显示模式
-        public bool TextVertical
-        {
-            get { return (bool)GetValue(TextVerticalProperty); }
-            set { SetValue(TextVerticalProperty, value); }
-        }
-
-        public static readonly DependencyProperty TextVerticalProperty =
-            DependencyProperty.Register("TextVertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
-
-        public bool Vertical
-        {
-            get { return (bool)GetValue(VerticalProperty); }
-            set { SetValue(VerticalProperty, value); }
-        }
-
-        public static readonly DependencyProperty VerticalProperty =
-            DependencyProperty.Register("Vertical", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
-
-
-
-
-
 
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x00000000", string colorFormat = "abgr")
         {
@@ -1180,7 +1079,5 @@ namespace WubiMaster.Controls
                 return Colors.Orange;
             }
         }
-
-
     }
 }

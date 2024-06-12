@@ -77,7 +77,7 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public void ChangeHorizontal(object obj)
+        public void UpdateCurrentColor(object obj)
         {
             var tempColor = CurrentColor;
             CurrentColor = null;

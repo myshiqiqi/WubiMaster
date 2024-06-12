@@ -53,11 +53,11 @@
                                 </Viewbox>
                             </Border>
 
-                            <StackPanel VerticalAlignment="Center">
+                            <Viewbox Width="550" Height="160">
                                 <c:ColorSchemeControl HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"
                                                       ColorModel="{Binding CurrentColor, Mode=TwoWay}" />
-                            </StackPanel>
+                            </Viewbox>
                         </Grid>
 
                         <ScrollViewer Grid.Row="1">
@@ -141,7 +141,6 @@
                                             </ToggleButton>
                                         </Grid>
 
-
                                         <Grid Grid.Row="2" Margin="0,10,0,0">
 
                                             <TextBlock Margin="0,0,10,0"
@@ -178,12 +177,23 @@
 
                                         <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr7}" />
 
-                                        <Grid Grid.Row="1">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
+                                        <UniformGrid Grid.Row="1" Columns="1">
+
+                                            <Grid Margin="0,10,0,0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource text-100}"
+                                                           Text="{StaticResource ThemeStr14}" />
+                                                <c:StateToggleButton Width="120"
+                                                                     Height="28"
+                                                                     HorizontalAlignment="Right"
+                                                                     VerticalAlignment="Center"
+                                                                     CheckedState="{StaticResource ThemeStr15}"
+                                                                     Command="{Binding UpdateCurrentColorCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.inline_preedit, Mode=TwoWay}"
+                                                                     UnCheckedState="{StaticResource ThemeStr16}" />
+                                            </Grid>
 
                                             <Grid Margin="0,10,0,0">
                                                 <TextBlock HorizontalAlignment="Left"
@@ -196,12 +206,12 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr9}"
-                                                                     Command="{Binding ChangeHorizontalCommand}"
+                                                                     Command="{Binding UpdateCurrentColorCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.vertical_text, Mode=TwoWay}"
                                                                      UnCheckedState="{StaticResource ThemeStr10}" />
                                             </Grid>
 
-                                            <Grid Grid.Row="1" Margin="0,10,0,0">
+                                            <Grid Margin="0,10,0,0">
                                                 <TextBlock HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"
                                                            FontSize="15"
@@ -215,21 +225,38 @@
                                                                      UnCheckedState="{StaticResource ThemeStr13}" />
                                             </Grid>
 
-                                            <Grid Grid.Row="2" Margin="0,10,0,0">
-                                                <TextBlock HorizontalAlignment="Left"
-                                                           VerticalAlignment="Center"
+
+
+                                            <Grid Margin="0,10,0,0">
+                                                <TextBlock VerticalAlignment="Center"
                                                            FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="{StaticResource ThemeStr14}" />
+                                                           Text="{StaticResource ThemeStr18}" />
                                                 <c:StateToggleButton Width="120"
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr15}"
-                                                                     IsChecked="{Binding CurrentColor.Style.inline_preedit, Mode=TwoWay}"
-                                                                     UnCheckedState="{StaticResource ThemeStr16}" />
+                                                                     CheckedState="{StaticResource ThemeStr19}"
+                                                                     Command="{Binding UpdateCurrentColorCommand}"
+                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     UnCheckedState="{StaticResource ThemeStr20}" />
                                             </Grid>
-                                        </Grid>
+
+                                            <Grid Margin="0,10,0,0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource text-100}"
+                                                           Text="将模板应用于全部皮肤" />
+                                                <c:StateToggleButton Width="120"
+                                                                     Height="28"
+                                                                     HorizontalAlignment="Right"
+                                                                     VerticalAlignment="Center"
+                                                                     CheckedState="单个"
+                                                                     IsChecked="{Binding .}"
+                                                                     UnCheckedState="全体" />
+                                            </Grid>
+                                        </UniformGrid>
 
                                         <Separator Grid.Row="2"
                                                    Margin="0,10"
@@ -246,31 +273,9 @@
 
                                         <TextBlock Style="{StaticResource TVTitleStyle}" Text="{StaticResource ThemeStr17}" />
 
-                                        <Grid Grid.Row="1">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
+                                        <UniformGrid Grid.Row="1" Columns="1">
 
                                             <Grid Margin="0,10,0,0">
-                                                <TextBlock VerticalAlignment="Center"
-                                                           FontSize="15"
-                                                           Foreground="{DynamicResource text-100}"
-                                                           Text="{StaticResource ThemeStr18}" />
-                                                <c:StateToggleButton Width="120"
-                                                                     Height="28"
-                                                                     HorizontalAlignment="Right"
-                                                                     VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr19}"
-                                                                     Command="{Binding ChangeHorizontalCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
-                                                                     UnCheckedState="{StaticResource ThemeStr20}" />
-                                            </Grid>
-
-                                            <Grid Grid.Row="1" Margin="0,10,0,0">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
                                                            Text="候选项数" />
@@ -279,7 +284,7 @@
                                                           Text="5" />
                                             </Grid>
 
-                                            <Grid Grid.Row="2" Margin="0,10,0,0">
+                                            <Grid Margin="0,10,0,0">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
                                                            Text="候选窗口跟随光标" />
@@ -289,7 +294,7 @@
                                                               Content="" />
                                             </Grid>
 
-                                            <Grid Grid.Row="3" Margin="0,10,0,0">
+                                            <Grid Margin="0,10,0,0">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
                                                            Text="显示字根" />
@@ -299,7 +304,7 @@
                                                               Content="" />
                                             </Grid>
 
-                                            <Grid Grid.Row="4" Margin="0,10,0,0">
+                                            <Grid Margin="0,10,0,0">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
                                                            Text="显示编码" />
@@ -308,12 +313,11 @@
                                                               HorizontalAlignment="Right"
                                                               Content="" />
                                             </Grid>
-                                        </Grid>
 
-                                        <Separator Grid.Row="2"
-                                                   Margin="0,10"
-                                                   BorderBrush="{DynamicResource bg-300}"
-                                                   BorderThickness="2" />
+                                            <Separator Margin="0,10"
+                                                       BorderBrush="{DynamicResource bg-300}"
+                                                       BorderThickness="2" />
+                                        </UniformGrid>
                                     </Grid>
 
                                     <Grid Grid.Row="2">

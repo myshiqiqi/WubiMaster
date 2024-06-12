@@ -15,15 +15,15 @@ namespace WubiMaster.ViewModels
     public partial class EtymonKeyViewModel : ObservableObject
     {
         [ObservableProperty]
+        private int combKeyTypeIndex;
+
+        [ObservableProperty]
         private EtymonKeyControl eKeyControl;
 
         private Dictionary<string, EtymonKeyControl> EtymonKeyControlDict;
 
         [ObservableProperty]
         private bool showFanKey;
-
-        [ObservableProperty]
-        private int combKeyTypeIndex;
 
         public EtymonKeyViewModel()
         {
@@ -32,22 +32,6 @@ namespace WubiMaster.ViewModels
             LoadEtymonKeyControls();
             ChangeEtymonKeyVersion(null);
             LoadConfig();
-        }
-
-        [RelayCommand]
-        public void ChangeShowFanKey()
-        {
-            ConfigHelper.WriteConfigByBool("show_fan_key", ShowFanKey);
-        }
-
-        private void LoadConfig()
-        {
-            // 加载是否显示繁体字根
-            ShowFanKey = ConfigHelper.ReadConfigByBool("show_fan_key");
-
-            // 加载字根版本
-            CombKeyTypeIndex = ConfigHelper.ReadConfigByInt("etymon_key_index", 0);
-            ChangeEtymonKeyVersion(CombKeyTypeIndex);
         }
 
         [RelayCommand]
@@ -79,6 +63,12 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
+        public void ChangeShowFanKey()
+        {
+            ConfigHelper.WriteConfigByBool("show_fan_key", ShowFanKey);
+        }
+
+        [RelayCommand]
         public void SaveToImage()
         {
             App.Current.Dispatcher.BeginInvoke(() =>
@@ -88,11 +78,14 @@ namespace WubiMaster.ViewModels
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "PNG文件(*.png)|*.png|JPG文件(*.jpg)|*.jpg|BMP文件(*.bmp)|*.bmp|GIF文件(*.gif)|*.gif|TIF文件(*.tif)|*.tif";
 
+                    EKeyControl.Background = (SolidColorBrush)App.Current.FindResource("bg-100");
+
                     if (saveFileDialog.ShowDialog() == true)
                     {
                         string strPath = saveFileDialog.FileName;
                         FileStream fs = new FileStream(strPath, FileMode.Create);
                         RenderTargetBitmap bmp = new RenderTargetBitmap((int)EKeyControl.ActualWidth, (int)EKeyControl.ActualHeight, 1 / 96, 1 / 96, PixelFormats.Default);
+
                         bmp.Render(EKeyControl);
                         BitmapEncoder encoder = new TiffBitmapEncoder();
                         encoder.Frames.Add(BitmapFrame.Create(bmp));
@@ -101,6 +94,8 @@ namespace WubiMaster.ViewModels
 
                         this.ShowMessage("保存成功", DialogType.Success);
                     }
+
+                    EKeyControl.Background = null;
                 }
                 catch (Exception ex)
                 {
@@ -108,6 +103,16 @@ namespace WubiMaster.ViewModels
                     this.ShowMessage("保存失败", DialogType.Fail);
                 }
             });
+        }
+
+        private void LoadConfig()
+        {
+            // 加载是否显示繁体字根
+            ShowFanKey = ConfigHelper.ReadConfigByBool("show_fan_key");
+
+            // 加载字根版本
+            CombKeyTypeIndex = ConfigHelper.ReadConfigByInt("etymon_key_index", 0);
+            ChangeEtymonKeyVersion(CombKeyTypeIndex);
         }
 
         private void LoadEtymonKeyControls()

@@ -77,6 +77,13 @@
                                 <Setter TargetName="icon_checked" Property="Foreground" Value="{DynamicResource primary-200}" />
                                 <Setter TargetName="icon_unchecked" Property="Foreground" Value="{DynamicResource bg-300}" />
                             </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="txt_checked" Property="Foreground" Value="{DynamicResource bg-100}" />
+                                <Setter TargetName="txt_unchecked" Property="Foreground" Value="{DynamicResource bg-100}" />
+                                <Setter TargetName="icon_checked" Property="Foreground" Value="{DynamicResource bg-300}" />
+                                <Setter TargetName="icon_unchecked" Property="Foreground" Value="{DynamicResource bg-300}" />
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

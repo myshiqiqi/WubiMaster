@@ -219,7 +219,7 @@
 
                                     <Border Grid.ColumnSpan="4"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}" />
 
                                     <TextBlock Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
@@ -357,7 +357,7 @@
 
                                         <Border Grid.ColumnSpan="4"
                                                 Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
+                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}" />
 
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
@@ -507,7 +507,7 @@
                                     <Border Grid.RowSpan="4"
                                             Grid.Column="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}" />
 
                                     <TextBlock Grid.Row="1"
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"

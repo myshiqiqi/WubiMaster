@@ -91,8 +91,11 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty CommentTextColorProperty =
                                             DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
+        public static readonly DependencyProperty ContentMarginProperty =
+            DependencyProperty.Register("ContentMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
+                    DependencyProperty.Register("CornerRadius", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(5.0));
 
         public static readonly DependencyProperty DisplayTrayIconProperty =
             DependencyProperty.Register("DisplayTrayIcon", typeof(bool), typeof(ColorSchemeControl));
@@ -109,8 +112,20 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty FullScreenProperty =
             DependencyProperty.Register("FullScreen", typeof(bool), typeof(ColorSchemeControl));
 
+        public static readonly DependencyProperty HiliteBorderCornerHProperty =
+            DependencyProperty.Register("HiliteBorderCornerH", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+        public static readonly DependencyProperty HiliteBorderCornerTVProperty =
+            DependencyProperty.Register("HiliteBorderCornerTV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+        public static readonly DependencyProperty HiliteBorderCornerVProperty =
+            DependencyProperty.Register("HiliteBorderCornerV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+        public static readonly DependencyProperty HiliteBorderMarginProperty =
+            DependencyProperty.Register("HiliteBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
         public static readonly DependencyProperty HilitedBackColorProperty =
-                                                            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
+                                                                                            DependencyProperty.Register("HilitedBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
 
         public static readonly DependencyProperty HilitedCandidateBackColorProperty =
             DependencyProperty.Register("HilitedCandidateBackColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
@@ -496,6 +511,15 @@ namespace WubiMaster.Controls
         }
 
         /// <summary>
+        /// 主体元素与面板间的外边距
+        /// </summary>
+        public Thickness ContentMargin
+        {
+            get { return (Thickness)GetValue(ContentMarginProperty); }
+            set { SetValue(ContentMarginProperty, value); }
+        }
+
+        /// <summary>
         /// 候选窗口圆角半径
         /// </summary>
         public double CornerRadius
@@ -547,6 +571,40 @@ namespace WubiMaster.Controls
         {
             get { return (bool)GetValue(FullScreenProperty); }
             set { SetValue(FullScreenProperty, value); }
+        }
+
+        /// <summary>
+        /// 高亮背影圆角值-横向布局
+        /// </summary>
+        public CornerRadius HiliteBorderCornerH
+        {
+            get { return (CornerRadius)GetValue(HiliteBorderCornerHProperty); }
+            set { SetValue(HiliteBorderCornerHProperty, value); }
+        }
+
+        /// <summary>
+        /// 高亮背景圆角值-文本纵向布局
+        /// </summary>
+        public CornerRadius HiliteBorderCornerTV
+        {
+            get { return (CornerRadius)GetValue(HiliteBorderCornerTVProperty); }
+            set { SetValue(HiliteBorderCornerTVProperty, value); }
+        }
+
+        /// <summary>
+        /// 高亮背影圆角值-纵向布局
+        /// </summary>
+        public CornerRadius HiliteBorderCornerV
+        {
+            get { return (CornerRadius)GetValue(HiliteBorderCornerVProperty); }
+            set { SetValue(HiliteBorderCornerVProperty, value); }
+        }
+
+        // 高亮背景与边框间的外边距
+        public Thickness HiliteBorderMargin
+        {
+            get { return (Thickness)GetValue(HiliteBorderMarginProperty); }
+            set { SetValue(HiliteBorderMarginProperty, value); }
         }
 
         /// <summary>
@@ -923,47 +981,6 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
-
-        /// <summary>
-        /// 高亮背景圆角值
-        /// </summary>
-        public CornerRadius HiliteBorderCorner
-        {
-            get { return (CornerRadius)GetValue(HiliteBorderCornerProperty); }
-            set { SetValue(HiliteBorderCornerProperty, value); }
-        }
-
-        public static readonly DependencyProperty HiliteBorderCornerProperty =
-            DependencyProperty.Register("HiliteBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
-
-
-        // 高亮背景与边框间的外边距
-        public Thickness HiliteBorderMargin
-        {
-            get { return (Thickness)GetValue(HiliteBorderMarginProperty); }
-            set { SetValue(HiliteBorderMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty HiliteBorderMarginProperty =
-            DependencyProperty.Register("HiliteBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
-
-
-        /// <summary>
-        /// 主体元素与面板间的外边距
-        /// </summary>
-        public Thickness ContentMargin
-        {
-            get { return (Thickness)GetValue(ContentMarginProperty); }
-            set { SetValue(ContentMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty ContentMarginProperty =
-            DependencyProperty.Register("ContentMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
-
-
-
-
-
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -989,8 +1006,8 @@ namespace WubiMaster.Controls
             // 边框/候选窗口
             c.BackColor = c.BrushConvter(schemeModel.back_color, colorFormat: color_format);
             c.BorderColor = c.BrushConvter(schemeModel.border_color, colorFormat: color_format);
-            c.BorderWidth = double.Parse(styleModel.layout.border_width) * 0.6;
-            c.CornerRadius = double.Parse(styleModel.layout.corner_radius) * 0.6;
+            c.BorderWidth = double.Parse(styleModel.layout.border_width);
+            c.CornerRadius = double.Parse(styleModel.layout.corner_radius);
             c.ShadowColor = c.ColorConvter(schemeModel.shadow_color, colorFormat: color_format);
 
             // 编码区
@@ -1002,7 +1019,7 @@ namespace WubiMaster.Controls
             c.HilitedCandidateBackColor = c.BrushConvter(schemeModel.hilited_candidate_back_color, schemeModel.back_color, colorFormat: color_format);
             c.HilitedCandidateTextColor = c.BrushConvter(schemeModel.hilited_candidate_text_color, c.HilitedTextColor.ToString(), "argb");
             c.HilitedCandidateBorderColor = c.BrushConvter(schemeModel.hilited_candidate_border_color, schemeModel.hilited_candidate_back_color, colorFormat: color_format);
-            c.RoundCorner = double.Parse(styleModel.layout.round_corner) * 0.6;
+            c.RoundCorner = double.Parse(styleModel.layout.round_corner);
             c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), "argb");
             c.MarkText = styleModel.mark_text;
             c.HilitedMarkColor = c.BrushConvter(schemeModel.hilited_mark_color, schemeModel.text_color, colorFormat: color_format);
@@ -1052,16 +1069,19 @@ namespace WubiMaster.Controls
             if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
             {
                 c.IsBanYueMode = true;
-                c.HiliteBorderCorner = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
+                c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
                 c.HiliteBorderMargin = new Thickness(0);
             }
             else
             {
                 c.IsBanYueMode = false;
-                c.HiliteBorderCorner = new CornerRadius(c.RoundCorner);
+                c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
+                c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
                 c.HiliteBorderMargin = new Thickness(c.MarginX - c.HilitePadding);
             }
-
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);

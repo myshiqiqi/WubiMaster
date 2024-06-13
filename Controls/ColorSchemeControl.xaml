@@ -157,7 +157,9 @@
                                 BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
                                 BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-                            <Grid Margin="2">
+
+                            <!--主体元素-->
+                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -216,9 +218,8 @@
                                     </Grid.Resources>
 
                                     <Border Grid.ColumnSpan="4"
-                                            Margin="2"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
 
                                     <TextBlock Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
@@ -299,7 +300,9 @@
                                 BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
                                 BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-                            <Grid Margin="2">
+
+                            <!--主题元素-->
+                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
@@ -353,9 +356,8 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Border Grid.ColumnSpan="4"
-                                                Margin="5"
                                                 Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}" />
+                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
 
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
@@ -465,7 +467,9 @@
                                 BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
                                 BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
-                            <Grid>
+
+                            <!--主题元素-->
+                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -502,7 +506,6 @@
 
                                     <Border Grid.RowSpan="4"
                                             Grid.Column="0"
-                                            Margin="{Binding ElementName=color_scheme_control,Path=HiliteBorderMargin}"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCorner}" />
 

@@ -297,14 +297,14 @@ namespace WubiMaster.Controls
             set { SetValue(BorderColorProperty, value); }
         }
 
-        /// <summary>
-        /// 边框与主体间的内边距
-        /// </summary>
-        public Thickness BorderPadding
-        {
-            get { return (Thickness)GetValue(BorderPaddingProperty); }
-            set { SetValue(BorderPaddingProperty, value); }
-        }
+        ///// <summary>
+        ///// 边框与主体间的内边距
+        ///// </summary>
+        //public Thickness BorderPadding
+        //{
+        //    get { return (Thickness)GetValue(BorderPaddingProperty); }
+        //    set { SetValue(BorderPaddingProperty, value); }
+        //}
 
         /// <summary>
         /// 边框宽度
@@ -948,6 +948,19 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("HiliteBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
 
 
+        /// <summary>
+        /// 主体元素与面板间的外边距
+        /// </summary>
+        public Thickness ContentMargin
+        {
+            get { return (Thickness)GetValue(ContentMarginProperty); }
+            set { SetValue(ContentMarginProperty, value); }
+        }
+
+        public static readonly DependencyProperty ContentMarginProperty =
+            DependencyProperty.Register("ContentMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
+
 
 
 
@@ -1006,11 +1019,14 @@ namespace WubiMaster.Controls
             c.HilitePadding = double.Parse(styleModel.layout.hilite_padding) - c.BorderWidth;
             c.HiliteSpacing = double.Parse(styleModel.layout.hilite_spacing);
             c.HiSpacingMargin = new Thickness(c.HiliteSpacing, 0, c.HiliteSpacing, 0);
-            c.MarginX = (double.Parse(styleModel.layout.margin_x) - 5) * 0.3;
-            c.MarginY = (double.Parse(styleModel.layout.margin_y) - 5) * 0.3;
+            // margin x y
+            c.MarginX = double.Parse(styleModel.layout.margin_x) - double.Parse(styleModel.layout.hilite_padding);
+            c.MarginY = double.Parse(styleModel.layout.margin_y) - double.Parse(styleModel.layout.hilite_padding);
             c.MarginX = c.MarginX <= 0 ? 0 : c.MarginX;
             c.MarginY = c.MarginY <= 0 ? 0 : c.MarginY;
-            c.BorderPadding = new Thickness(c.MarginX, c.MarginY, c.MarginX, c.MarginY);
+            c.ContentMargin = new Thickness(c.MarginX, c.MarginY, c.MarginX, c.MarginY);
+            //
+            //c.BorderPadding = new Thickness(c.MarginX, c.MarginY, c.MarginX, c.MarginY);
             c.Spacing = double.Parse(styleModel.layout.spacing) - (c.BorderWidth * 2);
             c.SpacingMargin = new Thickness(0, 0, 0, c.Spacing);
             c.CandidateSpacing = double.Parse(styleModel.layout.candidate_spacing) - (c.BorderWidth * 4);

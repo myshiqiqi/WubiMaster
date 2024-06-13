@@ -38,6 +38,9 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private WeaselModel weaselDetails;
 
+        [ObservableProperty]
+        private bool isBanyueMode;
+
         private string weaselPath = "";
 
         public ThemeViewModel()
@@ -68,6 +71,11 @@ namespace WubiMaster.ViewModels
                 _colorModel.UsedColor = cModel.preset_color_schemes.FirstOrDefault().Value;
 
                 CurrentColor = _colorModel;
+
+                double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
+                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+
+                IsBanyueMode = lay_margin <= lay_hilite_padding;
             }
             catch (Exception ex)
             {
@@ -82,6 +90,24 @@ namespace WubiMaster.ViewModels
             var tempColor = CurrentColor;
             CurrentColor = null;
             CurrentColor = tempColor;
+        }
+
+        [RelayCommand]
+        public void SetBanyueMode(object obj)
+        {
+            if (IsBanyueMode)
+            {
+                CurrentColor.Style.layout.margin_x = "0";
+                CurrentColor.Style.layout.margin_y = "0";
+            }
+            else
+            {
+                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 5).ToString();
+                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 5).ToString();
+            }
+
+            UpdateCurrentColor(null);
         }
 
         [RelayCommand]

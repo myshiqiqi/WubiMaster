@@ -107,6 +107,29 @@ namespace WubiMaster.Common
         }
     }
 
+    public class Bool2Reverse : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (value == null) return true;
+                bool _value = bool.Parse(value.ToString());
+                return _value ? false : true;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
     public class Str2Brush : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

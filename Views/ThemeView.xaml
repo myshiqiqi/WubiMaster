@@ -19,6 +19,7 @@
 
     <UserControl.Resources>
         <com:Str2Brush x:Key="Str2Brush" />
+        <com:Bool2Reverse x:Key="Bool2Reverse" />
     </UserControl.Resources>
 
     <b:Interaction.Triggers>
@@ -236,10 +237,10 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     IsEnabled="{Binding CurrentColor.Style.vertical_text}"
                                                                      CheckedState="{StaticResource ThemeStr19}"
                                                                      Command="{Binding UpdateCurrentColorCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
+                                                                     IsEnabled="{Binding CurrentColor.Style.vertical_text, Converter={StaticResource Bool2Reverse}}"
                                                                      UnCheckedState="{StaticResource ThemeStr20}" />
                                             </Grid>
 

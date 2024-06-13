@@ -17,7 +17,13 @@
 
     <Grid>
 
-        <CheckBox IsChecked="True" />
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="24"
+                   Foreground="{DynamicResource primary-100}"
+                   Text="空空如也" />
+
+        <!--<CheckBox IsChecked="True" />-->
 
         <!--<Button Width="150"
                 Height="40"

@@ -236,6 +236,7 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
+                                                                     IsEnabled="{Binding CurrentColor.Style.vertical_text}"
                                                                      CheckedState="{StaticResource ThemeStr19}"
                                                                      Command="{Binding UpdateCurrentColorCommand}"
                                                                      IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"

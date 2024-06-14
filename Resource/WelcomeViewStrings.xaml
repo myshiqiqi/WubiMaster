@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="WelcomeStr1">幸蒙光临</sys:String>
+    <sys:String x:Key="WelcomeStr2">祝君愉快</sys:String>
+</ResourceDictionary>

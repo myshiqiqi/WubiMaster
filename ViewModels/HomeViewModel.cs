@@ -63,7 +63,7 @@ namespace WubiMaster.ViewModels
         {
             bool is_first_login = ConfigHelper.ReadConfigByBool("is_first_login", true);
             if (!is_first_login) return;
-            await Task.Delay(3 * 1000);
+            //await Task.Delay(3 * 1000);
 
             await App.Current.Dispatcher.BeginInvoke(() =>
             {

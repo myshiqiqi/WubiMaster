@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:Background="{DynamicResource bg-100}"
              d:DesignHeight="200"
              d:DesignWidth="200"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style x:Key="LogoStyle" TargetType="Border">
+        <Style x:Key="logo_icon_style" TargetType="TextBlock">
             <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
             <Setter Property="RenderTransform">
                 <Setter.Value>
@@ -20,7 +21,7 @@
             </Setter>
 
             <Style.Triggers>
-                <EventTrigger RoutedEvent="Border.MouseEnter">
+                <EventTrigger RoutedEvent="TextBlock.MouseEnter">
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -50,7 +51,7 @@
                     </EventTrigger.Actions>
                 </EventTrigger>
 
-                <EventTrigger RoutedEvent="Border.MouseLeave">
+                <EventTrigger RoutedEvent="TextBlock.MouseLeave">
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -77,7 +78,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border Style="{StaticResource LogoStyle}">
+        <Border>
             <Grid>
                 <Viewbox Stretch="Fill">
                     <Border>
@@ -88,16 +89,17 @@
                                        FontFamily="../Fonts/#iconfont"
                                        FontSize="100"
                                        Foreground="{DynamicResource primary-200}"
-                                       Text="&#xe659;">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect BlurRadius="10"
-                                                      Direction="-45"
-                                                      ShadowDepth="5"
-                                                      Color="{DynamicResource bg-3000}" />
-                                </TextBlock.Effect>
-                            </TextBlock>
+                                       Style="{StaticResource logo_icon_style}"
+                                       Text="&#xe659;" />
                         </Grid>
                     </Border>
+
+                    <Viewbox.Effect>
+                        <DropShadowEffect BlurRadius="10"
+                                          Direction="-45"
+                                          ShadowDepth="5"
+                                          Color="{DynamicResource bg-3000}" />
+                    </Viewbox.Effect>
                 </Viewbox>
             </Grid>
         </Border>

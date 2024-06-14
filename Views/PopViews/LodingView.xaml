@@ -5,54 +5,49 @@
         xmlns:local="clr-namespace:WubiMaster.Views.PopViews"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="LodingView"
-        Width="400"
-        Height="200"
+        Width="350"
+        Height="350"
         Style="{StaticResource PopViewBaseStyle}"
         mc:Ignorable="d">
 
-    <Border Background="{DynamicResource bg-200}"
-            BorderBrush="{DynamicResource bg-300}"
-            BorderThickness="2"
-            CornerRadius="10"
-            SnapsToDevicePixels="True"
-            UseLayoutRounding="True">
+    <Grid>
+        <Ellipse Margin="15" Fill="{DynamicResource bg-100}" />
 
-        <Grid>
-            <Grid RenderTransformOrigin="0.5,0.5">
-                <Grid.RenderTransform>
+        <Viewbox Margin="5">
+            <Viewbox.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="5" />
+            </Viewbox.Effect>
+
+            <TextBlock FontFamily="../../Fonts/#iconfont"
+                       Foreground="{DynamicResource primary-200}"
+                       RenderTransformOrigin="0.5,0.5"
+                       Text="&#xe6ea;">
+                <TextBlock.RenderTransform>
                     <RotateTransform x:Name="load_rotate" Angle="0" />
-                </Grid.RenderTransform>
+                </TextBlock.RenderTransform>
 
-                <Grid.Triggers>
-                    <EventTrigger RoutedEvent="Grid.Loaded">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard TargetProperty="Angle" TargetName="load_rotate">
                                     <DoubleAnimation RepeatBehavior="Forever"
-                                                     From="0" To="359.9"
-                                                     Duration="0:0:5" />
+                                                     From="0"
+                                                     To="359.9"
+                                                     Duration="0:0:8" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
                     </EventTrigger>
-                </Grid.Triggers>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </Viewbox>
 
-                <Border Margin="30">
-                    <Viewbox>
-                        <TextBlock FontFamily="../../Fonts/#iconfont"
-                                   Foreground="{DynamicResource primary-100}"
-                                   Text="&#xe66d;" />
-                    </Viewbox>
-                </Border>
-            </Grid>
-
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="16"
-                       Foreground="{DynamicResource text-100}"
-                       Text="加载中..." />
-        </Grid>
-
-    </Border>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Foreground="{DynamicResource text-100}"
+                   Text="加载中..." />
+    </Grid>
 
 </Window>

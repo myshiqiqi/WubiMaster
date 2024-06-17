@@ -68,17 +68,17 @@ namespace WubiMaster.ViewModels
                 if (cModel == null) throw new NullReferenceException($"找不到皮肤对象: {obj.ToString()}");
 
                 ColorIndex = ColorsList.IndexOf(cModel);
-
+                // 利用反射创建对象的副本
+                // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
                 ColorSchemeModel _colorModel = new ColorSchemeModel();
-                _colorModel.Style = cModel.style;
-                _colorModel.UsedColor = cModel.preset_color_schemes.FirstOrDefault().Value;
-
+                _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
+                _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().Value;
                 CurrentColor = _colorModel;
 
                 if (ColorTemplate.IsTemplateAll)
-                    SetColorFromTemp();
+                    SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
                 else
-                    SetTempFromColor();
+                    SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
 
                 UpdateCurrentColor(null);
             }
@@ -135,11 +135,12 @@ namespace WubiMaster.ViewModels
             {
                 try
                 {
-                    if (CurrentColor == null)
-                        LoadCurrentColor();
+                    LoadCurrentColor();
 
                     if (AutoColor)
                     {
+                        ChangeColor(ColorsList[ColorIndex].description.color_name);
+
                         SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
                         SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
                         SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
@@ -171,14 +172,7 @@ namespace WubiMaster.ViewModels
                         CurrentColor.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
                         CurrentColor.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
 
-                        string shemeName = ColorsList[ColorIndex].description.color_name;
-                        ChangeColor(shemeName);
-                        CurrentColor = CurrentColor;
-                    }
-                    else
-                    {
-                        LoadColorShemes();
-                        LoadCurrentColor();
+                        UpdateCurrentColor(null);
                     }
 
                     ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
@@ -238,6 +232,14 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
+        public void UpdateCurrentColor(object obj)
+        {
+            var tempColor = CurrentColor;
+            CurrentColor = null;
+            CurrentColor = tempColor;
+        }
+
+        [RelayCommand]
         public void UpdateTemplate(object obj)
         {
             CurrentColor.Style.inline_preedit = ColorTemplate.InLine.ToString();
@@ -262,25 +264,6 @@ namespace WubiMaster.ViewModels
             ConfigHelper.WriteConfigByBool("vertical_text", ColorTemplate.TextVertical);
             ConfigHelper.WriteConfigByBool("horizontal", ColorTemplate.Horizontal);
             ConfigHelper.WriteConfigByBool("is_banyue_mode", ColorTemplate.IsBanyueMode);
-        }
-
-        private void LoadTemplate()
-        {
-            if (!ColorTemplate.IsTemplateAll)
-                return;
-            ColorTemplate.InLine = ConfigHelper.ReadConfigByBool("inline_preedit");
-            ColorTemplate.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
-            ColorTemplate.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
-            ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
-        }
-
-
-        [RelayCommand]
-        public void UpdateCurrentColor(object obj)
-        {
-            var tempColor = CurrentColor;
-            CurrentColor = null;
-            CurrentColor = tempColor;
         }
 
         [RelayCommand]
@@ -526,6 +509,16 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        private void LoadTemplate()
+        {
+            if (!ColorTemplate.IsTemplateAll)
+                return;
+            ColorTemplate.InLine = ConfigHelper.ReadConfigByBool("inline_preedit");
+            ColorTemplate.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
+            ColorTemplate.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
+            ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
+        }
+
         private void SaveWeaselCustom()
         {
             try
@@ -543,17 +536,6 @@ namespace WubiMaster.ViewModels
             {
                 LogHelper.Error(ex.ToString());
             }
-        }
-
-        private void SetTempFromColor()
-        {
-            double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
-            double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
-
-            ColorTemplate.InLine = bool.Parse(CurrentColor.Style.inline_preedit);
-            ColorTemplate.TextVertical = bool.Parse(CurrentColor.Style.vertical_text);
-            ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
-            ColorTemplate.Horizontal = bool.Parse(CurrentColor.Style.horizontal);
         }
 
         private void SetColorFromTemp()
@@ -574,5 +556,15 @@ namespace WubiMaster.ViewModels
             CurrentColor.Style.horizontal = ColorTemplate.Horizontal.ToString();
         }
 
+        private void SetTempFromColor()
+        {
+            double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
+            double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+
+            ColorTemplate.InLine = bool.Parse(CurrentColor.Style.inline_preedit);
+            ColorTemplate.TextVertical = bool.Parse(CurrentColor.Style.vertical_text);
+            ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
+            ColorTemplate.Horizontal = bool.Parse(CurrentColor.Style.horizontal);
+        }
     }
 }

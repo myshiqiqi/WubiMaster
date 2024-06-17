@@ -14,6 +14,9 @@ namespace WubiMaster.ViewModels
     public partial class ThemeViewModel : ObservableRecipient
     {
         [ObservableProperty]
+        private ColorCandidateModel candidateModel;  // 候选项模型类
+
+        [ObservableProperty]
         private bool autoColor;
 
         [ObservableProperty]
@@ -49,6 +52,7 @@ namespace WubiMaster.ViewModels
         {
             ColorsList = new List<ColorsModel>();
             ColorTemplate = new ColorTemplateModel();
+            CandidateModel = new ColorCandidateModel();
 
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
@@ -126,6 +130,12 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("主题删除失败！", DialogType.Fail);
             }
+        }
+
+        [RelayCommand]
+        public void CandidateChange(object obj)
+        {
+            CandidateModel.Update();
         }
 
         [RelayCommand]

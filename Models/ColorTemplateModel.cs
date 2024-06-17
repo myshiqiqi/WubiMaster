@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace WubiMaster.Models
 {
+	/// <summary>
+	/// 皮肤布局模板模型类
+	/// </summary>
     public partial class ColorTemplateModel : ObservableRecipient
     {
 		[ObservableProperty]

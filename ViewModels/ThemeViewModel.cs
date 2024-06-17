@@ -23,9 +23,14 @@ namespace WubiMaster.ViewModels
         private List<ColorsModel> colorsList;
 
         [ObservableProperty]
+        private ColorTemplateModel colorTemplate;
+
+        [ObservableProperty]
         private ColorSchemeModel currentColor;
 
         private ColorsModel default_color;
+
+        private bool is_loaded = false;
 
         [ObservableProperty]
         private bool randomColor;
@@ -38,14 +43,12 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private WeaselModel weaselDetails;
 
-        [ObservableProperty]
-        private bool isBanyueMode;
-
         private string weaselPath = "";
 
         public ThemeViewModel()
         {
             ColorsList = new List<ColorsModel>();
+            ColorTemplate = new ColorTemplateModel();
 
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
@@ -72,42 +75,18 @@ namespace WubiMaster.ViewModels
 
                 CurrentColor = _colorModel;
 
-                double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
-                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+                if (ColorTemplate.IsTemplateAll)
+                    SetColorFromTemp();
+                else
+                    SetTempFromColor();
 
-                IsBanyueMode = lay_margin <= lay_hilite_padding;
+                UpdateCurrentColor(null);
             }
             catch (Exception ex)
             {
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("选中的样式在外观文件中不存在！", DialogType.Error);
             }
-        }
-
-        [RelayCommand]
-        public void UpdateCurrentColor(object obj)
-        {
-            var tempColor = CurrentColor;
-            CurrentColor = null;
-            CurrentColor = tempColor;
-        }
-
-        [RelayCommand]
-        public void SetBanyueMode(object obj)
-        {
-            if (IsBanyueMode)
-            {
-                CurrentColor.Style.layout.margin_x = "0";
-                CurrentColor.Style.layout.margin_y = "0";
-            }
-            else
-            {
-                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
-                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 5).ToString();
-                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 5).ToString();
-            }
-
-            UpdateCurrentColor(null);
         }
 
         [RelayCommand]
@@ -258,7 +237,52 @@ namespace WubiMaster.ViewModels
             ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
-        private bool is_loaded = false;
+        [RelayCommand]
+        public void UpdateTemplate(object obj)
+        {
+            CurrentColor.Style.inline_preedit = ColorTemplate.InLine.ToString();
+            CurrentColor.Style.vertical_text = ColorTemplate.TextVertical.ToString();
+            if (ColorTemplate.IsBanyueMode)
+            {
+                CurrentColor.Style.layout.margin_x = "0";
+                CurrentColor.Style.layout.margin_y = "0";
+            }
+            else
+            {
+                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
+                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+            }
+            CurrentColor.Style.horizontal = ColorTemplate.Horizontal.ToString();
+
+            UpdateCurrentColor(null);
+
+            ConfigHelper.WriteConfigByBool("is_template_all", ColorTemplate.IsTemplateAll);
+            ConfigHelper.WriteConfigByBool("inline_preedit", ColorTemplate.InLine);
+            ConfigHelper.WriteConfigByBool("vertical_text", ColorTemplate.TextVertical);
+            ConfigHelper.WriteConfigByBool("horizontal", ColorTemplate.Horizontal);
+            ConfigHelper.WriteConfigByBool("is_banyue_mode", ColorTemplate.IsBanyueMode);
+        }
+
+        private void LoadTemplate()
+        {
+            if (!ColorTemplate.IsTemplateAll)
+                return;
+            ColorTemplate.InLine = ConfigHelper.ReadConfigByBool("inline_preedit");
+            ColorTemplate.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
+            ColorTemplate.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
+            ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
+        }
+
+
+        [RelayCommand]
+        public void UpdateCurrentColor(object obj)
+        {
+            var tempColor = CurrentColor;
+            CurrentColor = null;
+            CurrentColor = tempColor;
+        }
+
         [RelayCommand]
         public void ViewLoaded()
         {
@@ -375,7 +399,7 @@ namespace WubiMaster.ViewModels
                 DirectoryInfo dInfo = new DirectoryInfo(colorsDirectory);
                 FileInfo[] files = dInfo.GetFiles();
 
-                var  _colorsList = new List<ColorsModel>();
+                var _colorsList = new List<ColorsModel>();
                 for (int i = 0; i < files.Length; i++)
                 {
                     try
@@ -413,6 +437,10 @@ namespace WubiMaster.ViewModels
 
             // 加载rime外观随机更换
             RandomColor = ConfigHelper.ReadConfigByBool("random_color");
+
+            // 加载是否是将模板应用于全部皮肤
+            ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
+            LoadTemplate();
         }
 
         /// <summary>
@@ -516,5 +544,35 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
             }
         }
+
+        private void SetTempFromColor()
+        {
+            double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
+            double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+
+            ColorTemplate.InLine = bool.Parse(CurrentColor.Style.inline_preedit);
+            ColorTemplate.TextVertical = bool.Parse(CurrentColor.Style.vertical_text);
+            ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
+            ColorTemplate.Horizontal = bool.Parse(CurrentColor.Style.horizontal);
+        }
+
+        private void SetColorFromTemp()
+        {
+            CurrentColor.Style.inline_preedit = ColorTemplate.InLine.ToString();
+            CurrentColor.Style.vertical_text = ColorTemplate.TextVertical.ToString();
+            if (ColorTemplate.IsBanyueMode)
+            {
+                CurrentColor.Style.layout.margin_x = "0";
+                CurrentColor.Style.layout.margin_y = "0";
+            }
+            else
+            {
+                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
+                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+            }
+            CurrentColor.Style.horizontal = ColorTemplate.Horizontal.ToString();
+        }
+
     }
 }

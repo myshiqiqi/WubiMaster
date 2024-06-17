@@ -191,8 +191,8 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr15}"
-                                                                     Command="{Binding UpdateCurrentColorCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.inline_preedit, Mode=TwoWay}"
+                                                                     Command="{Binding UpdateTemplateCommand}"
+                                                                     IsChecked="{Binding ColorTemplate.InLine, Mode=TwoWay}"
                                                                      UnCheckedState="{StaticResource ThemeStr16}" />
                                             </Grid>
 
@@ -207,8 +207,8 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr9}"
-                                                                     Command="{Binding UpdateCurrentColorCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.vertical_text, Mode=TwoWay}"
+                                                                     Command="{Binding UpdateTemplateCommand}"
+                                                                     IsChecked="{Binding ColorTemplate.TextVertical, Mode=TwoWay}"
                                                                      UnCheckedState="{StaticResource ThemeStr10}" />
                                             </Grid>
 
@@ -223,8 +223,8 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr12}"
-                                                                     Command="{Binding SetBanyueModeCommand}"
-                                                                     IsChecked="{Binding IsBanyueMode, Mode=TwoWay}"
+                                                                     Command="{Binding UpdateTemplateCommand}"
+                                                                     IsChecked="{Binding ColorTemplate.IsBanyueMode, Mode=TwoWay}"
                                                                      UnCheckedState="{StaticResource ThemeStr13}" />
                                             </Grid>
 
@@ -238,9 +238,9 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="{StaticResource ThemeStr19}"
-                                                                     Command="{Binding UpdateCurrentColorCommand}"
-                                                                     IsChecked="{Binding CurrentColor.Style.horizontal, Mode=TwoWay}"
-                                                                     IsEnabled="{Binding CurrentColor.Style.vertical_text, Converter={StaticResource Bool2Reverse}}"
+                                                                     Command="{Binding UpdateTemplateCommand}"
+                                                                     IsChecked="{Binding ColorTemplate.Horizontal, Mode=TwoWay}"
+                                                                     IsEnabled="{Binding ColorTemplate.TextVertical, Converter={StaticResource Bool2Reverse}}"
                                                                      UnCheckedState="{StaticResource ThemeStr20}" />
                                             </Grid>
 
@@ -255,6 +255,8 @@
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
                                                                      CheckedState="单个"
+                                                                     Command="{Binding UpdateTemplateCommand}"
+                                                                     IsChecked="{Binding ColorTemplate.IsTemplateAll, Mode=TwoWay}"
                                                                      UnCheckedState="全体" />
                                             </Grid>
                                         </UniformGrid>

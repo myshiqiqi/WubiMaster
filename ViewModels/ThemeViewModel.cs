@@ -48,11 +48,14 @@ namespace WubiMaster.ViewModels
 
         private string weaselPath = "";
 
+        private DefaultCustomModel DefaultCustomDetails;
+
         public ThemeViewModel()
         {
             ColorsList = new List<ColorsModel>();
             ColorTemplate = new ColorTemplateModel();
             CandidateModel = new ColorCandidateModel();
+            DefaultCustomDetails = new DefaultCustomModel();
 
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
@@ -132,10 +135,36 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// 选择候选项样式
+        /// </summary>
+        /// <param name="obj"></param>
         [RelayCommand]
         public void CandidateChange(object obj)
         {
-            CandidateModel.Update();
+            try
+            {
+                // 首先需要将新值更新到model中
+                CandidateModel.Update();
+
+                // 候选样式切换
+                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.SelectLabels, candidate_str);
+                // 候选个数设定
+                string candidate_count = CandidateModel.CandidateCountList[CandidateModel.CandidateCountIndex];
+                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.PageSize, candidate_count);
+
+                DefaultCustomDetails.Write();
+
+                ConfigHelper.WriteConfigByInt("candidate_str", CandidateModel.LabelIndex);
+                ConfigHelper.WriteConfigByInt("candidate_count", CandidateModel.CandidateCountIndex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("设置失败，请查看日志定位问题。");
+            }
+
         }
 
         [RelayCommand]
@@ -434,6 +463,12 @@ namespace WubiMaster.ViewModels
             // 加载是否是将模板应用于全部皮肤
             ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
             LoadTemplate();
+
+            // 加载候选项序号样式值
+            CandidateModel.LabelIndex = ConfigHelper.ReadConfigByInt("candidate_str", 0);
+
+            // 加载候选个数值
+            CandidateModel.CandidateCountIndex = ConfigHelper.ReadConfigByInt("candidate_count", 2);
         }
 
         /// <summary>

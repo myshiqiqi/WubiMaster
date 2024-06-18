@@ -221,6 +221,12 @@
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}" />
 
+                                    <TextBlock HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
+                                               Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
+                                               Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
+
                                     <TextBlock Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
                                                Style="{StaticResource label_style}"
@@ -358,6 +364,12 @@
                                         <Border Grid.ColumnSpan="4"
                                                 Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}" />
+
+                                        <TextBlock HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
+                                                   Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
+                                                   Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
 
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
@@ -508,6 +520,14 @@
                                             Grid.Column="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}" />
+
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Top"
+                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
+                                               Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
+                                               Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
 
                                     <TextBlock Grid.Row="1"
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"

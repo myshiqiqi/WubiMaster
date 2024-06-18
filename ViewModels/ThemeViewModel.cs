@@ -14,10 +14,10 @@ namespace WubiMaster.ViewModels
     public partial class ThemeViewModel : ObservableRecipient
     {
         [ObservableProperty]
-        private ColorCandidateModel candidateModel;  // 候选项模型类
+        private bool autoColor;
 
         [ObservableProperty]
-        private bool autoColor;
+        private ColorCandidateModel candidateModel;  // 候选项模型类
 
         [ObservableProperty]
         private int colorIndex = -1;
@@ -33,6 +33,7 @@ namespace WubiMaster.ViewModels
 
         private ColorsModel default_color;
 
+        private DefaultCustomModel DefaultCustomDetails;
         private bool is_loaded = false;
 
         [ObservableProperty]
@@ -48,8 +49,6 @@ namespace WubiMaster.ViewModels
 
         private string weaselPath = "";
 
-        private DefaultCustomModel DefaultCustomDetails;
-
         public ThemeViewModel()
         {
             ColorsList = new List<ColorsModel>();
@@ -62,6 +61,51 @@ namespace WubiMaster.ViewModels
 
             LoadColorShemes();
             LoadConfig();
+        }
+
+        /// <summary>
+        /// 选择候选项样式
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void CandidateChange(object obj)
+        {
+            try
+            {
+                // 首先需要将新值更新到model中
+                CandidateModel.Change();
+
+                // 候选序号样式
+                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.SelectLabels, candidate_str);
+                CurrentColor.OtherProperty.LabelStr = candidate_str;
+
+                // 候选个数设定
+                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
+                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.PageSize, candidate_count);
+
+                // 候选序号后缀（标签符）
+                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+                CurrentColor.OtherProperty.LabelSuffix = suffix_str;
+                suffix_str = suffix_str == "无" ? "" : suffix_str;
+                suffix_str = suffix_str == "空格" ? " " : suffix_str;
+                CurrentColor.Style.label_format = "%s" + suffix_str;
+
+                // mark 符
+                //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
+                //CurrentColor.OtherProperty.MarkText = mark_str;
+                //CurrentColor.Style.mark_text = mark_str;
+
+                DefaultCustomDetails.Write();
+                UpdateCurrentColor(null);
+
+                CandidateModel.SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("设置失败，请查看日志定位问题。");
+            }
         }
 
         [RelayCommand]
@@ -83,6 +127,7 @@ namespace WubiMaster.ViewModels
                 // 加载其它项，如序号标签之类
                 _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
                 _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+                //_colorModel.OtherProperty.MarkText = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
 
                 CurrentColor = _colorModel;
 
@@ -137,48 +182,6 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("主题删除失败！", DialogType.Fail);
             }
-        }
-
-        /// <summary>
-        /// 选择候选项样式
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void CandidateChange(object obj)
-        {
-            try
-            {
-                // 首先需要将新值更新到model中
-                CandidateModel.Change();
-
-                // 候选序号样式
-                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.SelectLabels, candidate_str);
-                CurrentColor.OtherProperty.LabelStr = candidate_str;
-                
-
-                // 候选个数设定
-                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
-                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.PageSize, candidate_count);
-
-                // 候选序号后缀（标签符）
-                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                CurrentColor.OtherProperty.LabelSuffix = suffix_str;
-                suffix_str = suffix_str == "无" ? "" : suffix_str;
-                suffix_str = suffix_str == "空格" ? " " : suffix_str;
-                CurrentColor.Style.label_format = "%s"+ suffix_str;
-
-                DefaultCustomDetails.Write();
-                UpdateCurrentColor(null);
-
-                CandidateModel.SaveConfig();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("设置失败，请查看日志定位问题。");
-            }
-
         }
 
         [RelayCommand]

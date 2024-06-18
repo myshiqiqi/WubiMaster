@@ -28,6 +28,12 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private int labelSuffixIndex;  // 选中的后缀index
 
+        [ObservableProperty]
+        private int markTextIndex;  // 首选项标记符index
+
+        [ObservableProperty]
+        private List<string> markTextList;
+
 
         public ColorCandidateModel()
         {
@@ -37,6 +43,8 @@ namespace WubiMaster.Models
             InitLabelCount();
             // 初始化后缀集合
             InitSuffixList();
+            // 初始化 Mark 符集合
+            InitMarkTextList();
             // 加载配置数据
             LoadConfig();
         }
@@ -49,6 +57,7 @@ namespace WubiMaster.Models
             NumIndex = ConfigHelper.ReadConfigByInt("candidate_num_index", 2);
             LabelIndex = ConfigHelper.ReadConfigByInt("candidate_label_index", 0);
             LabelSuffixIndex = ConfigHelper.ReadConfigByInt("candidate_label_suffix_index", 0);
+            MarkTextIndex = ConfigHelper.ReadConfigByInt("candidate_mark_text_index", 0);
         }
 
         // 将必要的数据保存到配置文件中去
@@ -57,12 +66,23 @@ namespace WubiMaster.Models
             ConfigHelper.WriteConfigByInt("candidate_num_index", NumIndex);
             ConfigHelper.WriteConfigByInt("candidate_label_index", LabelIndex);
             ConfigHelper.WriteConfigByInt("candidate_label_suffix_index", LabelSuffixIndex);
+            ConfigHelper.WriteConfigByInt("candidate_mark_text_index", MarkTextIndex);
         }
 
         private void AddLabel(string label_strs)
         {
             string[] label_array = label_strs.Replace(" ", "").Split(",");
             LabelDict.Add($"{label_array[0]}{label_array[1]}{label_array[2]}{label_array[3]}...{label_array[label_array.Length - 1]}", $"[ {label_strs} ]");
+        }
+
+        private void InitMarkTextList()
+        {
+            MarkTextList = new List<string>();
+            string[] mark_texts = "默认, 无, ★, ☆, ⛤, ⛥, ⛦, ⛧, ✡, ❋, ❊, ❉, ❈, ❇, ❆, ❅, ❄, ❃, ❂, ❁, ❀, ✿, ✾, ✽, ✼, ✻, ✺, ✹, ✸, ✷, ✶, ✵, ✴, ✳, ✲, ✱, ✰, ✯, ✮, ✭, ✬, ✫, ✪, ✩, ✧, ✦, ✥, ✤, ✣, ✢".Replace(" ", "").Split(",");
+            for (int i = 0; i < mark_texts.Length; i++)
+            {
+                MarkTextList.Add(mark_texts[i]);
+            }
         }
 
         private void InitLabelCount()

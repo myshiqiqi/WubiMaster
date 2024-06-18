@@ -23,6 +23,7 @@ namespace WubiMaster.Models
             // 初始化一些默认值
             OtherProperty.LabelStr = "[ ㊀, ㊁, ㊂, ㊃, ㊄, ㊅, ㊆, ㊇, ㊈, ㊉ ]";
             OtherProperty.LabelSuffix = "";
+            OtherProperty.MarkText = "";
         }
     }
 
@@ -40,6 +41,11 @@ namespace WubiMaster.Models
         /// 候选项序号后缀（标签符）
         /// </summary>
         public string LabelSuffix { get; set; }
+
+        /// <summary>
+        /// 马克符标记
+        /// </summary>
+        public string MarkText { get; set; }
 
         /// <summary>
         /// 从配置中读取配置数据

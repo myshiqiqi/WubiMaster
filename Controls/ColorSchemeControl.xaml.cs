@@ -172,8 +172,17 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty IsBanYueModeProperty =
             DependencyProperty.Register("IsBanYueMode", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty Label_1Property =
+            DependencyProperty.Register("Label_1", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊀"));
+
+        public static readonly DependencyProperty Label_2Property =
+            DependencyProperty.Register("Label_2", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊁"));
+
+        public static readonly DependencyProperty Label_3Property =
+            DependencyProperty.Register("Label_3", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊂"));
+
         public static readonly DependencyProperty LabelColorProperty =
-                                                                    DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+                                                                                            DependencyProperty.Register("LabelColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty LabelFontFaceProperty =
             DependencyProperty.Register("LabelFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
@@ -193,8 +202,11 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty MarkTextProperty =
             DependencyProperty.Register("MarkText", typeof(string), typeof(ColorSchemeControl));
 
+        public static readonly DependencyProperty MarkTextVisibleProperty =
+            DependencyProperty.Register("MarkTextVisible", typeof(Visibility), typeof(ColorSchemeControl), new PropertyMetadata(Visibility.Collapsed));
+
         public static readonly DependencyProperty MaxHeightColorMaxHeightProperty =
-            DependencyProperty.Register("ColorMaxHeight", typeof(double), typeof(ColorSchemeControl));
+                    DependencyProperty.Register("ColorMaxHeight", typeof(double), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty NextPageColorProperty =
                                                                     DependencyProperty.Register("NextPageColor", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("#00000000"));
@@ -750,6 +762,24 @@ namespace WubiMaster.Controls
             set { SetValue(IsBanYueModeProperty, value); }
         }
 
+        public string Label_1
+        {
+            get { return (string)GetValue(Label_1Property); }
+            set { SetValue(Label_1Property, value); }
+        }
+
+        public string Label_2
+        {
+            get { return (string)GetValue(Label_2Property); }
+            set { SetValue(Label_2Property, value); }
+        }
+
+        public string Label_3
+        {
+            get { return (string)GetValue(Label_3Property); }
+            set { SetValue(Label_3Property, value); }
+        }
+
         /// <summary>
         /// 标签文字颜色
         /// </summary>
@@ -811,6 +841,15 @@ namespace WubiMaster.Controls
         {
             get { return (string)GetValue(MarkTextProperty); }
             set { SetValue(MarkTextProperty, value); }
+        }
+
+        /// <summary>
+        /// 标记符号隐藏与显示
+        /// </summary>
+        public Visibility MarkTextVisible
+        {
+            get { return (Visibility)GetValue(MarkTextVisibleProperty); }
+            set { SetValue(MarkTextVisibleProperty, value); }
         }
 
         /// <summary>
@@ -981,37 +1020,6 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
-
-
-        public string Label_1
-        {
-            get { return (string)GetValue(Label_1Property); }
-            set { SetValue(Label_1Property, value); }
-        }
-
-        public static readonly DependencyProperty Label_1Property =
-            DependencyProperty.Register("Label_1", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊀"));
-
-        public string Label_2
-        {
-            get { return (string)GetValue(Label_2Property); }
-            set { SetValue(Label_2Property, value); }
-        }
-
-        public static readonly DependencyProperty Label_2Property =
-            DependencyProperty.Register("Label_2", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊁"));
-
-        public string Label_3
-        {
-            get { return (string)GetValue(Label_3Property); }
-            set { SetValue(Label_3Property, value); }
-        }
-
-        public static readonly DependencyProperty Label_3Property =
-            DependencyProperty.Register("Label_3", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊂"));
-
-
-
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -1054,6 +1062,8 @@ namespace WubiMaster.Controls
             c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), "argb");
             c.MarkText = styleModel.mark_text;
             c.HilitedMarkColor = c.BrushConvter(schemeModel.hilited_mark_color, schemeModel.text_color, colorFormat: color_format);
+            if (!string.IsNullOrEmpty(schemeModel.hilited_mark_color))
+                c.MarkTextVisible = Visibility.Visible;
             c.HilitedCandidateShadowColor = c.ColorConvter(schemeModel.hilited_candidate_shadow_color, colorFormat: color_format);
             c.HilitedCommentTextColor = c.BrushConvter(schemeModel.hilited_comment_text_color, Colors.Gray.ToString(), "argb");
 
@@ -1131,6 +1141,19 @@ namespace WubiMaster.Controls
             c.Label_1 += suffix_str;
             c.Label_2 += suffix_str;
             c.Label_3 += suffix_str;
+            // mark 标记
+            //string mark_str = c.ColorModel.OtherProperty.MarkText;
+            //mark_str = mark_str == "默认" ? "" : mark_str;
+            //mark_str = mark_str == "无" ? "*" : mark_str;
+            //if (mark_str == "*")
+            //{
+            //    c.MarkText = "";
+            //    //c.ColorModel.UsedColor.hilited_mark_color = "";
+            //}
+            //else
+            //{
+            //    c.MarkText = mark_str;
+            //}
 
             Console.WriteLine();
         }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
+using WubiMaster.Common;
 
 namespace WubiMaster.Models
 {
@@ -10,10 +11,10 @@ namespace WubiMaster.Models
     public partial class ColorCandidateModel : ObservableRecipient
     {
         [ObservableProperty]
-        private int candidateCountIndex;  // 候选数值Index
+        private int numIndex;  // 候选数值Index
 
         [ObservableProperty]
-        private List<string> candidateCountList;  // 候选数列表
+        private List<string> numList;  // 候选数列表
 
         [ObservableProperty]
         private Dictionary<string, string> labelDict;  // 序号类型列表
@@ -21,12 +22,41 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private int labelIndex;  // 选择的序号index
 
+        [ObservableProperty]
+        private List<string> labelSuffixList;  // 序号后缀（分隔符）
+
+        [ObservableProperty]
+        private int labelSuffixIndex;  // 选中的后缀index
+
+
         public ColorCandidateModel()
         {
             // 初始化序号列表
             InitLabelDict();
             // 初始化序号候选数列表
             InitLabelCount();
+            // 初始化后缀集合
+            InitSuffixList();
+            // 加载配置数据
+            LoadConfig();
+        }
+
+       /// <summary>
+       /// 从配置文件中加载数据
+       /// </summary>
+        private void LoadConfig()
+        {
+            NumIndex = ConfigHelper.ReadConfigByInt("candidate_num_index", 2);
+            LabelIndex = ConfigHelper.ReadConfigByInt("candidate_label_index", 0);
+            LabelSuffixIndex = ConfigHelper.ReadConfigByInt("candidate_label_suffix_index", 0);
+        }
+
+        // 将必要的数据保存到配置文件中去
+        public void SaveConfig()
+        {
+            ConfigHelper.WriteConfigByInt("candidate_num_index", NumIndex);
+            ConfigHelper.WriteConfigByInt("candidate_label_index", LabelIndex);
+            ConfigHelper.WriteConfigByInt("candidate_label_suffix_index", LabelSuffixIndex);
         }
 
         private void AddLabel(string label_strs)
@@ -36,17 +66,27 @@ namespace WubiMaster.Models
 
         private void InitLabelCount()
         {
-            CandidateCountList ??= new List<string>();
+            NumList ??= new List<string>();
             var label_str = LabelDict.Values.ToList()[LabelIndex];
             var label_length = label_str.Replace("[", "").Replace("]", "").Replace(",", "").Replace(" ", "").Trim().Length;
             int min_count = 3;
             int max_count = label_length > 10 ? 10 : label_length;
             for (int i = min_count; i <= max_count; i++)
             {
-                CandidateCountList.Add(i.ToString());
+                NumList.Add(i.ToString());
             }
 
-            CandidateCountIndex = 2; // 默认是第三位选项值，即5个候选项值
+            NumIndex = 2; // 默认是第三位选项值，即5个候选项值
+        }
+
+        private void InitSuffixList()
+        {
+            LabelSuffixList = new List<string>();
+            string[] suffix_strs = "无,.,空格,-,|,■,□,→,↣,➼,➤,~,:,#,*,+,●".Split(",");
+            for (int i = 0; i < suffix_strs.Length; i++)
+            {
+                LabelSuffixList.Add(suffix_strs[i]);
+            }
         }
 
         private void InitLabelDict()
@@ -67,21 +107,26 @@ namespace WubiMaster.Models
             AddLabel("❶, ❷, ❸, ❹, ❺, ❻, ❼, ❽, ❾, ❿");
             AddLabel("①, ②, ③, ④, ⑤, ⑥, ⑦, ⑧, ⑨, ⑩");
             AddLabel("𝄞, ♩, ♪, ♫, ♬, ♭, ♮, ♯");
+            AddLabel("🀀, 🀁, 🀂, 🀃, 🀄, 🀅, 🀆");
+            AddLabel("🀇, 🀈, 🀉, 🀊, 🀋, 🀌, 🀍, 🀎, 🀏");
+            AddLabel("🀐, 🀑, 🀒, 🀓, 🀔, 🀕, 🀖, 🀗, 🀘");
+            AddLabel("🀙, 🀚, 🀛, 🀜, 🀝, 🀞, 🀟, 🀠, 🀡");
+            AddLabel("🀢, 🀣, 🀤, 🀥, 🀦, 🀧, 🀨, 🀩, 🀪, 🀫");
         }
 
-        public void Update()
+        public void Change()
         {
-            CandidateCountList.Clear();
+            NumList.Clear();
             var label_str = LabelDict.Values.ToList()[LabelIndex];
             var label_length = label_str.Replace("[", "").Replace("]", "").Replace(",", "").Replace(" ", "").Trim().Length;
             int min_count = 3;
             int max_count = label_length > 10 ? 10 : label_length;
             for (int i = min_count; i <= max_count; i++)
             {
-                CandidateCountList.Add(i.ToString());
+                NumList.Add(i.ToString());
             }
 
-            CandidateCountIndex = CandidateCountIndex >= CandidateCountList.Count ? CandidateCountList.Count -1 : CandidateCountIndex;
+            NumIndex = NumIndex >= NumList.Count ? NumList.Count -1 : NumIndex;
         }
     }
 }

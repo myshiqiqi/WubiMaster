@@ -224,7 +224,7 @@
                                     <TextBlock Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
                                                Style="{StaticResource label_style}"
-                                               Text="㊀" />
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_1}" />
 
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="2"
@@ -242,7 +242,7 @@
                                                Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                Style="{StaticResource label_style}"
-                                               Text="㊁" />
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
                                     <TextBlock Grid.Row="1"
                                                Grid.Column="2"
@@ -260,7 +260,7 @@
                                                Grid.Column="1"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                Style="{StaticResource label_style}"
-                                               Text="㊂" />
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
 
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="2"
@@ -362,7 +362,7 @@
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
                                                    Style="{StaticResource label_style}"
-                                                   Text="㊀" />
+                                                   Text="{Binding ElementName=color_scheme_control, Path=Label_1}" />
 
                                         <TextBlock Grid.Row="0"
                                                    Grid.Column="2"
@@ -393,7 +393,7 @@
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                    Style="{StaticResource label_style}"
-                                                   Text="㊁" />
+                                                   Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
                                         <TextBlock Grid.Row="0"
                                                    Grid.Column="2"
@@ -424,7 +424,7 @@
                                         <TextBlock Grid.Column="1"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
                                                    Style="{StaticResource label_style}"
-                                                   Text="㊂" />
+                                                   Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
 
                                         <TextBlock Grid.Row="0"
                                                    Grid.Column="2"
@@ -513,7 +513,7 @@
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                Margin="0,4,0,0"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
-                                               Text="㊀"
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_1}"
                                                TextWrapping="Wrap" />
 
                                     <TextBlock Grid.Row="1"
@@ -521,7 +521,7 @@
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                Margin="0,4,0,0"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Text="㊁"
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_2}"
                                                TextWrapping="Wrap" />
 
                                     <TextBlock Grid.Row="1"
@@ -529,7 +529,7 @@
                                                Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                Margin="0,4,0,0"
                                                Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Text="㊂"
+                                               Text="{Binding ElementName=color_scheme_control, Path=Label_3}"
                                                TextWrapping="Wrap" />
 
                                     <TextBlock Grid.Row="2"

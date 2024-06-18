@@ -981,6 +981,37 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
+
+
+        public string Label_1
+        {
+            get { return (string)GetValue(Label_1Property); }
+            set { SetValue(Label_1Property, value); }
+        }
+
+        public static readonly DependencyProperty Label_1Property =
+            DependencyProperty.Register("Label_1", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊀"));
+
+        public string Label_2
+        {
+            get { return (string)GetValue(Label_2Property); }
+            set { SetValue(Label_2Property, value); }
+        }
+
+        public static readonly DependencyProperty Label_2Property =
+            DependencyProperty.Register("Label_2", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊁"));
+
+        public string Label_3
+        {
+            get { return (string)GetValue(Label_3Property); }
+            set { SetValue(Label_3Property, value); }
+        }
+
+        public static readonly DependencyProperty Label_3Property =
+            DependencyProperty.Register("Label_3", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊂"));
+
+
+
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -1085,6 +1116,21 @@ namespace WubiMaster.Controls
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
+
+            // 处理其它属性，比如序号之类
+            // 序号处理
+            string label_str = c.ColorModel.OtherProperty.LabelStr;
+            string[] label_array = label_str.Replace("[", "").Replace("]", "").Replace(" ", "").Split(",");
+            c.Label_1 = label_array[0];
+            c.Label_2 = label_array[1];
+            c.Label_3 = label_array[2];
+            // 序号后缀
+            string suffix_str = c.ColorModel.OtherProperty.LabelSuffix;
+            suffix_str = suffix_str == "无" ? "" : suffix_str;
+            suffix_str = suffix_str == "空格" ? " " : suffix_str;
+            c.Label_1 += suffix_str;
+            c.Label_2 += suffix_str;
+            c.Label_3 += suffix_str;
 
             Console.WriteLine();
         }

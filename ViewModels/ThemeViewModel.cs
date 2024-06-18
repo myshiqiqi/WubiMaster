@@ -80,6 +80,10 @@ namespace WubiMaster.ViewModels
                 ColorSchemeModel _colorModel = new ColorSchemeModel();
                 _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
                 _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().Value;
+                // 加载其它项，如序号标签之类
+                _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+                _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+
                 CurrentColor = _colorModel;
 
                 if (ColorTemplate.IsTemplateAll)
@@ -145,19 +149,29 @@ namespace WubiMaster.ViewModels
             try
             {
                 // 首先需要将新值更新到model中
-                CandidateModel.Update();
+                CandidateModel.Change();
 
-                // 候选样式切换
+                // 候选序号样式
                 string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
                 DefaultCustomDetails.SetVlaue(DefaultCustomDetails.SelectLabels, candidate_str);
+                CurrentColor.OtherProperty.LabelStr = candidate_str;
+                
+
                 // 候选个数设定
-                string candidate_count = CandidateModel.CandidateCountList[CandidateModel.CandidateCountIndex];
+                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
                 DefaultCustomDetails.SetVlaue(DefaultCustomDetails.PageSize, candidate_count);
 
-                DefaultCustomDetails.Write();
+                // 候选序号后缀（标签符）
+                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+                CurrentColor.OtherProperty.LabelSuffix = suffix_str;
+                suffix_str = suffix_str == "无" ? "" : suffix_str;
+                suffix_str = suffix_str == "空格" ? " " : suffix_str;
+                CurrentColor.Style.label_format = "%s"+ suffix_str;
 
-                ConfigHelper.WriteConfigByInt("candidate_str", CandidateModel.LabelIndex);
-                ConfigHelper.WriteConfigByInt("candidate_count", CandidateModel.CandidateCountIndex);
+                DefaultCustomDetails.Write();
+                UpdateCurrentColor(null);
+
+                CandidateModel.SaveConfig();
             }
             catch (Exception ex)
             {
@@ -463,12 +477,6 @@ namespace WubiMaster.ViewModels
             // 加载是否是将模板应用于全部皮肤
             ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
             LoadTemplate();
-
-            // 加载候选项序号样式值
-            CandidateModel.LabelIndex = ConfigHelper.ReadConfigByInt("candidate_str", 0);
-
-            // 加载候选个数值
-            CandidateModel.CandidateCountIndex = ConfigHelper.ReadConfigByInt("candidate_count", 2);
         }
 
         /// <summary>

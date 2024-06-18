@@ -41,9 +41,9 @@ namespace WubiMaster.Models
             LoadConfig();
         }
 
-       /// <summary>
-       /// 从配置文件中加载数据
-       /// </summary>
+        /// <summary>
+        /// 从配置文件中加载数据
+        /// </summary>
         private void LoadConfig()
         {
             NumIndex = ConfigHelper.ReadConfigByInt("candidate_num_index", 2);
@@ -61,7 +61,8 @@ namespace WubiMaster.Models
 
         private void AddLabel(string label_strs)
         {
-            LabelDict.Add(label_strs.Replace(" ", "").Substring(0, 9) + "...", $"[ {label_strs} ]");
+            string[] label_array = label_strs.Replace(" ", "").Split(",");
+            LabelDict.Add($"{label_array[0]}{label_array[1]}{label_array[2]}{label_array[3]}...{label_array[label_array.Length - 1]}", $"[ {label_strs} ]");
         }
 
         private void InitLabelCount()
@@ -96,7 +97,7 @@ namespace WubiMaster.Models
             AddLabel("〡, 〢, 〣, 〤, 〥, 〦, 〧, 〨, 〩, 〸, 〹, 〺");
             AddLabel("甲, 乙, 丙, 丁, 戊, 己, 庚, 辛, 壬, 癸");
             AddLabel("子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥");
-            AddLabel("Ⅰ, Ⅱ, Ⅲ, Ⅳ, Ⅴ, Ⅵ, Ⅶ, Ⅷ, Ⅸ, Ⅹ, Ⅺ, Ⅻ, Ⅼ, Ⅽ, Ⅾ, Ⅿ");
+            AddLabel("Ⅰ, Ⅱ, Ⅲ, Ⅳ, Ⅴ, Ⅵ, Ⅶ, Ⅷ, Ⅸ, Ⅹ, Ⅺ, Ⅻ");
             AddLabel("1, 2, 3, 4, 5, 6, 7, 8, 9, 10");
             AddLabel("⑴, ⑵, ⑶, ⑷, ⑸, ⑹, ⑺, ⑻, ⑼, ⑽");
             AddLabel("☰, ☱, ☲, ☳, ☴, ☵, ☶, ☷");
@@ -126,7 +127,7 @@ namespace WubiMaster.Models
                 NumList.Add(i.ToString());
             }
 
-            NumIndex = NumIndex >= NumList.Count ? NumList.Count -1 : NumIndex;
+            NumIndex = NumIndex >= NumList.Count ? NumList.Count - 1 : NumIndex;
         }
     }
 }

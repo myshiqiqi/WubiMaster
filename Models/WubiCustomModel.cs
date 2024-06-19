@@ -29,15 +29,5 @@ namespace WubiMaster.Models
             single_char = "switches/@6/reset";
             full_shape = "switches/@7/reset";
         }
-
-        public override void LoadCofnig()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SaveCofnig()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

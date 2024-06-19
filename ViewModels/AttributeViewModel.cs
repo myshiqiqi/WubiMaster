@@ -33,6 +33,8 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.full_shape, AttributeModel.IsFullShape ? "1" : "0");
 
             WubiCustom.Write();
+
+            AttributeModel.SaveConfig();
         }
     }
 }

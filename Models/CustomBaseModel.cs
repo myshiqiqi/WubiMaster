@@ -19,10 +19,6 @@ namespace WubiMaster.Models
             }
         }
 
-        public abstract void LoadCofnig();
-
-        public abstract void SaveCofnig();
-
         public void SetAttribute(string key, string value)
         {
             AttributeDict ??= new Dictionary<string, string>();

@@ -18,32 +18,24 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Border x:Name="border"
-                                Width="22"
-                                Height="22"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5"
-                                SnapsToDevicePixels="True" />
-
-                        <Viewbox Width="{Binding ElementName=border, Path=ActualWidth}"
-                                 Height="{Binding ElementName=border, Path=ActualHeight}"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Center">
-                            <TextBlock x:Name="icon_text"
-                                       Margin="2"
+                        <Viewbox Width="22"
+                                 Height="22"
+                                 HorizontalAlignment="Left">
+                            <TextBlock x:Name="icon_border"
                                        FontFamily="../Fonts/#iconfont"
-                                       FontWeight="Bold"
-                                       Foreground="{DynamicResource primary-300}"
-                                       Text="&#xe664;"
-                                       Visibility="Hidden">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect BlurRadius="3"
-                                                      Direction="-45"
-                                                      ShadowDepth="1" />
-                                </TextBlock.Effect>
-                            </TextBlock>
+                                       Foreground="{DynamicResource primary-100}"
+                                       Text="&#xe6ba;" />
+                        </Viewbox>
+
+                        <Viewbox Width="22"
+                                 Height="22"
+                                 HorizontalAlignment="Left">
+                            <TextBlock x:Name="icon_text"
+                                       Margin="3"
+                                       FontFamily="../Fonts/#iconfont"
+                                       Foreground="{DynamicResource primary-100}"
+                                       Text="&#xe672;"
+                                       Visibility="Collapsed" />
                         </Viewbox>
 
                         <TextBlock x:Name="content"
@@ -57,32 +49,18 @@
 
                     <ControlTemplate.Triggers>
 
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="icon_text" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource primary-200}" />
-                            <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="icon_border" Property="Foreground" Value="{DynamicResource primary-200}" />
+                            <Setter TargetName="icon_text" Property="Foreground" Value="{DynamicResource primary-200}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="1" />
-                        </Trigger>
-
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="BorderThickness" Value="0" />
-                            <Setter TargetName="icon_text" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="border" Property="Opacity" Value="1" />
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource primary-200}" />
-
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="icon_text"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         From="0.1"
-                                                         To="0.9"
-                                                         Duration="0:0:0.4" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
+                            <Setter TargetName="icon_border" Property="Foreground" Value="{DynamicResource primary-100}" />
+                            <Setter TargetName="icon_text" Property="Foreground" Value="{DynamicResource primary-100}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

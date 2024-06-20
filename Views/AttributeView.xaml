@@ -27,7 +27,7 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="Emoji 表情" />
+                               Text="Emoji😀" />
 
                     <ToggleButton Height="25"
                                   HorizontalAlignment="Right"
@@ -188,6 +188,83 @@
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
                                Text="动态高频：按近期输入排序" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="逐码提示" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="分号单引号|二三候选" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="仅在全码时显示词组" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="智能造词" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="空码时取消输入" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="四码唯一时自动上屏" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="第五码将首选上屏" />
 
                     <ToggleButton Width="30"
                                   Height="25"

@@ -5,7 +5,7 @@
         <Setter Property="Foreground" Value="{DynamicResource text-200}" />
         <Setter Property="Margin" Value="0,0,5,0" />
         <Setter Property="Width" Value="Auto" />
-        <Setter Property="Height" Value="18" />
+        <Setter Property="Height" Value="20" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -18,12 +18,27 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Ellipse x:Name="ellipse"
-                                 Width="{Binding ElementName=grid, Path=Height}"
-                                 Height="{Binding ElementName=grid, Path=Height}"
-                                 Fill="Transparent"
-                                 Stroke="{DynamicResource primary-100}"
-                                 StrokeThickness="2" />
+                        <Viewbox>
+                            <Grid>
+                                <TextBlock x:Name="icon_border"
+                                           FontFamily="../Fonts/#iconfont"
+                                           Foreground="{DynamicResource primary-200}"
+                                           Text="&#xe6ef;" />
+
+                                <TextBlock x:Name="icon_fill"
+                                           VerticalAlignment="Center"
+                                           FontFamily="../Fonts/#iconfont"
+                                           Foreground="{DynamicResource primary-100}"
+                                           Text="&#xe728;"
+                                           Visibility="Collapsed" />
+
+                            </Grid>
+
+                            <!--<Viewbox.Effect>
+                                <DropShadowEffect BlurRadius="2" ShadowDepth="2" />
+                            </Viewbox.Effect>-->
+                        </Viewbox>
+
 
                         <ContentPresenter Grid.Column="1"
                                           Margin="3,0"
@@ -34,15 +49,18 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="ellipse" Property="Fill" Value="{DynamicResource primary-200}" />
+                            <Setter TargetName="icon_fill" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="icon_border" Property="Visibility" Value="Collapsed" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ellipse" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="icon_fill" Property="Foreground" Value="{DynamicResource primary-200}" />
+                            <Setter TargetName="icon_border" Property="Foreground" Value="{DynamicResource primary-100}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="ellipse" Property="Opacity" Value="1" />
+                            <Setter TargetName="icon_fill" Property="Foreground" Value="{DynamicResource primary-100}" />
+                            <Setter TargetName="icon_border" Property="Foreground" Value="{DynamicResource primary-200}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

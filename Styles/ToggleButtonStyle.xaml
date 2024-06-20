@@ -6,9 +6,9 @@
     <sys:String x:Key="CloseStr">关</sys:String>
 
     <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource primary-100}" />
+        <!--<Setter Property="Background" Value="{DynamicResource primary-100}" />
         <Setter Property="BorderBrush" Value="{DynamicResource primary-100}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />-->
         <Setter Property="Foreground" Value="{DynamicResource bg-100}" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="IsEnabled" Value="True" />
@@ -133,12 +133,16 @@
                         </MultiTrigger>
 
                         <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource primary-100}" />
+                            <Setter TargetName="text" Property="Foreground" Value="{DynamicResource bg-100}" />
                             <Setter TargetName="grid" Property="HorizontalAlignment" Value="Right" />
                             <Setter TargetName="text" Property="HorizontalAlignment" Value="Left" />
                             <Setter TargetName="text" Property="TextBlock.Text" Value="{StaticResource OpenStr}" />
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource bg-300}" />
+                            <Setter TargetName="text" Property="Foreground" Value="{DynamicResource text-100}" />
                             <Setter TargetName="grid" Property="HorizontalAlignment" Value="Left" />
                             <Setter TargetName="text" Property="HorizontalAlignment" Value="Right" />
                             <Setter TargetName="text" Property="TextBlock.Text" Value="{StaticResource CloseStr}" />

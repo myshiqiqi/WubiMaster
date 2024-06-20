@@ -16,7 +16,6 @@ namespace WubiMaster.Models
     {
         public string PageSize { get; set; }
         public string SelectLabels { get; set; }
-        public Dictionary<string, string> DetailDict = new Dictionary<string, string>();
 
         public DefaultCustomModel()
         {

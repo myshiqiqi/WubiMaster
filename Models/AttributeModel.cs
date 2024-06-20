@@ -31,10 +31,5 @@ namespace WubiMaster.Models
 
         [ObservableProperty]
         private bool isFullShape;
-
-        public AttributeModel()
-        {
-            LoadConfig();
-        }
     }
 }

@@ -32,7 +32,7 @@ namespace WubiMaster.Models
                 string file_path = GlobalValues.UserPath + $"\\{FilePath}";
 
                 string txt = "";
-                txt += "# Rime settings\n";
+                txt += "# rime settings\n";
                 txt += "# encoding: utf-8\n";
                 txt += "# author: 空山明月\n";
                 txt += "# modify: 中书君\n";

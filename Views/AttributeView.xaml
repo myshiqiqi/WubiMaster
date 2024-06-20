@@ -18,329 +18,216 @@
     <ScrollViewer>
 
         <Grid Margin="0,0,15,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <UniformGrid Columns="1">
 
-                <TextBlock FontSize="16"
-                           Foreground="{DynamicResource primary-100}"
-                           Text="状态切换" />
+                <c:SeparatorControl Header="默认状态" />
 
-                <Grid Grid.Row="1">
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="Emoji 表情" />
 
-                    <UniformGrid Columns="1">
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="Emoji 表情" />
-
-                            <ToggleButton Height="25"
-                                          HorizontalAlignment="Right"
-                                          IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
-                                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </ToggleButton>
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="字根提示" />
-
-                            <ToggleButton Height="25"
-                                          HorizontalAlignment="Right"
-                                          IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
-                                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </ToggleButton>
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="注音提示" />
-
-                            <ToggleButton Height="25"
-                                          HorizontalAlignment="Right"
-                                          IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
-                                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </ToggleButton>
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="单字模式" />
-
-                            <ToggleButton Height="25"
-                                          HorizontalAlignment="Right"
-                                          IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
-                                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </ToggleButton>
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="繁简切换" />
-
-                            <c:StateToggleButton Width="120"
-                                                 Height="28"
-                                                 HorizontalAlignment="Right"
-                                                 VerticalAlignment="Center"
-                                                 CheckedState="简体"
-                                                 Command="{Binding UpdateCommand}"
-                                                 IsChecked="{Binding AttributeModel.ZhTrad, Mode=TwoWay}"
-                                                 UnCheckedState="繁体" />
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="字集切换" />
-
-                            <c:StateToggleButton Width="120"
-                                                 Height="28"
-                                                 HorizontalAlignment="Right"
-                                                 VerticalAlignment="Center"
-                                                 CheckedState="生僻字"
-                                                 Command="{Binding UpdateCommand}"
-                                                 IsChecked="{Binding AttributeModel.IsGb2312, Mode=TwoWay}"
-                                                 UnCheckedState="常用字" />
-                        </Grid>
-
-                        <Grid Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="全角半角" />
-
-                            <c:StateToggleButton Width="120"
-                                                 Height="28"
-                                                 HorizontalAlignment="Right"
-                                                 VerticalAlignment="Center"
-                                                 CheckedState="全角"
-                                                 Command="{Binding UpdateCommand}"
-                                                 IsChecked="{Binding AttributeModel.IsFullShape, Mode=TwoWay}"
-                                                 UnCheckedState="半角" />
-                        </Grid>
-
-                        <Grid Grid.Row="3" Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="输入方案" />
-
-                            <RadioButton Margin="0,0,200,0"
-                                         HorizontalAlignment="Right"
-                                         Content="五笔拼音输"
-                                         GroupName="xxx" />
-                            <RadioButton Margin="0,0,100,0"
-                                         HorizontalAlignment="Right"
-                                         Content="纯五笔"
-                                         GroupName="xxx"
-                                         IsChecked="True" />
-                            <RadioButton HorizontalAlignment="Right"
-                                         Content="纯拼音"
-                                         GroupName="xxx" />
-                        </Grid>
-
-                        <Grid Grid.Row="4" Margin="0,5">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="15"
-                                       Foreground="{DynamicResource text-100}"
-                                       Text="五笔方案" />
-
-                            <RadioButton Margin="0,0,200,0"
-                                         HorizontalAlignment="Right"
-                                         Content="86版"
-                                         GroupName="yyy" />
-                            <RadioButton Margin="0,0,100,0"
-                                         HorizontalAlignment="Right"
-                                         Content="98版"
-                                         GroupName="yyy"
-                                         IsChecked="True" />
-                            <RadioButton HorizontalAlignment="Right"
-                                         Content="新世纪版"
-                                         GroupName="yyy" />
-                        </Grid>
-
-                        <Separator BorderBrush="{DynamicResource bg-300}" BorderThickness="2" />
-                    </UniformGrid>
+                    <ToggleButton Height="25"
+                                  HorizontalAlignment="Right"
+                                  IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ToggleButton>
                 </Grid>
-            </Grid>
 
-            <Grid Grid.Row="1" Margin="0,20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="字根提示" />
 
-                <TextBlock FontSize="16"
-                           Foreground="{DynamicResource primary-100}"
-                           Text="输入习惯" />
-
-                <Grid Grid.Row="1">
-                    <Border Padding="10"
-                            BorderBrush="{DynamicResource bg-300}"
-                            BorderThickness="0,0,0,2"
-                            CornerRadius="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
-                            <Grid Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="动态高频：按近期输入排序" />
-
-                                <ToggleButton Width="30"
-                                              Height="25"
-                                              HorizontalAlignment="Right" />
-                            </Grid>
-
-                            <Grid Grid.Row="1" Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="回车键取消输入" />
-
-                                <ToggleButton Width="30"
-                                              Height="25"
-                                              HorizontalAlignment="Right" />
-                            </Grid>
-
-                            <Grid Grid.Row="2" Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="Z键复制上次上屏内容" />
-
-                                <ToggleButton Width="30"
-                                              Height="25"
-                                              HorizontalAlignment="Right" />
-                            </Grid>
-
-                            <Grid Grid.Row="3" Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="Z键作为五笔通配按键" />
-
-                                <ToggleButton Width="30"
-                                              Height="25"
-                                              HorizontalAlignment="Right" />
-                            </Grid>
-                        </Grid>
-                    </Border>
+                    <ToggleButton Height="25"
+                                  HorizontalAlignment="Right"
+                                  IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ToggleButton>
                 </Grid>
-            </Grid>
 
-            <Grid Grid.Row="3" Margin="0,20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="注音提示" />
 
-                <TextBlock FontSize="16"
-                           Foreground="{DynamicResource primary-100}"
-                           Text="快捷键" />
-
-                <Grid Grid.Row="1">
-                    <Border Padding="10"
-                            BorderBrush="{DynamicResource bg-300}"
-                            BorderThickness="0,0,0,2"
-                            CornerRadius="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
-                            <Grid Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="拆分提示" />
-
-                                <TextBox Width="150"
-                                         Height="30"
-                                         HorizontalAlignment="Right"
-                                         FontSize="15"
-                                         Foreground="{DynamicResource text-100}"
-                                         Text="ctrl shift h"
-                                         TextAlignment="Center" />
-                            </Grid>
-
-                            <Grid Grid.Row="1" Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="编码提示" />
-
-                                <TextBox Width="150"
-                                         Height="30"
-                                         HorizontalAlignment="Right"
-                                         FontSize="15"
-                                         Foreground="{DynamicResource text-100}"
-                                         Text="ctrl shift j"
-                                         TextAlignment="Center" />
-                            </Grid>
-
-                            <Grid Grid.Row="2" Margin="0,5">
-                                <TextBlock VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="{DynamicResource text-100}"
-                                           Text="方案选单" />
-
-                                <TextBox Width="150"
-                                         Height="30"
-                                         HorizontalAlignment="Right"
-                                         FontSize="15"
-                                         Foreground="{DynamicResource text-100}"
-                                         Text="ctrl `"
-                                         TextAlignment="Center" />
-                            </Grid>
-                        </Grid>
-                    </Border>
+                    <ToggleButton Height="25"
+                                  HorizontalAlignment="Right"
+                                  IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ToggleButton>
                 </Grid>
-            </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="单字模式" />
+
+                    <ToggleButton Height="25"
+                                  HorizontalAlignment="Right"
+                                  IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="繁简切换" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="简体"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.ZhTrad, Mode=TwoWay}"
+                                         UnCheckedState="繁体" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="字集切换" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="生僻字"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.IsGb2312, Mode=TwoWay}"
+                                         UnCheckedState="常用字" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="全角半角" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="全角"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.IsFullShape, Mode=TwoWay}"
+                                         UnCheckedState="半角" />
+                </Grid>
+
+                <c:SeparatorControl Header="方案配置" />
+
+                <Grid Grid.Row="3" Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="输入方案" />
+
+                    <RadioButton Margin="0,0,200,0"
+                                 HorizontalAlignment="Right"
+                                 Content="五笔拼音输"
+                                 GroupName="xxx" />
+                    <RadioButton Margin="0,0,100,0"
+                                 HorizontalAlignment="Right"
+                                 Content="纯五笔"
+                                 GroupName="xxx"
+                                 IsChecked="True" />
+                    <RadioButton HorizontalAlignment="Right"
+                                 Content="纯拼音"
+                                 GroupName="xxx" />
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="五笔方案" />
+
+                    <RadioButton Margin="0,0,200,0"
+                                 HorizontalAlignment="Right"
+                                 Content="86版"
+                                 GroupName="yyy" />
+                    <RadioButton Margin="0,0,100,0"
+                                 HorizontalAlignment="Right"
+                                 Content="98版"
+                                 GroupName="yyy"
+                                 IsChecked="True" />
+                    <RadioButton HorizontalAlignment="Right"
+                                 Content="新世纪版"
+                                 GroupName="yyy" />
+                </Grid>
+
+                <c:SeparatorControl Header="输入习惯" />
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="动态高频：按近期输入排序" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="回车键取消输入" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="Z键复制上次上屏内容" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="Z键作为五笔通配按键" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right" />
+                </Grid>
+            </UniformGrid>
+
         </Grid>
     </ScrollViewer>
 </UserControl>

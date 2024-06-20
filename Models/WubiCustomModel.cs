@@ -18,7 +18,6 @@ namespace WubiMaster.Models
         public string single_char { get; set; }
         public string full_shape { get; set; }
 
-
         public WubiCustomModel()
         {
             FilePath = "wubi.custom.yaml";

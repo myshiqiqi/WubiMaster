@@ -7,6 +7,11 @@ namespace WubiMaster.Models
 {
     public class BaseModel : ObservableRecipient
     {
+        public BaseModel()
+        {
+            LoadConfig();
+        }
+
         public void LoadConfig()
         {
             foreach (var p in this.GetType().GetProperties())

@@ -77,12 +77,12 @@ namespace WubiMaster.ViewModels
 
                 // 候选序号样式
                 string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.SelectLabels, candidate_str);
+                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
                 CurrentColor.OtherProperty.LabelStr = candidate_str;
 
                 // 候选个数设定
                 string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
-                DefaultCustomDetails.SetVlaue(DefaultCustomDetails.PageSize, candidate_count);
+                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.PageSize, candidate_count);
 
                 // 候选序号后缀（标签符）
                 string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
@@ -123,7 +123,7 @@ namespace WubiMaster.ViewModels
                 // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
                 ColorSchemeModel _colorModel = new ColorSchemeModel();
                 _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
-                _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().Value;
+                _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().ConfigValue;
                 // 加载其它项，如序号标签之类
                 _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
                 _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];

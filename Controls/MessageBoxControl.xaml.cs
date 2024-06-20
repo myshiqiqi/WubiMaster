@@ -35,7 +35,7 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("SucceedVisible", typeof(Visibility), typeof(MessageBoxControl));
 
         public static readonly DependencyProperty TypeProperty =
-                            DependencyProperty.Register("Type", typeof(string), typeof(MessageBoxControl), new PropertyMetadata(OnTypeChanged));
+                            DependencyProperty.Register("ValueType", typeof(string), typeof(MessageBoxControl), new PropertyMetadata(OnTypeChanged));
 
         public static readonly DependencyProperty WarnVisibleProperty =
             DependencyProperty.Register("WarnVisible", typeof(Visibility), typeof(MessageBoxControl));

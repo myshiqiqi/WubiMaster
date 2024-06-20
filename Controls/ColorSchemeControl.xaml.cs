@@ -330,7 +330,7 @@ namespace WubiMaster.Controls
         //public Thickness BorderPadding
         //{
         //    get { return (Thickness)GetValue(BorderPaddingProperty); }
-        //    set { SetValue(BorderPaddingProperty, value); }
+        //    set { SetValue(BorderPaddingProperty, configValue); }
         //}
 
         /// <summary>

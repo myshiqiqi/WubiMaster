@@ -28,12 +28,11 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.show_es, AttributeModel.ShowEs ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.zh_trad, AttributeModel.ZhTrad ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.new_spelling, AttributeModel.ShowSpelling ? "1" : "0");
+            WubiCustom.SetAttribute(WubiCustom.new_hide_pinyin, AttributeModel.ShowPinyin ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.GB2312, AttributeModel.IsGb2312 ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.single_char, AttributeModel.IsSingleChar ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.full_shape, AttributeModel.IsFullShape ? "1" : "0");
-
             WubiCustom.Write();
-
             AttributeModel.SaveConfig();
         }
     }

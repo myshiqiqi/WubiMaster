@@ -160,7 +160,7 @@ namespace WubiMaster.Common
                     stream.Write(data, 0, data.Length);
                 }
             }
-            string[] values = request.Headers.GetValues("Content-Type");
+            string[] values = request.Headers.GetValues("Content-ValueType");
             return request.GetResponse() as HttpWebResponse;
         }
 

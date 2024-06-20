@@ -76,6 +76,23 @@
                             <TextBlock VerticalAlignment="Center"
                                        FontSize="15"
                                        Foreground="{DynamicResource text-100}"
+                                       Text="注音提示" />
+
+                            <ToggleButton Height="25"
+                                          HorizontalAlignment="Right"
+                                          IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Click">
+                                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ToggleButton>
+                        </Grid>
+
+                        <Grid Margin="0,5">
+                            <TextBlock VerticalAlignment="Center"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource text-100}"
                                        Text="单字模式" />
 
                             <ToggleButton Height="25"

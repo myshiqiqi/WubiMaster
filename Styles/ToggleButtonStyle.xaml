@@ -70,6 +70,7 @@
 
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource bg-300}" />
+                            <Setter TargetName="bg_tblk" Property="Foreground" Value="{DynamicResource bg-300}" />
                         </Trigger>
 
                         <MultiTrigger>

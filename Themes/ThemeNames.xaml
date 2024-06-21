@@ -29,4 +29,6 @@
     <sys:String x:Key="复古珠宝">VintageJewelryTheme</sys:String>
     <sys:String x:Key="万圣节">HalloweenTheme</sys:String>
     <sys:String x:Key="金与银">GoldSilverTheme</sys:String>
+    <sys:String x:Key="焦糖鼠尾草">ＣaramelSageTheme</sys:String>
+    <sys:String x:Key="军绿">DarkChartreuseTheme</sys:String>
 </ResourceDictionary>

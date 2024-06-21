@@ -29,66 +29,14 @@
                                Foreground="{DynamicResource text-100}"
                                Text="Emoji😀" />
 
-                    <ToggleButton Height="25"
-                                  HorizontalAlignment="Right"
-                                  IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Click">
-                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </ToggleButton>
-                </Grid>
-
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="字根提示" />
-
-                    <ToggleButton Height="25"
-                                  HorizontalAlignment="Right"
-                                  IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Click">
-                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </ToggleButton>
-                </Grid>
-
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="注音提示" />
-
-                    <ToggleButton Height="25"
-                                  HorizontalAlignment="Right"
-                                  IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Click">
-                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </ToggleButton>
-                </Grid>
-
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="单字模式" />
-
-                    <ToggleButton Height="25"
-                                  HorizontalAlignment="Right"
-                                  IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Click">
-                                <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </ToggleButton>
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="禁用"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}"
+                                         UnCheckedState="启用" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -111,6 +59,39 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
+                               Text="字根提示" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="禁用"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}"
+                                         UnCheckedState="启用" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="注音提示" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="显示"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}"
+                                         IsEnabled="{Binding AttributeModel.ShowSpelling}"
+                                         UnCheckedState="隐藏" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
                                Text="字集切换" />
 
                     <c:StateToggleButton Width="120"
@@ -127,16 +108,32 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
+                               Text="输出模式" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="词组"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}"
+                                         UnCheckedState="单字" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
                                Text="全角半角" />
 
                     <c:StateToggleButton Width="120"
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="全角"
+                                         CheckedState="半角"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.IsFullShape, Mode=TwoWay}"
-                                         UnCheckedState="半角" />
+                                         UnCheckedState="全角" />
                 </Grid>
 
                 <c:SeparatorControl Header="方案配置" />

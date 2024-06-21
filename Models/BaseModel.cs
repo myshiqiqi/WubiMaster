@@ -19,19 +19,14 @@ namespace WubiMaster.Models
                 object value;
                 if (p.Name == "IsActive") continue;
 
+                var default_value = p.GetValue(this);
                 var type = p.PropertyType;
                 if (type == typeof(bool))
-                {
-                    value = ConfigHelper.ReadConfigByBool(p.Name);
-                }
+                    value = ConfigHelper.ReadConfigByBool(p.Name, bool.Parse(default_value?.ToString()));
                 else if (type == typeof(int))
-                {
-                    value = ConfigHelper.ReadConfigByInt(p.Name);
-                }
+                    value = ConfigHelper.ReadConfigByInt(p.Name, int.Parse(default_value?.ToString()));
                 else
-                {
-                    value = ConfigHelper.ReadConfigByString(p.Name);
-                }
+                    value = ConfigHelper.ReadConfigByString(p.Name, default_value?.ToString());
 
                 p.SetValue(this, Convert.ChangeType(value, p.PropertyType));
             }
@@ -45,17 +40,11 @@ namespace WubiMaster.Models
             {
                 var type = dcit[k].ValueType;
                 if (type == typeof(bool))
-                {
                     ConfigHelper.WriteConfigByBool(k, bool.Parse(dcit[k].ConfigValue.ToString()));
-                }
                 else if (type == typeof(int))
-                {
                     ConfigHelper.WriteConfigByInt(k, int.Parse(dcit[k].ConfigValue.ToString()));
-                }
                 else
-                {
                     ConfigHelper.WriteConfigByString(k, dcit[k].ConfigValue.ToString());
-                }
             }
         }
 

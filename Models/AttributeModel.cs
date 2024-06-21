@@ -18,7 +18,7 @@ namespace WubiMaster.Models
         private bool zhTrad;
 
         [ObservableProperty]
-        private bool showSpelling = true;
+        private bool showSpelling;
 
         [ObservableProperty]
         private bool showPinyin;

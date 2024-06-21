@@ -47,10 +47,44 @@ namespace WubiMaster.ViewModels
         {
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeShiciInterval", ChangeShiciInterval);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeShcemaState", ChangeShcemaState);
+            WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeWubiDict", ChangeWubiDict);
 
             LoadSpellTextShow();
             GetTheKeyTextAsync();
             LoadConfig();
+        }
+
+        // 切换五笔码表
+        private void ChangeWubiDict(object recipient, string message)
+        {
+            string type = message;
+            string tableFiles = @$"{GlobalValues.UserPath}\tables\86";
+            if (type == "06")
+                tableFiles = @$"{GlobalValues.UserPath}\tables\06";
+            else if (type == "98")
+                tableFiles = @$"{GlobalValues.UserPath}\tables\98";
+            else
+                tableFiles = @$"{GlobalValues.UserPath}\tables\86";
+
+            try
+            {
+                DirectoryInfo mabiaoDir = new DirectoryInfo(tableFiles);
+                FileSystemInfo[] mabiaoInfo = mabiaoDir.GetFileSystemInfos();
+                foreach (FileSystemInfo info in mabiaoInfo)
+                {
+                    if (info is not DirectoryInfo)
+                        File.Copy(info.FullName, GlobalValues.UserPath + @$"\{info.Name}", true);
+                }
+
+                UdateShcemaState(type);
+                ConfigHelper.WriteConfigByString("running_schema", type);
+                WeakReferenceMessenger.Default.Send<string, string>(type, "ChangeQuickSpllType");
+                WeakReferenceMessenger.Default.Send<string, string>("", "ChangeColorScheme");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.Message, true);
+            }
         }
 
         [RelayCommand]

@@ -148,44 +148,50 @@
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeSchemaCommand}"
-                                     Content="五笔拼音输"
+                                     Content="五笔拼音"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding UserModel.IsWubiPinyin}" />
+                                     IsChecked="{Binding AttributeModel.IsWubiPinyin}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeSchemaCommand}"
                                      Content="纯五笔"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding UserModel.IsWubi}" />
+                                     IsChecked="{Binding AttributeModel.IsWubi}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeSchemaCommand}"
                                      Content="纯拼音"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding UserModel.IsPinyin}" />
+                                     IsChecked="{Binding AttributeModel.IsPinyin}" />
                     </StackPanel>
-
-
                 </Grid>
 
                 <Grid Margin="0,5">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="五笔方案" />
+                               Text="码表切换" />
 
-                    <RadioButton Margin="0,0,200,0"
-                                 HorizontalAlignment="Right"
-                                 Content="86版"
-                                 GroupName="yyy" />
-                    <RadioButton Margin="0,0,100,0"
-                                 HorizontalAlignment="Right"
-                                 Content="98版"
-                                 GroupName="yyy"
-                                 IsChecked="True" />
-                    <RadioButton HorizontalAlignment="Right"
-                                 Content="新世纪版"
-                                 GroupName="yyy" />
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeDictCommand}"
+                                     Content="86版"
+                                     GroupName="version_group"
+                                     IsChecked="{Binding AttributeModel.IsDict86}" />
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeDictCommand}"
+                                     Content="98版"
+                                     GroupName="version_group"
+                                     IsChecked="{Binding AttributeModel.IsDict98}" />
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeDictCommand}"
+                                     Content="新世纪版"
+                                     GroupName="version_group"
+                                     IsChecked="{Binding AttributeModel.IsDict06}" />
+                    </StackPanel>
                 </Grid>
 
                 <c:SeparatorControl Header="输入习惯" />

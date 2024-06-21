@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,6 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private AttributeModel attributeModel;
 
-        [ObservableProperty]
-        private UserModel userModel;
-
         private UserCustomModel UserCustom;
 
         private WubiCustomModel WubiCustom;
@@ -25,7 +23,6 @@ namespace WubiMaster.ViewModels
         {
             AttributeModel = new AttributeModel();
             WubiCustom = new WubiCustomModel();
-            UserModel = new UserModel();
             UserCustom = new UserCustomModel();
         }
 
@@ -50,17 +47,32 @@ namespace WubiMaster.ViewModels
         public void ChangeSchema(object obj)
         {
             string schema = "";
-            if (UserModel.IsWubiPinyin)
+            if (AttributeModel.IsWubiPinyin)
                 schema = "wubi_pinyin";
-            else if (UserModel.IsWubi)
+            else if (AttributeModel.IsWubi)
                 schema = "wubi";
             else
                 schema = "pinyin";
 
             UserCustom.SetSchema(schema);
             UserCustom.Write();
-            UserModel.SaveConfig();
+            AttributeModel.SaveConfig();
 
+        }
+
+        [RelayCommand]
+        public void ChangeDict()
+        {
+            string dict_type = "";
+            if (AttributeModel.IsDict86)
+                dict_type = "86";
+            else if (AttributeModel.IsDict98)
+                dict_type = "98";
+            else
+                dict_type = "06";
+
+            AttributeModel.SaveConfig();
+            WeakReferenceMessenger.Default.Send<string, string>(dict_type, "ChangeWubiDict");
         }
     }
 }

@@ -17,6 +17,11 @@ namespace WubiMaster.Models
         public string GB2312 { get; set; }
         public string single_char { get; set; }
         public string full_shape { get; set; }
+        public string enable_user_dict { get; set; }
+        public string enable_completion { get; set; }
+        public string enable_sentence { get; set; }
+        public string max_code_length { get; set; }
+        public string auto_select { get; set; }
 
         public WubiCustomModel()
         {
@@ -30,6 +35,11 @@ namespace WubiMaster.Models
             GB2312 = "switches/@4/reset";
             single_char = "switches/@5/reset";
             full_shape = "switches/@6/reset";
+            enable_user_dict = "translator/enable_user_dict";
+            enable_completion = "translator/enable_completion";
+            enable_sentence = "translator/enable_sentence";
+            max_code_length = "speller/max_code_length";
+            auto_select = "speller/auto_select";
         }
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:c="clr-namespace:WubiMaster.Controls"
+             xmlns:com="clr-namespace:WubiMaster.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:WubiMaster.ViewModels"
@@ -14,6 +15,10 @@
     <UserControl.DataContext>
         <vm:AttributeViewModel />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <com:Bool2Reverse x:Key="Bool2Reverse" />
+    </UserControl.Resources>
 
     <ScrollViewer>
 
@@ -200,11 +205,13 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="动态高频：按近期输入排序" />
+                               Text="动态调频" />
 
                     <ToggleButton Width="30"
                                   Height="25"
-                                  HorizontalAlignment="Right" />
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.EnableUserDict}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -215,7 +222,37 @@
 
                     <ToggleButton Width="30"
                                   Height="25"
-                                  HorizontalAlignment="Right" />
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.EnableCompletion}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="连打模式" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.EnableSentence}"
+                                  IsEnabled="{Binding AttributeModel.AutoSelect, Converter={StaticResource Bool2Reverse}}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="四码唯一自动上屏" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.AutoSelect}"
+                                  IsEnabled="{Binding AttributeModel.EnableSentence, Converter={StaticResource Bool2Reverse}}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -256,17 +293,6 @@
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
                                Text="空码时取消输入" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="四码唯一时自动上屏" />
 
                     <ToggleButton Width="30"
                                   Height="25"

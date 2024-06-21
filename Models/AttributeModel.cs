@@ -62,5 +62,28 @@ namespace WubiMaster.Models
         // 新世纪码表切换开关
         [ObservableProperty]
         private bool isDict06;
+
+        // 启用用户词典自动调频
+        [ObservableProperty]
+        private bool enableUserDict;
+
+        // 启用逐码提示
+        [ObservableProperty]
+        private bool enableCompletion;
+
+        // 启用连打模式
+        // 需要取消最长编码
+        [ObservableProperty]
+        private bool enableSentence;
+
+        // 最长编码
+        [ObservableProperty]
+        private int maxCodeLength;
+
+        // 四码唯一自动上屏
+        // 需要设置最长编码为4
+        // 该功能与连打模式相冲
+        [ObservableProperty]
+        private bool autoSelect;
     }
 }

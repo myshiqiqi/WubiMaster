@@ -38,6 +38,26 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.single_char, AttributeModel.IsSingleChar ? "1" : "0");
             WubiCustom.SetAttribute(WubiCustom.full_shape, AttributeModel.IsFullShape ? "1" : "0");
 
+            // 输入习惯
+            WubiCustom.SetAttribute(WubiCustom.enable_user_dict, AttributeModel.EnableUserDict.ToString().ToLower());
+            WubiCustom.SetAttribute(WubiCustom.enable_completion, AttributeModel.EnableCompletion.ToString().ToLower());
+            if (!AttributeModel.AutoSelect)
+            {
+                WubiCustom.SetAttribute(WubiCustom.enable_sentence, AttributeModel.EnableSentence.ToString().ToLower());
+                if (AttributeModel.EnableSentence)
+                    WubiCustom.SetAttribute(WubiCustom.max_code_length, "0");
+                else
+                    WubiCustom.DelAttribute(WubiCustom.max_code_length);
+            }
+            if (!AttributeModel.EnableSentence)
+            {
+                WubiCustom.SetAttribute(WubiCustom.auto_select, AttributeModel.AutoSelect.ToString().ToLower());
+                if (AttributeModel.AutoSelect)
+                    WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");
+                else
+                    WubiCustom.DelAttribute(WubiCustom.max_code_length);
+            }
+           
             // custom 写入 & 属性值保存到配置文件中
             WubiCustom.Write();
             AttributeModel.SaveConfig();

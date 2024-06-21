@@ -14,12 +14,19 @@ namespace WubiMaster.ViewModels
         [ObservableProperty]
         private AttributeModel attributeModel;
 
+        [ObservableProperty]
+        private UserModel userModel;
+
+        private UserCustomModel UserCustom;
+
         private WubiCustomModel WubiCustom;
 
         public AttributeViewModel()
         {
             AttributeModel = new AttributeModel();
             WubiCustom = new WubiCustomModel();
+            UserModel = new UserModel();
+            UserCustom = new UserCustomModel();
         }
 
         [RelayCommand]
@@ -37,6 +44,23 @@ namespace WubiMaster.ViewModels
             // custom 写入 & 属性值保存到配置文件中
             WubiCustom.Write();
             AttributeModel.SaveConfig();
+        }
+
+        [RelayCommand]
+        public void ChangeSchema(object obj)
+        {
+            string schema = "";
+            if (UserModel.IsWubiPinyin)
+                schema = "wubi_pinyin";
+            else if (UserModel.IsWubi)
+                schema = "wubi";
+            else
+                schema = "pinyin";
+
+            UserCustom.SetSchema(schema);
+            UserCustom.Write();
+            UserModel.SaveConfig();
+
         }
     }
 }

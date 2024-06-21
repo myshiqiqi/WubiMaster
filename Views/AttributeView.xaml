@@ -138,27 +138,37 @@
 
                 <c:SeparatorControl Header="方案配置" />
 
-                <Grid Grid.Row="3" Margin="0,5">
+                <Grid Margin="0,5">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
                                Text="输入方案" />
 
-                    <RadioButton Margin="0,0,200,0"
-                                 HorizontalAlignment="Right"
-                                 Content="五笔拼音输"
-                                 GroupName="xxx" />
-                    <RadioButton Margin="0,0,100,0"
-                                 HorizontalAlignment="Right"
-                                 Content="纯五笔"
-                                 GroupName="xxx"
-                                 IsChecked="True" />
-                    <RadioButton HorizontalAlignment="Right"
-                                 Content="纯拼音"
-                                 GroupName="xxx" />
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeSchemaCommand}"
+                                     Content="五笔拼音输"
+                                     GroupName="schema_group"
+                                     IsChecked="{Binding UserModel.IsWubiPinyin}" />
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeSchemaCommand}"
+                                     Content="纯五笔"
+                                     GroupName="schema_group"
+                                     IsChecked="{Binding UserModel.IsWubi}" />
+                        <RadioButton Margin="15,0,0,0"
+                                     HorizontalAlignment="Right"
+                                     Command="{Binding ChangeSchemaCommand}"
+                                     Content="纯拼音"
+                                     GroupName="schema_group"
+                                     IsChecked="{Binding UserModel.IsPinyin}" />
+                    </StackPanel>
+
+
                 </Grid>
 
-                <Grid Grid.Row="4" Margin="0,5">
+                <Grid Margin="0,5">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"

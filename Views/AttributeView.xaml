@@ -259,6 +259,19 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
+                               Text="回车清空编码" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.EnterClearCode}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
                                Text="分号单引号|二三候选" />
 
                     <ToggleButton Width="30"
@@ -304,17 +317,6 @@
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
                                Text="第五码将首选上屏" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid Grid.Row="1" Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="回车键取消输入" />
 
                     <ToggleButton Width="30"
                                   Height="25"

@@ -22,6 +22,7 @@ namespace WubiMaster.Models
         public string enable_sentence { get; set; }
         public string max_code_length { get; set; }
         public string auto_select { get; set; }
+        public string enter_clear_code { get; set; }
 
         public WubiCustomModel()
         {
@@ -40,6 +41,7 @@ namespace WubiMaster.Models
             enable_sentence = "translator/enable_sentence";
             max_code_length = "speller/max_code_length";
             auto_select = "speller/auto_select";
+            enter_clear_code = "key_binder/bindings/+";
         }
     }
 }

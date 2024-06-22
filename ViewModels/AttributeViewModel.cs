@@ -39,8 +39,11 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.full_shape, AttributeModel.IsFullShape ? "1" : "0");
 
             // 输入习惯
+            // 启用自动调频
             WubiCustom.SetAttribute(WubiCustom.enable_user_dict, AttributeModel.EnableUserDict.ToString().ToLower());
+            // 启用逐码提示
             WubiCustom.SetAttribute(WubiCustom.enable_completion, AttributeModel.EnableCompletion.ToString().ToLower());
+            // 启用连打模式，与四码唯一自动上屏互冲
             if (!AttributeModel.AutoSelect)
             {
                 WubiCustom.SetAttribute(WubiCustom.enable_sentence, AttributeModel.EnableSentence.ToString().ToLower());
@@ -49,6 +52,7 @@ namespace WubiMaster.ViewModels
                 else
                     WubiCustom.DelAttribute(WubiCustom.max_code_length);
             }
+            // 启用四码唯一自动上屏，与连打模式互冲
             if (!AttributeModel.EnableSentence)
             {
                 WubiCustom.SetAttribute(WubiCustom.auto_select, AttributeModel.AutoSelect.ToString().ToLower());
@@ -57,7 +61,14 @@ namespace WubiMaster.ViewModels
                 else
                     WubiCustom.DelAttribute(WubiCustom.max_code_length);
             }
-           
+            // 回车清空编码
+            string enter_clear_code_str = "\r\n    - {accept: Return, send: Escape, when: composing}\r\n    - {accept: Return, send: Escape, when: has_menu}";
+            if (AttributeModel.EnterClearCode)
+                WubiCustom.SetAttribute(WubiCustom.enter_clear_code, enter_clear_code_str);
+            else
+                WubiCustom.DelAttribute(WubiCustom.enter_clear_code);
+            
+
             // custom 写入 & 属性值保存到配置文件中
             WubiCustom.Write();
             AttributeModel.SaveConfig();

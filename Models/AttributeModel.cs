@@ -3,6 +3,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using WubiMaster.Common;
@@ -85,5 +86,9 @@ namespace WubiMaster.Models
         // 该功能与连打模式相冲
         [ObservableProperty]
         private bool autoSelect;
+
+        // 启用回车清空编码
+        [ObservableProperty]
+        private bool enterClearCode;
     }
 }

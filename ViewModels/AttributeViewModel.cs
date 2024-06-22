@@ -72,7 +72,7 @@ namespace WubiMaster.ViewModels
             else if (AttributeModel.IsWubi)
                 schema = "wubi";
             else
-                schema = "pinyin";
+                schema = "luna_pinyin_simp";
 
             UserCustom.SetSchema(schema);
             UserCustom.Write();

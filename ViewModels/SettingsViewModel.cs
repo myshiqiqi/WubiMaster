@@ -241,7 +241,8 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage(ex.Message, DialogType.Error);
             }
         }
 

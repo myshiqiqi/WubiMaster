@@ -38,10 +38,10 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="禁用"
+                                         CheckedState="启用"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}"
-                                         UnCheckedState="启用" />
+                                         UnCheckedState="禁用" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -54,10 +54,10 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="简体"
+                                         CheckedState="繁体"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.ZhTrad, Mode=TwoWay}"
-                                         UnCheckedState="繁体" />
+                                         UnCheckedState="简体" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -70,10 +70,11 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="禁用"
+                                         CheckedState="启用"
                                          Command="{Binding UpdateCommand}"
+                                         CommandParameter="ShowSpelling"
                                          IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}"
-                                         UnCheckedState="启用" />
+                                         UnCheckedState="禁用" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -86,11 +87,11 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="显示"
+                                         CheckedState="隐藏"
                                          Command="{Binding UpdateCommand}"
+                                         CommandParameter="ShowPinyin"
                                          IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}"
-                                         IsEnabled="{Binding AttributeModel.ShowSpelling}"
-                                         UnCheckedState="隐藏" />
+                                         UnCheckedState="显示" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -103,10 +104,10 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="生僻字"
+                                         CheckedState="常用字"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.IsGb2312, Mode=TwoWay}"
-                                         UnCheckedState="常用字" />
+                                         UnCheckedState="生僻字" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -119,10 +120,10 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="词组"
+                                         CheckedState="单字"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}"
-                                         UnCheckedState="单字" />
+                                         UnCheckedState="词组" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -135,10 +136,10 @@
                                          Height="28"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         CheckedState="半角"
+                                         CheckedState="全角"
                                          Command="{Binding UpdateCommand}"
                                          IsChecked="{Binding AttributeModel.IsFullShape, Mode=TwoWay}"
-                                         UnCheckedState="全角" />
+                                         UnCheckedState="半角" />
                 </Grid>
 
                 <c:SeparatorControl Header="方案配置" />
@@ -237,8 +238,8 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.EnableSentence}"
-                                  IsEnabled="{Binding AttributeModel.AutoSelect, Converter={StaticResource Bool2Reverse}}" />
+                                  CommandParameter="EnableSentence"
+                                  IsChecked="{Binding AttributeModel.EnableSentence}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -251,8 +252,22 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.AutoSelect}"
-                                  IsEnabled="{Binding AttributeModel.EnableSentence, Converter={StaticResource Bool2Reverse}}" />
+                                  CommandParameter="AutoSelect"
+                                  IsChecked="{Binding AttributeModel.AutoSelect}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="空码时清除编码" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  CommandParameter="AutoClear"
+                                  IsChecked="{Binding AttributeModel.AutoClear}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -272,22 +287,14 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="分号单引号|二三候选" />
+                               Text="第五码将首选上屏(顶字上屏)" />
 
                     <ToggleButton Width="30"
                                   Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="仅在全码时显示词组" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  CommandParameter="AutoTopWord"
+                                  IsChecked="{Binding AttributeModel.AutoTopWord}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -298,52 +305,27 @@
 
                     <ToggleButton Width="30"
                                   Height="25"
-                                  HorizontalAlignment="Right" />
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  CommandParameter="EnableEncoder"
+                                  IsChecked="{Binding AttributeModel.EnableEncoder}" />
                 </Grid>
+
 
                 <Grid Margin="0,5">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="空码时取消输入" />
+                               Text="分号单引号 → 二三候选" />
 
                     <ToggleButton Width="30"
                                   Height="25"
-                                  HorizontalAlignment="Right" />
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  CommandParameter="EnableEncoder"
+                                  IsChecked="{Binding AttributeModel.EnableSemicolon}" />
                 </Grid>
 
-                <Grid Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="第五码将首选上屏" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid Grid.Row="2" Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="Z键复制上次上屏内容" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid Grid.Row="3" Margin="0,5">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="15"
-                               Foreground="{DynamicResource text-100}"
-                               Text="Z键作为五笔通配按键" />
-
-                    <ToggleButton Width="30"
-                                  Height="25"
-                                  HorizontalAlignment="Right" />
-                </Grid>
             </UniformGrid>
 
         </Grid>

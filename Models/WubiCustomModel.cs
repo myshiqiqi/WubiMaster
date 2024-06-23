@@ -23,6 +23,9 @@ namespace WubiMaster.Models
         public string max_code_length { get; set; }
         public string auto_select { get; set; }
         public string enter_clear_code { get; set; }
+        public string auto_clear { get; set; }
+        public string enable_encoder { get; set; }
+        public string enable_semicolon { get; set; }
 
         public WubiCustomModel()
         {
@@ -42,6 +45,9 @@ namespace WubiMaster.Models
             max_code_length = "speller/max_code_length";
             auto_select = "speller/auto_select";
             enter_clear_code = "key_binder/bindings/+";
+            auto_clear = "speller/auto_clear";
+            enable_encoder = "translator/enable_encoder";
+            enable_semicolon = "key_binder/bindings/+";
         }
     }
 }

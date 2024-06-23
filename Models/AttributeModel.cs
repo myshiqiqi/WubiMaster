@@ -90,5 +90,21 @@ namespace WubiMaster.Models
         // 启用回车清空编码
         [ObservableProperty]
         private bool enterClearCode;
+
+        // 启用空码时清除编码
+        [ObservableProperty]
+        private bool autoClear;
+
+        // 第五码将首选上屏(顶字上屏)
+        [ObservableProperty]
+        private bool autoTopWord;
+
+        // 启用智能造词
+        [ObservableProperty]
+        private bool enableEncoder;
+
+        // 启用分号模式，这里表示分号单引号设置为二三候选
+        [ObservableProperty]
+        private bool enableSemicolon;
     }
 }

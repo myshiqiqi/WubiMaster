@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using WubiMaster.Common;
 
 namespace WubiMaster.Models
@@ -39,8 +40,10 @@ namespace WubiMaster.Models
                 txt += $"# time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n";
                 txt += "\npatch:\n";
 
-                foreach (var k in AttributeDict.Keys)
+                foreach (var k in AttributeDict.Keys.OrderBy(k => k))
                 {
+                    if (string.IsNullOrEmpty(AttributeDict[k]))
+                        continue;
                     txt += $"  {k}: {AttributeDict[k]}\n";
                 }
 

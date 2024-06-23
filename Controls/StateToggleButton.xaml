@@ -34,7 +34,7 @@
                                            VerticalAlignment="Center"
                                            FontSize="13"
                                            Foreground="{DynamicResource bg-100}"
-                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=CheckedState}" />
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=UnCheckedState}" />
                             </Grid>
 
                             <Grid Grid.Column="1">
@@ -53,7 +53,7 @@
                                            VerticalAlignment="Center"
                                            FontSize="13"
                                            Foreground="{DynamicResource bg-100}"
-                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=UnCheckedState}" />
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=CheckedState}" />
                             </Grid>
 
                         </Grid>

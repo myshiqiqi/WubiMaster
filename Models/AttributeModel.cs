@@ -103,6 +103,10 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private bool enableEncoder;
 
+        // 是否对已上屏的词自动成词
+        [ObservableProperty]
+        private bool encodeCommitHistory;
+
         // 启用分号模式，这里表示分号单引号设置为二三候选
         [ObservableProperty]
         private bool enableSemicolon;

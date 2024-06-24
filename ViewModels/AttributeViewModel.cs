@@ -1,12 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using WubiMaster.Models;
 
 namespace WubiMaster.ViewModels
@@ -28,10 +22,39 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
+        public void ChangeDict()
+        {
+            string dict_type = "";
+            if (AttributeModel.IsDict86)
+                dict_type = "86";
+            else if (AttributeModel.IsDict98)
+                dict_type = "98";
+            else
+                dict_type = "06";
+
+            AttributeModel.SaveConfig();
+            WeakReferenceMessenger.Default.Send<string, string>(dict_type, "ChangeWubiDict");
+        }
+
+        [RelayCommand]
+        public void ChangeSchema(object obj)
+        {
+            string schema = "";
+            if (AttributeModel.IsWubiPinyin)
+                schema = "wubi_pinyin";
+            else if (AttributeModel.IsWubi)
+                schema = "wubi";
+            else
+                schema = "luna_pinyin_simp";
+
+            UserCustom.SetSchema(schema);
+            UserCustom.Write();
+            AttributeModel.SaveConfig();
+        }
+
+        [RelayCommand]
         public void Update(object obj)
         {
-            //WubiCustom.SetAttribute(WubiCustom.max_code_length, "10000");  // 默认不限制编码长度
-
             // 处理互冲的开关项
             if (obj != null)
             {
@@ -41,9 +64,18 @@ namespace WubiMaster.ViewModels
                     case "ShowSpelling":  // 拆分提示开关
                         if (!AttributeModel.ShowSpelling) AttributeModel.ShowPinyin = true;
                         break;
+
                     case "ShowPinyin":  // 注音提示开关
                         if (!AttributeModel.ShowPinyin) AttributeModel.ShowSpelling = true;
                         break;
+
+                    case "EnableUserDict":  // 动态调频开关
+                        if (!AttributeModel.EnableUserDict)
+                        {
+                            AttributeModel.EnableEncoder = false;  // 自造词禁
+                        }
+                        break;
+
                     case "EnableSentence":  // 连打模式开关
                         if (AttributeModel.EnableSentence)
                         {
@@ -53,23 +85,26 @@ namespace WubiMaster.ViewModels
                             WubiCustom.DelAttribute(WubiCustom.max_code_length);  // 取消编码长度限制
                         }
                         break;
+
                     case "AutoSelect":  // 四码唯一自动上屏开关
                         if (AttributeModel.AutoSelect)
                         {
                             AttributeModel.EnableSentence = false;  // 连打模式禁
                             AttributeModel.AutoTopWord = false;  // 第五码将首选上屏禁
-                            AttributeModel.EnableEncoder = false;  // 智能造词禁
+                            //AttributeModel.EnableEncoder = false;  // 智能造词禁
                             WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");  // 编码最长长度固定为4
                         }
                         break;
+
                     case "AutoClear":  // 空码自动清空编码开关
                         if (AttributeModel.AutoClear)
                         {
                             AttributeModel.EnableSentence = false;  // 连打模式禁
-                            AttributeModel.EnableEncoder = false;  // 智能造词禁
+                            //AttributeModel.EnableEncoder = false;  // 智能造词禁
                             WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");  // 编码最长长度固定为4
                         }
                         break;
+
                     case "AutoTopWord":  // 第五码将首选上屏开关
                         if (AttributeModel.AutoTopWord)
                         {
@@ -78,20 +113,17 @@ namespace WubiMaster.ViewModels
                             WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");  // 编码最长长度固定为4
                         }
                         break;
+
                     case "EnableEncoder":  // 智能造词开关
                         if (AttributeModel.EnableEncoder)
                         {
-                            AttributeModel.AutoSelect = false;  // 四码唯一自动上屏禁
-                            AttributeModel.EnableSentence = true;  // 连打模式启用
-                            AttributeModel.EnableUserDict = true;  // 自动调频启用
-                            AttributeModel.AutoClear = false; // 空码时清空编码禁
-                            WubiCustom.DelAttribute(WubiCustom.max_code_length);  // 取消编码长度限制
+                            AttributeModel.EnableUserDict = true;  // 动态调频启用
                         }
                         break;
+
                     default:
                         break;
                 }
-
             }
 
             // emoji 表情开关
@@ -120,11 +152,14 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.auto_clear, AttributeModel.AutoClear ? "max_length" : "");
             // 智能造词
             WubiCustom.SetAttribute(WubiCustom.enable_encoder, AttributeModel.EnableEncoder.ToString().ToLower());
+            // 对已上屏词自动成词
+            AttributeModel.EncodeCommitHistory = AttributeModel.EnableEncoder;
+            WubiCustom.SetAttribute(WubiCustom.encode_commit_history, AttributeModel.EncodeCommitHistory.ToString().ToLower());
             /**----------------处理快捷键类指令----------------**/
             string key_str = "";
             // 回车清空编码
             string enter_clear_code_str = "\r\n    - {accept: Return, send: Escape, when: composing}\r\n    - {accept: Return, send: Escape, when: has_menu}";
-            key_str += AttributeModel.EnterClearCode ? enter_clear_code_str :"";
+            key_str += AttributeModel.EnterClearCode ? enter_clear_code_str : "";
             WubiCustom.SetAttribute(WubiCustom.enter_clear_code, key_str);
             // Tab 键清空编码
             string tab_clear_code_str = "\r\n    - {accept: Tab, send: Escape, when: composing}\r\n    - {accept: Tab, send: Escape, when: has_menu}";
@@ -144,38 +179,6 @@ namespace WubiMaster.ViewModels
             WubiCustom.Write();
             // 将属性值保存到配置文件
             AttributeModel.SaveConfig();
-        }
-
-        [RelayCommand]
-        public void ChangeSchema(object obj)
-        {
-            string schema = "";
-            if (AttributeModel.IsWubiPinyin)
-                schema = "wubi_pinyin";
-            else if (AttributeModel.IsWubi)
-                schema = "wubi";
-            else
-                schema = "luna_pinyin_simp";
-
-            UserCustom.SetSchema(schema);
-            UserCustom.Write();
-            AttributeModel.SaveConfig();
-
-        }
-
-        [RelayCommand]
-        public void ChangeDict()
-        {
-            string dict_type = "";
-            if (AttributeModel.IsDict86)
-                dict_type = "86";
-            else if (AttributeModel.IsDict98)
-                dict_type = "98";
-            else
-                dict_type = "06";
-
-            AttributeModel.SaveConfig();
-            WeakReferenceMessenger.Default.Send<string, string>(dict_type, "ChangeWubiDict");
         }
     }
 }

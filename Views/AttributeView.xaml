@@ -212,6 +212,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
+                                  CommandParameter="EnableUserDict"
                                   IsChecked="{Binding AttributeModel.EnableUserDict}" />
                 </Grid>
 

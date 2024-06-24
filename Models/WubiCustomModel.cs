@@ -27,6 +27,7 @@ namespace WubiMaster.Models
         public string enable_encoder { get; set; }
         public string enable_semicolon { get; set; }
         public string tab_clear_code { get; set; }
+        public string encode_commit_history { get; set; }
 
         public WubiCustomModel()
         {
@@ -50,6 +51,7 @@ namespace WubiMaster.Models
             enable_encoder = "translator/enable_encoder";
             enable_semicolon = "key_binder/bindings/+";
             tab_clear_code = "key_binder/bindings/+";
+            encode_commit_history = "translator/encode_commit_history";
         }
     }
 }

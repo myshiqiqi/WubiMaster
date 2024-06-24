@@ -1032,6 +1032,31 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("IsShowSpelling", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
 
 
+        // 编码区边框边距
+        public Thickness CandidateBorderMargin
+        {
+            get { return (Thickness)GetValue(CandidateBorderMarginProperty); }
+            set { SetValue(CandidateBorderMarginProperty, value); }
+        }
+
+        public static readonly DependencyProperty CandidateBorderMarginProperty =
+            DependencyProperty.Register("CandidateBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
+
+        // 编码区边框圆角度
+        public CornerRadius CandidateBorderCorner
+        {
+            get { return (CornerRadius)GetValue(CandidateBorderCornerProperty); }
+            set { SetValue(CandidateBorderCornerProperty, value); }
+        }
+
+        public static readonly DependencyProperty CandidateBorderCornerProperty =
+            DependencyProperty.Register("CandidateBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+
+
+
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -1071,7 +1096,7 @@ namespace WubiMaster.Controls
             c.HilitedCandidateBackColor = c.BrushConvter(schemeModel.hilited_candidate_back_color, schemeModel.back_color, colorFormat: color_format);
             c.HilitedCandidateTextColor = c.BrushConvter(schemeModel.hilited_candidate_text_color, c.HilitedTextColor.ToString(), "argb");
             c.HilitedCandidateBorderColor = c.BrushConvter(schemeModel.hilited_candidate_border_color, schemeModel.hilited_candidate_back_color, colorFormat: color_format);
-            c.RoundCorner = double.Parse(styleModel.layout.round_corner);
+            c.RoundCorner = 10;//double.Parse(styleModel.layout.round_corner);
             c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), "argb");
             c.MarkText = styleModel.mark_text;
             c.HilitedMarkColor = c.BrushConvter(schemeModel.hilited_mark_color, schemeModel.text_color, colorFormat: color_format);
@@ -1120,22 +1145,55 @@ namespace WubiMaster.Controls
 
             // # 判断是不是天圆地方（半月）模式
             /**「天圓地方」佈局：由 margin 與 hilite_padding 確定, 當margin <= hilite_padding時生效**/
-            if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
+            if (c.InlinePreedit)
             {
-                c.IsBanYueMode = true;
-                c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
-                c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
-                c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
-                c.HiliteBorderMargin = new Thickness(0);
+                // 当编码在行内时
+
+                if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
+                {
+                    c.IsBanYueMode = true;
+                    c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
+                    c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                    c.HiliteBorderMargin = new Thickness(-2);
+                }
+                else
+                {
+                    c.IsBanYueMode = false;
+                    c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderMargin = new Thickness(0);
+                }
             }
             else
             {
-                c.IsBanYueMode = false;
-                c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
-                c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
-                c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
-                c.HiliteBorderMargin = new Thickness(c.MarginX - c.HilitePadding);
+                // 当编码在高亮区时
+                if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
+                {
+                    // 判断是天圆地方模式
+                    c.IsBanYueMode = true;
+                    c.HiliteBorderCornerTV = new CornerRadius(0);
+                    c.HiliteBorderCornerV = new CornerRadius(0);
+                    c.HiliteBorderCornerH = new CornerRadius(0);
+                    c.HiliteBorderMargin = new Thickness(-2);
+                    c.CandidateBorderMargin = new Thickness(-2, -2, 0, 2);
+                    c.CandidateBorderCorner = new CornerRadius(10, 0, 0, 0);
+                }
+                else
+                {
+                    // 判断为普通模式
+                    c.IsBanYueMode = false;
+                    c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderMargin = new Thickness(0);
+                    c.CandidateBorderMargin = new Thickness(0, 0, 0, 2);  // 编码区的外边距
+                    c.CandidateBorderCorner = new CornerRadius(c.RoundCorner);  // 编码区的圆角值
+                }
             }
+
+
 
             // 阴影
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);

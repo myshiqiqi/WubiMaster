@@ -1020,6 +1020,19 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
+
+        // 是否显示字根拆分提示
+        public bool IsShowSpelling
+        {
+            get { return (bool)GetValue(IsShowSpellingProperty); }
+            set { SetValue(IsShowSpellingProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsShowSpellingProperty =
+            DependencyProperty.Register("IsShowSpelling", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
+
+
+
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -1154,6 +1167,8 @@ namespace WubiMaster.Controls
             //{
             //    c.MarkText = mark_str;
             //}
+            // 拆分字根提示是否显示
+            c.IsShowSpelling = c.ColorModel.OtherProperty.ShowSpelling;
 
             Console.WriteLine();
         }

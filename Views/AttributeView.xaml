@@ -233,7 +233,7 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="连打模式" />
+                               Text="连打模式(长句模式)" />
 
                     <ToggleButton Width="30"
                                   Height="25"

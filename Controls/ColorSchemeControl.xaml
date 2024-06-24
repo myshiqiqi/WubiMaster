@@ -138,147 +138,191 @@
         <TabControl Grid.Row="1">
             <!--标准纵向外观样式-->
             <TabItem IsEnabled="False" IsSelected="{Binding ElementName=color_scheme_control, Path=Vertical, Mode=OneWay}">
-                <Grid>
+                <Grid MaxHeight="160"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Grid Height="20"
-                          Margin="5,0,0,0"
+                    <Grid.Resources>
+                        <Style x:Key="label_style" TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="Margin" Value="5,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+
+                        <Style x:Key="text_style" TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+
+                        <Style x:Key="spelling_style" TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="FontFamily" Value="../Fonts/#黑体字根" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                            <Setter Property="Visibility" Value="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}" />
+                        </Style>
+
+                        <Style x:Key="hilite_back_style" TargetType="Border">
+                            <Setter Property="Height" Value="32" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="0,0,0,2" />
+                            <Setter Property="CornerRadius" Value="10" />
+                            <Setter Property="Padding" Value="3" />
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid Height="32"
+                          Margin="3,0,0,0"
                           Visibility="{Binding ElementName=color_scheme_control, Path=InlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                        <TextBlock FontSize="14" Text="knvt|" />
+                        <TextBlock Style="{StaticResource text_style}" Text="knvt" />
                     </Grid>
 
                     <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
-                        <Border Width="180"
-                                Height="130"
+                        <Border Padding="2"
                                 Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
                                 BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
                                 BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
-                                CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
+                                CornerRadius="10">
 
                             <!--主体元素-->
-                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
+                            <Grid Margin="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
 
-                                <Grid Height="30" Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                                    <Border Width="40"
-                                            Height="24"
-                                            Margin="3"
+                                <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
+                                    <Border Width="50"
                                             HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
+                                            Style="{StaticResource hilite_back_style}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="12"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}"
+                                                   Style="{StaticResource text_style}"
                                                    Text="ksvt" />
                                     </Border>
                                 </Grid>
 
-                                <Grid Grid.Row="1">
+                                <Grid Grid.Row="1" VerticalAlignment="Top">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
 
-                                    <Grid.Resources>
-                                        <Style x:Key="label_style" TargetType="TextBlock">
-                                            <Setter Property="FontSize" Value="15" />
-                                            <Setter Property="Margin" Value="5,0" />
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                        </Style>
-
-                                        <Style x:Key="text_style" TargetType="TextBlock">
-                                            <Setter Property="FontSize" Value="15" />
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                            <Setter Property="HorizontalAlignment" Value="Left" />
-                                            <Setter Property="Margin" Value="0" />
-                                        </Style>
-
-                                        <Style x:Key="spelling_style" TargetType="TextBlock">
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                            <Setter Property="FontFamily" Value="../Fonts/#黑体字根" />
-                                            <Setter Property="FontSize" Value="12" />
-                                            <Setter Property="Foreground" Value="Black" />
-                                            <Setter Property="Margin" Value="5,0,0,0" />
-                                        </Style>
-                                    </Grid.Resources>
 
                                     <Border Grid.ColumnSpan="4"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}" />
+                                            Style="{StaticResource hilite_back_style}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                    <TextBlock HorizontalAlignment="Left"
-                                               VerticalAlignment="Center"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
-                                               Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
+                                            <TextBlock Margin="10"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
+                                                       Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
 
-                                    <TextBlock Grid.Column="1"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
-                                               Style="{StaticResource label_style}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_1}" />
+                                            <TextBlock Grid.Column="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
+                                                       Style="{StaticResource label_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_1}" />
 
-                                    <TextBlock Grid.Row="0"
-                                               Grid.Column="2"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
-                                               Style="{StaticResource text_style}"
-                                               Text="中书君" />
+                                            <TextBlock Grid.Row="0"
+                                                       Grid.Column="2"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
+                                                       Style="{StaticResource text_style}"
+                                                       Text="中书君" />
 
-                                    <TextBlock Grid.Row="0"
-                                               Grid.Column="3"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}"
-                                               Style="{StaticResource spelling_style}"
-                                               Text="〈  〉" />
+                                            <TextBlock Grid.Row="0"
+                                                       Grid.Column="3"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}"
+                                                       Style="{StaticResource spelling_style}"
+                                                       Text="〈  〉" />
+                                        </Grid>
 
-                                    <TextBlock Grid.Row="1"
-                                               Grid.Column="1"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Style="{StaticResource label_style}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
-                                    <TextBlock Grid.Row="1"
-                                               Grid.Column="2"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
-                                               Style="{StaticResource text_style}"
-                                               Text="五笔斋" />
+                                    </Border>
 
-                                    <TextBlock Grid.Row="1"
-                                               Grid.Column="3"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
-                                               Style="{StaticResource spelling_style}"
-                                               Text="〈  〉" />
+                                    <Border Grid.Row="1"
+                                            Grid.ColumnSpan="4"
+                                            Style="{StaticResource hilite_back_style}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="2"
-                                               Grid.Column="1"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Style="{StaticResource label_style}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
+                                            <TextBlock Grid.Column="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
+                                                       Style="{StaticResource label_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
-                                    <TextBlock Grid.Row="2"
-                                               Grid.Column="2"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
-                                               Style="{StaticResource text_style}"
-                                               Text="空山明月" />
+                                            <TextBlock Grid.Row="1"
+                                                       Grid.Column="2"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
+                                                       Style="{StaticResource text_style}"
+                                                       Text="五笔斋" />
 
-                                    <TextBlock Grid.Row="2"
-                                               Grid.Column="3"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
-                                               Style="{StaticResource spelling_style}"
-                                               Text="〈  〉" />
+                                            <TextBlock Grid.Row="1"
+                                                       Grid.Column="3"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
+                                                       Style="{StaticResource spelling_style}"
+                                                       Text="〈  〉" />
+                                        </Grid>
+
+
+                                    </Border>
+
+                                    <Border Grid.Row="2"
+                                            Grid.ColumnSpan="4"
+                                            Style="{StaticResource hilite_back_style}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Row="2"
+                                                       Grid.Column="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
+                                                       Style="{StaticResource label_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
+
+                                            <TextBlock Grid.Row="2"
+                                                       Grid.Column="2"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
+                                                       Style="{StaticResource text_style}"
+                                                       Text="空山明月" />
+
+                                            <TextBlock Grid.Row="2"
+                                                       Grid.Column="3"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
+                                                       Style="{StaticResource spelling_style}"
+                                                       Text="〈  〉" />
+                                        </Grid>
+
+                                    </Border>
+
                                 </Grid>
                             </Grid>
                         </Border>
@@ -351,6 +395,7 @@
                                             <Setter Property="FontSize" Value="12" />
                                             <Setter Property="Foreground" Value="Black" />
                                             <Setter Property="Margin" Value="5,0,0,0" />
+                                            <Setter Property="Visibility" Value="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}" />
                                         </Style>
                                     </StackPanel.Resources>
                                     <Grid>
@@ -472,7 +517,8 @@
 
                     <Grid Grid.Row="1"
                           Width="110"
-                          Height="160"
+                          MaxHeight="160"
+                          VerticalAlignment="Top"
                           TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
 
                         <Border Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
@@ -481,7 +527,7 @@
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
 
                             <!--主题元素-->
-                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
+                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}" VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -503,7 +549,7 @@
                                     </Border>
                                 </Grid>
 
-                                <Grid Grid.Column="1">
+                                <Grid Grid.Column="1" VerticalAlignment="Top">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
@@ -515,6 +561,12 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
+
+                                    <Grid.Resources>
+                                        <Style x:Key="spell_style" TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}" />
+                                        </Style>
+                                    </Grid.Resources>
 
                                     <Border Grid.RowSpan="4"
                                             Grid.Column="0"
@@ -575,7 +627,9 @@
                                                Text="空山明月"
                                                TextWrapping="Wrap" />
 
-                                    <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
+                                    <StackPanel Grid.Row="3"
+                                                Style="{StaticResource spell_style}"
+                                                TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
                                         <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                    FontFamily="../Fonts/#黑体字根"
                                                    FontSize="10"
@@ -606,6 +660,7 @@
 
                                     <StackPanel Grid.Row="3"
                                                 Grid.Column="1"
+                                                Style="{StaticResource spell_style}"
                                                 TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
                                         <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                    FontFamily="../Fonts/#黑体字根"
@@ -637,6 +692,7 @@
 
                                     <StackPanel Grid.Row="3"
                                                 Grid.Column="2"
+                                                Style="{StaticResource spell_style}"
                                                 TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
                                         <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
                                                    FontFamily="../Fonts/#黑体字根"

@@ -10,30 +10,37 @@ namespace WubiMaster.Models
     /// </summary>
     public partial class ColorCandidateModel : ObservableRecipient
     {
+        // 序号类型列表
         [ObservableProperty]
-        private int numIndex;  // 候选数值Index
+        private Dictionary<string, string> labelDict;
 
+        // 选择的序号index
         [ObservableProperty]
-        private List<string> numList;  // 候选数列表
+        private int labelIndex;
 
+        // 选中的后缀index
         [ObservableProperty]
-        private Dictionary<string, string> labelDict;  // 序号类型列表
+        private int labelSuffixIndex;
 
+        // 序号后缀（分隔符）
         [ObservableProperty]
-        private int labelIndex;  // 选择的序号index
+        private List<string> labelSuffixList;
 
+        // 首选项标记符index
         [ObservableProperty]
-        private List<string> labelSuffixList;  // 序号后缀（分隔符）
+        private int markTextIndex;
 
-        [ObservableProperty]
-        private int labelSuffixIndex;  // 选中的后缀index
-
-        [ObservableProperty]
-        private int markTextIndex;  // 首选项标记符index
-
+        // mark符集合
         [ObservableProperty]
         private List<string> markTextList;
 
+        // 候选数值Index
+        [ObservableProperty]
+        private int numIndex;
+
+        // 候选数列表
+        [ObservableProperty]
+        private List<string> numList;
 
         public ColorCandidateModel()
         {
@@ -49,15 +56,19 @@ namespace WubiMaster.Models
             LoadConfig();
         }
 
-        /// <summary>
-        /// 从配置文件中加载数据
-        /// </summary>
-        private void LoadConfig()
+        public void Change()
         {
-            NumIndex = ConfigHelper.ReadConfigByInt("candidate_num_index", 2);
-            LabelIndex = ConfigHelper.ReadConfigByInt("candidate_label_index", 0);
-            LabelSuffixIndex = ConfigHelper.ReadConfigByInt("candidate_label_suffix_index", 0);
-            MarkTextIndex = ConfigHelper.ReadConfigByInt("candidate_mark_text_index", 0);
+            NumList.Clear();
+            var label_str = LabelDict.Values.ToList()[LabelIndex];
+            var label_length = label_str.Replace("[", "").Replace("]", "").Replace(",", "").Replace(" ", "").Trim().Length;
+            int min_count = 3;
+            int max_count = label_length > 10 ? 10 : label_length;
+            for (int i = min_count; i <= max_count; i++)
+            {
+                NumList.Add(i.ToString());
+            }
+
+            NumIndex = NumIndex >= NumList.Count ? NumList.Count - 1 : NumIndex;
         }
 
         // 将必要的数据保存到配置文件中去
@@ -75,16 +86,6 @@ namespace WubiMaster.Models
             LabelDict.Add($"{label_array[0]}{label_array[1]}{label_array[2]}{label_array[3]}...{label_array[label_array.Length - 1]}", $"[ {label_strs} ]");
         }
 
-        private void InitMarkTextList()
-        {
-            MarkTextList = new List<string>();
-            string[] mark_texts = "默认, 无, ★, ☆, ⛤, ⛥, ⛦, ⛧, ✡, ❋, ❊, ❉, ❈, ❇, ❆, ❅, ❄, ❃, ❂, ❁, ❀, ✿, ✾, ✽, ✼, ✻, ✺, ✹, ✸, ✷, ✶, ✵, ✴, ✳, ✲, ✱, ✰, ✯, ✮, ✭, ✬, ✫, ✪, ✩, ✧, ✦, ✥, ✤, ✣, ✢".Replace(" ", "").Split(",");
-            for (int i = 0; i < mark_texts.Length; i++)
-            {
-                MarkTextList.Add(mark_texts[i]);
-            }
-        }
-
         private void InitLabelCount()
         {
             NumList ??= new List<string>();
@@ -98,16 +99,6 @@ namespace WubiMaster.Models
             }
 
             NumIndex = 2; // 默认是第三位选项值，即5个候选项值
-        }
-
-        private void InitSuffixList()
-        {
-            LabelSuffixList = new List<string>();
-            string[] suffix_strs = "无,.,空格,-,|,■,□,→,↣,➼,➤,~,:,#,*,+,●".Split(",");
-            for (int i = 0; i < suffix_strs.Length; i++)
-            {
-                LabelSuffixList.Add(suffix_strs[i]);
-            }
         }
 
         private void InitLabelDict()
@@ -135,19 +126,35 @@ namespace WubiMaster.Models
             AddLabel("🀢, 🀣, 🀤, 🀥, 🀦, 🀧, 🀨, 🀩, 🀪, 🀫");
         }
 
-        public void Change()
+        private void InitMarkTextList()
         {
-            NumList.Clear();
-            var label_str = LabelDict.Values.ToList()[LabelIndex];
-            var label_length = label_str.Replace("[", "").Replace("]", "").Replace(",", "").Replace(" ", "").Trim().Length;
-            int min_count = 3;
-            int max_count = label_length > 10 ? 10 : label_length;
-            for (int i = min_count; i <= max_count; i++)
+            MarkTextList = new List<string>();
+            string[] mark_texts = "默认, 无, ★, ☆, ⛤, ⛥, ⛦, ⛧, ✡, ❋, ❊, ❉, ❈, ❇, ❆, ❅, ❄, ❃, ❂, ❁, ❀, ✿, ✾, ✽, ✼, ✻, ✺, ✹, ✸, ✷, ✶, ✵, ✴, ✳, ✲, ✱, ✰, ✯, ✮, ✭, ✬, ✫, ✪, ✩, ✧, ✦, ✥, ✤, ✣, ✢".Replace(" ", "").Split(",");
+            for (int i = 0; i < mark_texts.Length; i++)
             {
-                NumList.Add(i.ToString());
+                MarkTextList.Add(mark_texts[i]);
             }
+        }
 
-            NumIndex = NumIndex >= NumList.Count ? NumList.Count - 1 : NumIndex;
+        private void InitSuffixList()
+        {
+            LabelSuffixList = new List<string>();
+            string[] suffix_strs = "无,.,空格,-,|,■,□,→,↣,➼,➤,~,:,#,*,+,●".Split(",");
+            for (int i = 0; i < suffix_strs.Length; i++)
+            {
+                LabelSuffixList.Add(suffix_strs[i]);
+            }
+        }
+
+        /// <summary>
+        /// 从配置文件中加载数据
+        /// </summary>
+        private void LoadConfig()
+        {
+            NumIndex = ConfigHelper.ReadConfigByInt("candidate_num_index", 2);
+            LabelIndex = ConfigHelper.ReadConfigByInt("candidate_label_index", 0);
+            LabelSuffixIndex = ConfigHelper.ReadConfigByInt("candidate_label_suffix_index", 0);
+            MarkTextIndex = ConfigHelper.ReadConfigByInt("candidate_mark_text_index", 0);
         }
     }
 }

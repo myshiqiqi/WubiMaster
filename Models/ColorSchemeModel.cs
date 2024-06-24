@@ -48,19 +48,8 @@ namespace WubiMaster.Models
         public string MarkText { get; set; }
 
         /// <summary>
-        /// 从配置中读取配置数据
+        /// 是否显示字根拆分提示
         /// </summary>
-        public void LoadConfig()
-        {
-
-        }
-
-        // 向配置中保存属性数据
-        public void SaveConfig()
-        {
-
-        }
-
-        //todo: 这些方法可以提炼成公用的抽象类
+        public bool ShowSpelling { get; set; }
     }
 }

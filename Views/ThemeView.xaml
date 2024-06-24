@@ -54,11 +54,9 @@
                                 </Viewbox>
                             </Border>
 
-                            <Viewbox Width="550" Height="160">
-                                <c:ColorSchemeControl HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"
-                                                      ColorModel="{Binding CurrentColor, Mode=TwoWay}" />
-                            </Viewbox>
+                            <c:ColorSchemeControl HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  ColorModel="{Binding CurrentColor, Mode=TwoWay}" />
                         </Grid>
 
                         <ScrollViewer Grid.Row="1">
@@ -190,10 +188,10 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr15}"
+                                                                     CheckedState="{StaticResource ThemeStr16}"
                                                                      Command="{Binding UpdateTemplateCommand}"
                                                                      IsChecked="{Binding ColorTemplate.InLine, Mode=TwoWay}"
-                                                                     UnCheckedState="{StaticResource ThemeStr16}" />
+                                                                     UnCheckedState="{StaticResource ThemeStr15}" />
                                             </Grid>
 
                                             <Grid Margin="0,10,0,0">
@@ -206,10 +204,10 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr9}"
+                                                                     CheckedState="{StaticResource ThemeStr10}"
                                                                      Command="{Binding UpdateTemplateCommand}"
                                                                      IsChecked="{Binding ColorTemplate.TextVertical, Mode=TwoWay}"
-                                                                     UnCheckedState="{StaticResource ThemeStr10}" />
+                                                                     UnCheckedState="{StaticResource ThemeStr9}" />
                                             </Grid>
 
                                             <Grid Margin="0,10,0,0">
@@ -222,10 +220,10 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr12}"
+                                                                     CheckedState="{StaticResource ThemeStr13}"
                                                                      Command="{Binding UpdateTemplateCommand}"
                                                                      IsChecked="{Binding ColorTemplate.IsBanyueMode, Mode=TwoWay}"
-                                                                     UnCheckedState="{StaticResource ThemeStr13}" />
+                                                                     UnCheckedState="{StaticResource ThemeStr12}" />
                                             </Grid>
 
                                             <Grid Margin="0,10,0,0">
@@ -237,11 +235,11 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="{StaticResource ThemeStr19}"
+                                                                     CheckedState="{StaticResource ThemeStr20}"
                                                                      Command="{Binding UpdateTemplateCommand}"
                                                                      IsChecked="{Binding ColorTemplate.Horizontal, Mode=TwoWay}"
                                                                      IsEnabled="{Binding ColorTemplate.TextVertical, Converter={StaticResource Bool2Reverse}}"
-                                                                     UnCheckedState="{StaticResource ThemeStr20}" />
+                                                                     UnCheckedState="{StaticResource ThemeStr19}" />
                                             </Grid>
 
                                             <Grid Margin="0,10,0,0">
@@ -254,10 +252,10 @@
                                                                      Height="28"
                                                                      HorizontalAlignment="Right"
                                                                      VerticalAlignment="Center"
-                                                                     CheckedState="单个"
+                                                                     CheckedState="全体"
                                                                      Command="{Binding UpdateTemplateCommand}"
                                                                      IsChecked="{Binding ColorTemplate.IsTemplateAll, Mode=TwoWay}"
-                                                                     UnCheckedState="全体" />
+                                                                     UnCheckedState="单个" />
                                             </Grid>
                                         </UniformGrid>
 
@@ -345,21 +343,13 @@
                                             <Grid Margin="0,10,0,0">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
-                                                           Text="显示字根" />
-                                                <ToggleButton Width="50"
-                                                              Height="25"
-                                                              HorizontalAlignment="Right"
-                                                              Content="" />
-                                            </Grid>
+                                                           Text="显示字根(本例仅用于展示)" />
 
-                                            <Grid Margin="0,10,0,0">
-                                                <TextBlock FontSize="15"
-                                                           Foreground="{DynamicResource text-100}"
-                                                           Text="显示编码" />
                                                 <ToggleButton Width="50"
                                                               Height="25"
                                                               HorizontalAlignment="Right"
-                                                              Content="" />
+                                                              Command="{Binding CandidateChangeCommand}"
+                                                              IsChecked="{Binding CurrentColor.OtherProperty.ShowSpelling}" />
                                             </Grid>
 
                                             <Separator Margin="0,10"

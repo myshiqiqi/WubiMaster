@@ -420,10 +420,8 @@ namespace WubiMaster.ViewModels
 
         private void LoadColorShemes()
         {
-            //if (!File.Exists(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey))
-            //    return;
             if (!Directory.Exists(GlobalValues.UserPath + "\\colors"))
-                throw new Exception("找不到主题文件");
+                return;
 
             if (string.IsNullOrEmpty(GlobalValues.UserPath)) return;
             weaselPath = @$"{GlobalValues.UserPath}\weasel.yaml";

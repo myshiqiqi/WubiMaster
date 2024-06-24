@@ -26,6 +26,7 @@ namespace WubiMaster.Models
         public string auto_clear { get; set; }
         public string enable_encoder { get; set; }
         public string enable_semicolon { get; set; }
+        public string tab_clear_code { get; set; }
 
         public WubiCustomModel()
         {
@@ -48,6 +49,7 @@ namespace WubiMaster.Models
             auto_clear = "speller/auto_clear";
             enable_encoder = "translator/enable_encoder";
             enable_semicolon = "key_binder/bindings/+";
+            tab_clear_code = "key_binder/bindings/+";
         }
     }
 }

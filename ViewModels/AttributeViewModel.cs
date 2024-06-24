@@ -121,11 +121,15 @@ namespace WubiMaster.ViewModels
             // 智能造词
             WubiCustom.SetAttribute(WubiCustom.enable_encoder, AttributeModel.EnableEncoder.ToString().ToLower());
             /**----------------处理快捷键类指令----------------**/
-            // 回车清空编码
             string key_str = "";
+            // 回车清空编码
             string enter_clear_code_str = "\r\n    - {accept: Return, send: Escape, when: composing}\r\n    - {accept: Return, send: Escape, when: has_menu}";
             key_str += AttributeModel.EnterClearCode ? enter_clear_code_str :"";
             WubiCustom.SetAttribute(WubiCustom.enter_clear_code, key_str);
+            // Tab 键清空编码
+            string tab_clear_code_str = "\r\n    - {accept: Tab, send: Escape, when: composing}\r\n    - {accept: Tab, send: Escape, when: has_menu}";
+            key_str += AttributeModel.TabClearCode ? tab_clear_code_str : "";
+            WubiCustom.SetAttribute(WubiCustom.tab_clear_code, key_str);
             // 分号单引号二三候选
             string enable_semicolon_str = "\r\n    - {accept: semicolon, send: 2, when: has_menu}\r\n    - {accept: apostrophe, send: 3, when: has_menu}";
             key_str += AttributeModel.EnableSemicolon ? enable_semicolon_str : "";

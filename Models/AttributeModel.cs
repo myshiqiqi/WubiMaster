@@ -106,5 +106,9 @@ namespace WubiMaster.Models
         // 启用分号模式，这里表示分号单引号设置为二三候选
         [ObservableProperty]
         private bool enableSemicolon;
+
+        // Tab 键清空编码
+        [ObservableProperty]
+        private bool tabClearCode;
     }
 }

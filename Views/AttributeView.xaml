@@ -287,6 +287,19 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
+                               Text="Tab清空编码" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.TabClearCode}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
                                Text="第五码将首选上屏(顶字上屏)" />
 
                     <ToggleButton Width="30"

@@ -82,7 +82,6 @@ namespace WubiMaster.ViewModels
                             AttributeModel.AutoSelect = false;  // 四码唯一自动上屏禁
                             AttributeModel.AutoClear = false; // 空码时清空编码禁
                             AttributeModel.AutoTopWord = false;  // 第五码将首选上屏禁
-                            AttributeModel.EnableSemicolon = false;  // 分号单引号二三候选禁
                             WubiCustom.DelAttribute(WubiCustom.max_code_length);  // 取消编码长度限制
                         }
                         break;
@@ -119,12 +118,6 @@ namespace WubiMaster.ViewModels
                             AttributeModel.EnableUserDict = true;  // 动态调频启用（使用用字典功能）
                         }
                         break;
-                    case "EnableSemicolon":  // 分号单引号二三候选
-                        if (AttributeModel.EnableSemicolon)
-                        {
-                            AttributeModel.EnableSentence = false;  // 长句连打模式禁
-                        }
-                        break;
 
                     default:
                         break;
@@ -151,7 +144,7 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.enable_completion, AttributeModel.EnableCompletion.ToString().ToLower());
             // 启用连打模式，与四码唯一自动上屏互冲，需要添加分词符以帮助长句模式
             WubiCustom.SetAttribute(WubiCustom.enable_sentence, AttributeModel.EnableSentence.ToString().ToLower());
-            WubiCustom.SetAttribute(WubiCustom.delimiter, AttributeModel.EnableSentence ? "\" ; '\"" : "");
+            WubiCustom.SetAttribute(WubiCustom.delimiter, AttributeModel.EnableSentence ? "\" , . `\"" : "");
             // 启用四码唯一自动上屏，与连打模式互冲
             WubiCustom.SetAttribute(WubiCustom.auto_select, AttributeModel.AutoSelect.ToString().ToLower());
             // 空码时清空编码

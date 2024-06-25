@@ -233,7 +233,7 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
-                               Text="长句连打(以分号或单引号分词)" />
+                               Text="长句连打(以逗号或句号分词)" />
 
                     <ToggleButton Width="30"
                                   Height="25"

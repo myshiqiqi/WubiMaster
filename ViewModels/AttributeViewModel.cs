@@ -82,6 +82,7 @@ namespace WubiMaster.ViewModels
                             AttributeModel.AutoSelect = false;  // 四码唯一自动上屏禁
                             AttributeModel.AutoClear = false; // 空码时清空编码禁
                             AttributeModel.AutoTopWord = false;  // 第五码将首选上屏禁
+                            AttributeModel.EnableSemicolon = false;  // 分号单引号二三候选禁
                             WubiCustom.DelAttribute(WubiCustom.max_code_length);  // 取消编码长度限制
                         }
                         break;
@@ -91,7 +92,6 @@ namespace WubiMaster.ViewModels
                         {
                             AttributeModel.EnableSentence = false;  // 连打模式禁
                             AttributeModel.AutoTopWord = false;  // 第五码将首选上屏禁
-                            //AttributeModel.EnableEncoder = false;  // 智能造词禁
                             WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");  // 编码最长长度固定为4
                         }
                         break;
@@ -100,7 +100,6 @@ namespace WubiMaster.ViewModels
                         if (AttributeModel.AutoClear)
                         {
                             AttributeModel.EnableSentence = false;  // 连打模式禁
-                            //AttributeModel.EnableEncoder = false;  // 智能造词禁
                             WubiCustom.SetAttribute(WubiCustom.max_code_length, "4");  // 编码最长长度固定为4
                         }
                         break;
@@ -117,7 +116,13 @@ namespace WubiMaster.ViewModels
                     case "EnableEncoder":  // 智能造词开关
                         if (AttributeModel.EnableEncoder)
                         {
-                            AttributeModel.EnableUserDict = true;  // 动态调频启用
+                            AttributeModel.EnableUserDict = true;  // 动态调频启用（使用用字典功能）
+                        }
+                        break;
+                    case "EnableSemicolon":  // 分号单引号二三候选
+                        if (AttributeModel.EnableSemicolon)
+                        {
+                            AttributeModel.EnableSentence = false;  // 长句连打模式禁
                         }
                         break;
 

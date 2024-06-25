@@ -336,7 +336,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  CommandParameter="EnableEncoder"
+                                  CommandParameter="EnableSemicolon"
                                   IsChecked="{Binding AttributeModel.EnableSemicolon}" />
                 </Grid>
 

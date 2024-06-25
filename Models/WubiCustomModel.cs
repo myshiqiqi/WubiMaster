@@ -28,6 +28,7 @@ namespace WubiMaster.Models
         public string enable_semicolon { get; set; }
         public string tab_clear_code { get; set; }
         public string encode_commit_history { get; set; }
+        public string delimiter { get; set; }
 
         public WubiCustomModel()
         {
@@ -52,6 +53,7 @@ namespace WubiMaster.Models
             enable_semicolon = "key_binder/bindings/+";
             tab_clear_code = "key_binder/bindings/+";
             encode_commit_history = "translator/encode_commit_history";
+            delimiter = "speller/delimiter";
         }
     }
 }

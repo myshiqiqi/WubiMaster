@@ -144,8 +144,9 @@ namespace WubiMaster.ViewModels
             WubiCustom.SetAttribute(WubiCustom.enable_user_dict, AttributeModel.EnableUserDict.ToString().ToLower());
             // 启用逐码提示
             WubiCustom.SetAttribute(WubiCustom.enable_completion, AttributeModel.EnableCompletion.ToString().ToLower());
-            // 启用连打模式，与四码唯一自动上屏互冲
+            // 启用连打模式，与四码唯一自动上屏互冲，需要添加分词符以帮助长句模式
             WubiCustom.SetAttribute(WubiCustom.enable_sentence, AttributeModel.EnableSentence.ToString().ToLower());
+            WubiCustom.SetAttribute(WubiCustom.delimiter, AttributeModel.EnableSentence ? "\" ; '\"" : "");
             // 启用四码唯一自动上屏，与连打模式互冲
             WubiCustom.SetAttribute(WubiCustom.auto_select, AttributeModel.AutoSelect.ToString().ToLower());
             // 空码时清空编码

@@ -124,20 +124,30 @@ namespace WubiMaster.ViewModels
                 }
             }
 
+            /**----------------菜单类开关----------------**/
+            string switch_str = "";
             // emoji 表情开关
-            WubiCustom.SetAttribute(WubiCustom.show_es, AttributeModel.ShowEs ? "1" : "0");
+            switch_str += "\r\n    - {name: show_es, reset: " + (AttributeModel.ShowEs ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 繁简切换开关
-            WubiCustom.SetAttribute(WubiCustom.zh_trad, AttributeModel.ZhTrad ? "1" : "0");
+            switch_str += "\r\n    - {name: zh_trad, reset: " + (AttributeModel.ZhTrad ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 字根拆分提示开关
-            WubiCustom.SetAttribute(WubiCustom.new_spelling, AttributeModel.ShowSpelling ? "1" : "0");
+            switch_str += "\r\n    - {name: new_spelling, reset: " + (AttributeModel.ShowSpelling ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 注音提示开关
-            WubiCustom.SetAttribute(WubiCustom.new_hide_pinyin, AttributeModel.ShowPinyin ? "1" : "0");
+            switch_str += "\r\n    - {name: new_hide_pinyin, reset: " + (AttributeModel.ShowPinyin ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 生僻字开关
-            WubiCustom.SetAttribute(WubiCustom.GB2312, AttributeModel.IsGb2312 ? "1" : "0");
+            switch_str += "\r\n    - {name: GB2312, reset: " + (AttributeModel.IsGb2312 ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 单字流开关
-            WubiCustom.SetAttribute(WubiCustom.single_char, AttributeModel.IsSingleChar ? "1" : "0");
+            switch_str += "\r\n    - {name: single_char, reset: " + (AttributeModel.IsSingleChar ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
             // 全角半角开关
-            WubiCustom.SetAttribute(WubiCustom.full_shape, AttributeModel.IsFullShape ? "1" : "0");
+            switch_str += "\r\n    - {name: full_shape, reset: " + (AttributeModel.IsFullShape ? "1" : "0") + "}";
+            WubiCustom.SetAttribute(WubiCustom.switches, switch_str);
+            /**----------------菜单类开关----------------**/
             // 启用自动调频
             WubiCustom.SetAttribute(WubiCustom.enable_user_dict, AttributeModel.EnableUserDict.ToString().ToLower());
             // 启用逐码提示

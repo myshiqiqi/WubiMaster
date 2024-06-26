@@ -5,9 +5,9 @@ using WubiMaster.Common;
 
 namespace WubiMaster.Models
 {
-    public class BaseModel : ObservableRecipient
+    public class ConfigBaseModel : ObservableRecipient
     {
-        public BaseModel()
+        public ConfigBaseModel()
         {
             LoadConfig();
         }

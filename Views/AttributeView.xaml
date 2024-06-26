@@ -40,7 +40,7 @@
                                          VerticalAlignment="Center"
                                          CheckedState="启用"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.ShowEs, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.ShowEs, Mode=TwoWay}"
                                          UnCheckedState="禁用" />
                 </Grid>
 
@@ -56,7 +56,7 @@
                                          VerticalAlignment="Center"
                                          CheckedState="繁体"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.ZhTrad, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.ZhTrad, Mode=TwoWay}"
                                          UnCheckedState="简体" />
                 </Grid>
 
@@ -73,7 +73,7 @@
                                          CheckedState="启用"
                                          Command="{Binding UpdateCommand}"
                                          CommandParameter="ShowSpelling"
-                                         IsChecked="{Binding AttributeModel.ShowSpelling, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.ShowSpelling, Mode=TwoWay}"
                                          UnCheckedState="禁用" />
                 </Grid>
 
@@ -90,7 +90,7 @@
                                          CheckedState="隐藏"
                                          Command="{Binding UpdateCommand}"
                                          CommandParameter="ShowPinyin"
-                                         IsChecked="{Binding AttributeModel.ShowPinyin, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.ShowPinyin, Mode=TwoWay}"
                                          UnCheckedState="显示" />
                 </Grid>
 
@@ -106,7 +106,7 @@
                                          VerticalAlignment="Center"
                                          CheckedState="常用字"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.IsGb2312, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.IsGb2312, Mode=TwoWay}"
                                          UnCheckedState="生僻字" />
                 </Grid>
 
@@ -122,7 +122,7 @@
                                          VerticalAlignment="Center"
                                          CheckedState="单字"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.IsSingleChar, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.IsSingleChar, Mode=TwoWay}"
                                          UnCheckedState="词组" />
                 </Grid>
 
@@ -138,7 +138,7 @@
                                          VerticalAlignment="Center"
                                          CheckedState="全角"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.IsFullShape, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.IsFullShape, Mode=TwoWay}"
                                          UnCheckedState="半角" />
                 </Grid>
 
@@ -156,19 +156,19 @@
                                      Command="{Binding ChangeSchemaCommand}"
                                      Content="五笔拼音"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding AttributeModel.IsWubiPinyin}" />
+                                     IsChecked="{Binding ConfigModel.IsWubiPinyin}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeSchemaCommand}"
                                      Content="纯五笔"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding AttributeModel.IsWubi}" />
+                                     IsChecked="{Binding ConfigModel.IsWubi}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeSchemaCommand}"
                                      Content="纯拼音"
                                      GroupName="schema_group"
-                                     IsChecked="{Binding AttributeModel.IsPinyin}" />
+                                     IsChecked="{Binding ConfigModel.IsPinyin}" />
                     </StackPanel>
                 </Grid>
 
@@ -184,19 +184,19 @@
                                      Command="{Binding ChangeDictCommand}"
                                      Content="86版"
                                      GroupName="version_group"
-                                     IsChecked="{Binding AttributeModel.IsDict86}" />
+                                     IsChecked="{Binding ConfigModel.IsDict86}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeDictCommand}"
                                      Content="98版"
                                      GroupName="version_group"
-                                     IsChecked="{Binding AttributeModel.IsDict98}" />
+                                     IsChecked="{Binding ConfigModel.IsDict98}" />
                         <RadioButton Margin="15,0,0,0"
                                      HorizontalAlignment="Right"
                                      Command="{Binding ChangeDictCommand}"
                                      Content="新世纪版"
                                      GroupName="version_group"
-                                     IsChecked="{Binding AttributeModel.IsDict06}" />
+                                     IsChecked="{Binding ConfigModel.IsDict06}" />
                     </StackPanel>
                 </Grid>
 
@@ -213,7 +213,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="EnableUserDict"
-                                  IsChecked="{Binding AttributeModel.EnableUserDict}" />
+                                  IsChecked="{Binding ConfigModel.EnableUserDict}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -226,7 +226,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.EnableCompletion}" />
+                                  IsChecked="{Binding ConfigModel.EnableCompletion}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -240,7 +240,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="EnableSentence"
-                                  IsChecked="{Binding AttributeModel.EnableSentence}" />
+                                  IsChecked="{Binding ConfigModel.EnableSentence}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -254,7 +254,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="AutoSelect"
-                                  IsChecked="{Binding AttributeModel.AutoSelect}" />
+                                  IsChecked="{Binding ConfigModel.AutoSelect}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -268,7 +268,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="AutoClear"
-                                  IsChecked="{Binding AttributeModel.AutoClear}" />
+                                  IsChecked="{Binding ConfigModel.AutoClear}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -281,7 +281,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.EnterClearCode}" />
+                                  IsChecked="{Binding ConfigModel.EnterClearCode}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -294,7 +294,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.TabClearCode}" />
+                                  IsChecked="{Binding ConfigModel.TabClearCode}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -308,7 +308,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="AutoTopWord"
-                                  IsChecked="{Binding AttributeModel.AutoTopWord}" />
+                                  IsChecked="{Binding ConfigModel.AutoTopWord}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -322,7 +322,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="EnableEncoder"
-                                  IsChecked="{Binding AttributeModel.EnableEncoder}" />
+                                  IsChecked="{Binding ConfigModel.EnableEncoder}" />
                 </Grid>
 
 
@@ -337,7 +337,7 @@
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
                                   CommandParameter="EnableSemicolon"
-                                  IsChecked="{Binding AttributeModel.EnableSemicolon}" />
+                                  IsChecked="{Binding ConfigModel.EnableSemicolon}" />
                 </Grid>
 
                 <c:SeparatorControl Header="特殊" />
@@ -352,7 +352,7 @@
                                   Height="25"
                                   HorizontalAlignment="Right"
                                   Command="{Binding UpdateCommand}"
-                                  IsChecked="{Binding AttributeModel.ShowKeyName}" />
+                                  IsChecked="{Binding ConfigModel.ShowKeyName}" />
                 </Grid>
 
                 <Grid Margin="0,5">
@@ -367,9 +367,23 @@
                                          VerticalAlignment="Center"
                                          CheckedState="万能"
                                          Command="{Binding UpdateCommand}"
-                                         IsChecked="{Binding AttributeModel.ZOmnipotent, Mode=TwoWay}"
+                                         IsChecked="{Binding ConfigModel.ZOmnipotent, Mode=TwoWay}"
                                          IsEnabled="False"
                                          UnCheckedState="反查" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="双击候选框截图" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding ConfigModel.ShowKeyName}"
+                                  IsEnabled="False" />
                 </Grid>
 
             </UniformGrid>

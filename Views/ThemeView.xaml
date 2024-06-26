@@ -324,7 +324,7 @@
                                                 </ComboBox>
                                             </Grid>
 
-                                            <Grid Margin="0,10,0,0">
+                                            <Grid Margin="0,10,0,0" Visibility="Collapsed">
                                                 <TextBlock FontSize="15"
                                                            Foreground="{DynamicResource text-100}"
                                                            Text="首选项标记符" />

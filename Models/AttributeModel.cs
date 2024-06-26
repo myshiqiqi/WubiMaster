@@ -10,7 +10,7 @@ using WubiMaster.Common;
 
 namespace WubiMaster.Models
 {
-    public partial class AttributeModel : BaseModel
+    public partial class AttributeConfigModel : ConfigBaseModel
     {
         // 表情开关
         [ObservableProperty]

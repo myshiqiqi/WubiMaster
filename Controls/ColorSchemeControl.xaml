@@ -198,6 +198,33 @@
             <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=CommentTextColor}" />
             <Setter Property="Visibility" Value="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}" />
         </Style>
+
+        <!--文本垂直候选 border 样式-->
+        <Style x:Key="v_hilited_candidate_border_style" TargetType="Border">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Margin" Value="0,0,2,0" />
+            <Setter Property="Padding" Value="0,3,1,0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="10" />
+        </Style>
+
+        <!--文本垂直候选文本样式-->
+        <Style x:Key="v_hilited_candidate_text_style" TargetType="TextBlock">
+            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}" />
+
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="v_spelling_style" TargetType="TextBlock">
+            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}" />
+            <Setter Property="FontFamily" Value="../Fonts/#黑体字根" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -473,43 +500,43 @@
             </TabItem>
             <!--文本垂直模式-->
             <TabItem IsEnabled="False" IsSelected="{Binding ElementName=color_scheme_control, Path=TextVertical, Mode=OneWay}">
-                <Grid HorizontalAlignment="Center">
+                <Grid Width="Auto"
+                      MaxHeight="170"
+                      HorizontalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
+                    <!--编码内嵌-->
                     <Grid Visibility="{Binding ElementName=color_scheme_control, Path=InlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                        <TextBlock FontSize="14" Text="ksvt|" />
+                        <TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   Style="{StaticResource hilited_text_style}"
+                                   Text="ksvt" />
                     </Grid>
 
-                    <Grid Grid.Row="1"
-                          Width="110"
-                          MaxHeight="160"
-                          VerticalAlignment="Top"
-                          TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
+                    <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
 
-                        <Border Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
-                                BorderBrush="{Binding ElementName=color_scheme_control, Path=BorderColor}"
-                                BorderThickness="{Binding ElementName=color_scheme_control, Path=BorderWidth}"
-                                CornerRadius="{Binding ElementName=color_scheme_control, Path=CornerRadius}">
+                        <Border Padding="0" Style="{StaticResource back_border_style}">
 
                             <!--主题元素-->
-                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}" VerticalAlignment="Top">
+                            <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Width="20" Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                                    <Border Height="60"
-                                            Margin="3"
+                                <!--编码-->
+                                <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
+                                    <Border Width="28"
+                                            Margin="0,0,2,0"
                                             VerticalAlignment="Top"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
                                         <TextBlock Width="10"
-                                                   Margin="2,0,0,0"
-                                                   VerticalAlignment="Center"
+                                                   Margin="2,5,0,5"
+                                                   VerticalAlignment="Top"
                                                    FontSize="12"
                                                    Foreground="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}"
                                                    Text="ksvt"
@@ -517,183 +544,133 @@
                                     </Border>
                                 </Grid>
 
-                                <Grid Grid.Column="1" VerticalAlignment="Top">
+                                <Grid Grid.Column="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <Grid.Resources>
-                                        <Style x:Key="spell_style" TargetType="StackPanel">
-                                            <Setter Property="Visibility" Value="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}" />
-                                        </Style>
-                                    </Grid.Resources>
 
                                     <Border Grid.RowSpan="4"
-                                            Grid.Column="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}" />
+                                            Style="{StaticResource v_hilited_candidate_border_style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="0"
-                                               Grid.Column="0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Top"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedMarkColor}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=MarkText}"
-                                               Visibility="{Binding ElementName=color_scheme_control, Path=MarkTextVisible}" />
+                                            <TextBlock Grid.Row="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_1}" />
 
-                                    <TextBlock Grid.Row="1"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               Margin="0,4,0,0"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedLabelColor}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_1}"
-                                               TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="2"
+                                                       FontSize="13"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="中书君" />
 
-                                    <TextBlock Grid.Row="1"
-                                               Grid.Column="1"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               Margin="0,4,0,0"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_2}"
-                                               TextWrapping="Wrap" />
+                                            <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                                <TextBlock Margin="0,-5,0,0"
+                                                           Style="{StaticResource v_spelling_style}"
+                                                           Text="" />
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〉">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
 
-                                    <TextBlock Grid.Row="1"
-                                               Grid.Column="2"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               Margin="0,4,0,0"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
-                                               Text="{Binding ElementName=color_scheme_control, Path=Label_3}"
-                                               TextWrapping="Wrap" />
+                                    <Border Grid.Column="1" Style="{StaticResource v_hilited_candidate_border_style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="2"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               FontSize="14"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
-                                               Text="中书君"
-                                               TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
-                                    <TextBlock Grid.Row="2"
-                                               Grid.Column="1"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               FontSize="14"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
-                                               Text="五笔斋"
-                                               TextWrapping="Wrap" />
+                                            <TextBlock Grid.Row="2"
+                                                       FontSize="13"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="五笔斋" />
 
-                                    <TextBlock Grid.Row="2"
-                                               Grid.Column="2"
-                                               Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                               FontSize="14"
-                                               Foreground="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}"
-                                               Text="空山明月"
-                                               TextWrapping="Wrap" />
+                                            <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                                <TextBlock Margin="0,-5,0,0"
+                                                           Style="{StaticResource v_spelling_style}"
+                                                           Text="" />
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〉">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
 
-                                    <StackPanel Grid.Row="3"
-                                                Style="{StaticResource spell_style}"
-                                                TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〈"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   Margin="0,-5,0,0"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   Text=""
-                                                   TextWrapping="Wrap" />
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〉"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </StackPanel>
+                                    <Border Grid.Column="2" Style="{StaticResource v_hilited_candidate_border_style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Row="3"
-                                                Grid.Column="1"
-                                                Style="{StaticResource spell_style}"
-                                                TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〈"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   Margin="0,-5,0,0"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   Text=""
-                                                   TextWrapping="Wrap" />
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〉"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </StackPanel>
+                                            <TextBlock Grid.Row="1"
+                                                       Foreground="{Binding ElementName=color_scheme_control, Path=LabelColor}"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
 
-                                    <StackPanel Grid.Row="3"
-                                                Grid.Column="2"
-                                                Style="{StaticResource spell_style}"
-                                                TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〈"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   Margin="0,-5,0,0"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   Text=""
-                                                   TextWrapping="Wrap" />
-                                        <TextBlock Width="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}"
-                                                   FontFamily="../Fonts/#黑体字根"
-                                                   FontSize="10"
-                                                   RenderTransformOrigin="0.5,0.5"
-                                                   Text="〉"
-                                                   TextWrapping="Wrap">
-                                            <TextBlock.RenderTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </StackPanel>
+                                            <TextBlock Grid.Row="2"
+                                                       FontSize="13"
+                                                       Style="{StaticResource v_hilited_candidate_text_style}"
+                                                       Text="空山明月" />
+
+                                            <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                                <TextBlock Margin="0,-5,0,0"
+                                                           Style="{StaticResource v_spelling_style}"
+                                                           Text="" />
+                                                <TextBlock Style="{StaticResource v_spelling_style}" Text="〉">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
                                 </Grid>
                             </Grid>
                         </Border>
                     </Grid>
                 </Grid>
+
             </TabItem>
         </TabControl>
     </Grid>

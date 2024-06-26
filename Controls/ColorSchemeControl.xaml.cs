@@ -119,7 +119,7 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("HiliteBorderCornerTV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
 
         public static readonly DependencyProperty HiliteBorderCornerVProperty =
-            DependencyProperty.Register("HiliteBorderCornerV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+            DependencyProperty.Register("HiliteBorderCornerV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(10)));
 
         public static readonly DependencyProperty HiliteBorderMarginProperty =
             DependencyProperty.Register("HiliteBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));

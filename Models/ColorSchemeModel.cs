@@ -24,7 +24,6 @@ namespace WubiMaster.Models
             OtherProperty.LabelStr = "[ ㊀, ㊁, ㊂, ㊃, ㊄, ㊅, ㊆, ㊇, ㊈, ㊉ ]";
             OtherProperty.LabelSuffix = "";
             OtherProperty.MarkText = "";
-            OtherProperty.ShowSpelling = true;
         }
     }
 

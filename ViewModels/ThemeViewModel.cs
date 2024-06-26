@@ -14,6 +14,9 @@ namespace WubiMaster.ViewModels
     public partial class ThemeViewModel : ObservableRecipient
     {
         [ObservableProperty]
+        private ThemeConfigModel configModel;
+
+        [ObservableProperty]
         private bool autoColor;
 
         [ObservableProperty]
@@ -51,6 +54,7 @@ namespace WubiMaster.ViewModels
 
         public ThemeViewModel()
         {
+            ConfigModel = new ThemeConfigModel();
             ColorsList = new List<ColorsModel>();
             ColorTemplate = new ColorTemplateModel();
             CandidateModel = new ColorCandidateModel();
@@ -96,10 +100,14 @@ namespace WubiMaster.ViewModels
                 //CurrentColor.OtherProperty.MarkText = mark_str;
                 //CurrentColor.Style.mark_text = mark_str;
 
+                // 是否显示拆分提示
+                CurrentColor.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
+
                 DefaultCustomDetails.Write();
                 UpdateCurrentColor(null);
 
                 CandidateModel.SaveConfig();
+                ConfigModel .SaveConfig();
             }
             catch (Exception ex)
             {
@@ -128,6 +136,7 @@ namespace WubiMaster.ViewModels
                 _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
                 _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
                 //_colorModel.OtherProperty.MarkText = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
+                _colorModel.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
 
                 CurrentColor = _colorModel;
 

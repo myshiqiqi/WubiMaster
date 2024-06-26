@@ -349,7 +349,7 @@
                                                               Height="25"
                                                               HorizontalAlignment="Right"
                                                               Command="{Binding CandidateChangeCommand}"
-                                                              IsChecked="{Binding CurrentColor.OtherProperty.ShowSpelling}" />
+                                                              IsChecked="{Binding ConfigModel.ThemeShowSpell}" />
                                             </Grid>
 
                                             <Separator Margin="0,10"

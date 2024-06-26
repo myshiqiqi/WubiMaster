@@ -30,6 +30,8 @@ namespace WubiMaster.Models
         public string tab_clear_code { get; set; }
         public string encode_commit_history { get; set; }
         public string delimiter { get; set; }
+        public string z_omnipotent { get; set; }
+        public string show_key_name { get; set; }
 
         public WubiCustomModel()
         {
@@ -56,6 +58,8 @@ namespace WubiMaster.Models
             tab_clear_code = "key_binder/bindings/+";
             encode_commit_history = "translator/encode_commit_history";
             delimiter = "speller/delimiter";
+            z_omnipotent = "speller/algebra/+";
+            show_key_name = "translator/preedit_format/+";
         }
     }
 }

@@ -179,6 +179,12 @@ namespace WubiMaster.ViewModels
             key_str += AttributeModel.EnableSemicolon ? enable_semicolon_str : "";
             WubiCustom.SetAttribute(WubiCustom.enable_semicolon, key_str);
             /**----------------处理快捷键类指令----------------**/
+            // z键万能键
+            string z_omnipotent_str = "\r\n    - derive/^(...).$/$1z/\r\n    - derive/^(..).(.*)$/$1z$2/\r\n    - derive/^(.).(.*)$/$1z$2/\r\n    - derive/^.(.*)$/z$1/";
+            WubiCustom.SetAttribute(WubiCustom.z_omnipotent, AttributeModel.ZOmnipotent ? z_omnipotent_str : "");
+            // 编码提示键名
+            string show_key_name_str = "\r\n    - 'xform/^([a-z]*)$/$1\\t〈\\U$1\\E〉/'\r\n    - \"xlit|ABCDEFGHIJKLMNOPQRSTUVWXY|工子又大月土王目水日口田山已火之金白木禾立女人幺言|\"";
+            WubiCustom.SetAttribute(WubiCustom.show_key_name, AttributeModel.ShowKeyName ? show_key_name_str : "");
 
             // 处理最长编码，如果没有引用，则不限制长度
             if (!AttributeModel.AutoSelect && !AttributeModel.AutoClear && !AttributeModel.AutoTopWord)

@@ -340,6 +340,38 @@
                                   IsChecked="{Binding AttributeModel.EnableSemicolon}" />
                 </Grid>
 
+                <c:SeparatorControl Header="特殊" />
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="编码提示键名" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding AttributeModel.ShowKeyName}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
+                               Text="Z 键分配" />
+
+                    <c:StateToggleButton Width="120"
+                                         Height="28"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         CheckedState="万能"
+                                         Command="{Binding UpdateCommand}"
+                                         IsChecked="{Binding AttributeModel.ZOmnipotent, Mode=TwoWay}"
+                                         IsEnabled="False"
+                                         UnCheckedState="反查" />
+                </Grid>
+
             </UniformGrid>
 
         </Grid>

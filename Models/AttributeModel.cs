@@ -114,5 +114,13 @@ namespace WubiMaster.Models
         // Tab 键清空编码
         [ObservableProperty]
         private bool tabClearCode;
+
+        // z 键万能键
+        [ObservableProperty]
+        private bool zOmnipotent;
+
+        // z 键万能键
+        [ObservableProperty]
+        private bool showKeyName;
     }
 }

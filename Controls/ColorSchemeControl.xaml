@@ -139,7 +139,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0" />
-            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}" />
+            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}" />
         </Style>
 
         <!--候选文本样式-->
@@ -185,7 +185,8 @@
             <Setter Property="Width" Value="Auto" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Margin" Value="2" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
         </Style>
 
         <!--拆分注解样式-->
@@ -258,7 +259,7 @@
 
                                 <!--编码-->
                                 <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                                    <Border Style="{StaticResource hilited_border_style}">
+                                    <Border Margin="2,0,0,0" Style="{StaticResource hilited_border_style}">
                                         <TextBlock Style="{StaticResource hilited_text_style}" Text="ksvt" />
                                     </Border>
                                 </Grid>
@@ -371,14 +372,18 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
+                    <!--编码内嵌-->
                     <Grid Margin="3,0,0,0" Visibility="{Binding ElementName=color_scheme_control, Path=InlinePreedit, Converter={StaticResource Bool2Visibility}}">
                         <TextBlock HorizontalAlignment="Left"
                                    Style="{StaticResource hilited_text_style}"
-                                   Text="knvt" />
+                                   Text="ksvt" />
                     </Grid>
 
                     <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
-                        <Border Style="{StaticResource back_border_style}">
+                        <Border Padding="3"
+                                Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
+                                CornerRadius="10"
+                                SnapsToDevicePixels="True">
 
                             <!--主题元素-->
                             <Grid Margin="0">
@@ -396,9 +401,9 @@
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
                                     <!--首选项-->
-                                    <Border Margin="0"
-                                            Padding="2,0,4,0"
+                                    <Border Padding="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                            BorderThickness="0"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}"
                                             Style="{StaticResource hilited_candidate_border_style}">
 

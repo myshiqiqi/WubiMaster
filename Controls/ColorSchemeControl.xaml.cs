@@ -1127,7 +1127,6 @@ namespace WubiMaster.Controls
             c.SpacingMargin = new Thickness(0, 0, 0, c.Spacing);
             c.CandidateSpacing = double.Parse(styleModel.layout.candidate_spacing) - (c.BorderWidth * 4);
             c.CandidateMargin = new Thickness(0, 0, 0, c.CandidateSpacing);
-            c.Horizontal = bool.Parse(styleModel.horizontal);
             c.InlinePreedit = bool.Parse(styleModel.inline_preedit);
             c.UnInlinePreedit = !c.InlinePreedit;
             c.TextVertical = bool.Parse(styleModel.vertical_text ?? "false");

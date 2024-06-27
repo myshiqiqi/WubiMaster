@@ -34,4 +34,5 @@
     <sys:String x:Key="板岩灰">SlateGraysTheme</sys:String>
     <sys:String x:Key="春日旖旎">SpringTheme</sys:String>
     <sys:String x:Key="红宝石">RubyTheme</sys:String>
+    <sys:String x:Key="卡布奇诺">CappuccinoTheme</sys:String>
 </ResourceDictionary>

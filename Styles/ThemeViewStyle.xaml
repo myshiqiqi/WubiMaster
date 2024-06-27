@@ -13,4 +13,26 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,15" />
     </Style>
+
+    <Style x:Key="TVTextStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value=" 15" />
+        <Setter Property="Foreground" Value="{DynamicResource text-200}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="TVSeparatorStyle" TargetType="Separator">
+        <Setter Property="Margin" Value="0,10" />
+        <Setter Property="BorderBrush" Value="{DynamicResource bg-300}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <Style x:Key="TVToggleStyle"
+           BasedOn="{StaticResource ToggleButtonStyle}"
+           TargetType="ToggleButton">
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
 </ResourceDictionary>

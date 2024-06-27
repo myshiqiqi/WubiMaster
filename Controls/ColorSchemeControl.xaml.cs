@@ -1196,7 +1196,13 @@ namespace WubiMaster.Controls
 
 
 
-            // 阴影
+            /**处理阴影**/
+            // 判断是否要启用阴影效果
+            if (!c.ColorModel.OtherProperty.IsUseShade)
+                c.ColorModel.Style.layout.shadow_radius = "0";
+            else
+                c.ColorModel.Style.layout.shadow_radius = "8";
+
             //c.BorderWidth = double.Parse(styleModel.layout.border_width);
 
             // 处理其它属性，比如序号之类

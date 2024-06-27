@@ -51,5 +51,9 @@ namespace WubiMaster.Models
         /// 是否显示字根拆分提示
         /// </summary>
         public bool ShowSpelling { get; set; }
+
+        // 是否使用阴影效果
+        public bool IsUseShade { get; set; }
+
     }
 }

@@ -22,5 +22,11 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private bool themeShowSpell = true;
+
+        /// <summary>
+        /// 是否使用阴影效果
+        /// </summary>
+        [ObservableProperty]
+        private bool themeUseShade;
     }
 }

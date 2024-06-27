@@ -32,7 +32,7 @@ namespace WubiMaster.ViewModels
         private ColorTemplateModel colorTemplate;
 
         [ObservableProperty]
-        private ColorSchemeModel currentColor;
+        private ColorSchemeModel currentSkin;
 
         private ColorsModel default_color;
 
@@ -69,10 +69,10 @@ namespace WubiMaster.ViewModels
 
         /// <summary>
         /// 选择候选项样式
-        /// </summary>
+        /// </summary> C1andidateChange
         /// <param name="obj"></param>
         [RelayCommand]
-        public void CandidateChange(object obj)
+        public void UpdateSkinCandidate(object obj)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace WubiMaster.ViewModels
                 // 候选序号样式
                 string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
                 DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
-                CurrentColor.OtherProperty.LabelStr = candidate_str;
+                CurrentSkin.OtherProperty.LabelStr = candidate_str;
 
                 // 候选个数设定
                 string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
@@ -90,24 +90,24 @@ namespace WubiMaster.ViewModels
 
                 // 候选序号后缀（标签符）
                 string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                CurrentColor.OtherProperty.LabelSuffix = suffix_str;
+                CurrentSkin.OtherProperty.LabelSuffix = suffix_str;
                 suffix_str = suffix_str == "无" ? "" : suffix_str;
                 suffix_str = suffix_str == "空格" ? " " : suffix_str;
-                CurrentColor.Style.label_format = "%s" + suffix_str;
+                CurrentSkin.Style.label_format = "%s" + suffix_str;
 
                 // mark 符
                 //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
-                //CurrentColor.OtherProperty.MarkText = mark_str;
-                //CurrentColor.Style.mark_text = mark_str;
+                //CurrentSkin.OtherProperty.MarkText = mark_str;
+                //CurrentSkin.Style.mark_text = mark_str;
 
                 // 是否显示拆分提示
-                CurrentColor.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
+                CurrentSkin.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
 
                 DefaultCustomDetails.Write();
-                UpdateCurrentColor(null);
+                UpdateCurrentSkin(null);
 
                 CandidateModel.SaveConfig();
-                ConfigModel .SaveConfig();
+                ConfigModel.SaveConfig();
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public void ChangeColor(object obj)
+        public void ChangeSkin(object obj)
         {
             if (obj == null) return;
 
@@ -137,15 +137,16 @@ namespace WubiMaster.ViewModels
                 _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
                 //_colorModel.OtherProperty.MarkText = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
                 _colorModel.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
-
-                CurrentColor = _colorModel;
+                //if (!ConfigModel.ThemeUseShade)
+                //    _colorModel.Style.layout.shadow_radius = "0";
+                CurrentSkin = _colorModel;
 
                 if (ColorTemplate.IsTemplateAll)
                     SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
                 else
                     SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
 
-                UpdateCurrentColor(null);
+                UpdateCurrentSkin(null);
             }
             catch (Exception ex)
             {
@@ -165,11 +166,11 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
-                string color_name = CurrentColor.Style.color_scheme;
+                string color_name = CurrentSkin.Style.color_scheme;
                 ColorSchemeModel csModel = new ColorSchemeModel();
                 csModel.Style = default_color.style;
                 csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
-                CurrentColor = csModel;
+                CurrentSkin = csModel;
 
                 string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
                 if (File.Exists(yaml_name))
@@ -200,11 +201,11 @@ namespace WubiMaster.ViewModels
             {
                 try
                 {
-                    LoadCurrentColor();
+                    LoadCurrentSkin();
 
                     if (AutoColor)
                     {
-                        ChangeColor(ColorsList[ColorIndex].description.color_name);
+                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
 
                         SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
                         SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
@@ -221,23 +222,23 @@ namespace WubiMaster.ViewModels
                         SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
                         SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
 
-                        //CurrentColor.UsedColor.color_format = "argb";
-                        CurrentColor.UsedColor.text_color = ColorToStr(text_color.ToString());
-                        CurrentColor.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
-                        CurrentColor.UsedColor.label_color = ColorToStr(label_color.ToString());
-                        CurrentColor.UsedColor.back_color = ColorToStr(back_color.ToString());
-                        CurrentColor.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
-                        CurrentColor.UsedColor.border_color = ColorToStr(border_color.ToString());
-                        CurrentColor.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
-                        CurrentColor.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
-                        CurrentColor.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
-                        CurrentColor.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
-                        CurrentColor.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
-                        CurrentColor.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
-                        CurrentColor.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
-                        CurrentColor.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+                        //CurrentSkin.UsedColor.color_format = "argb";
+                        CurrentSkin.UsedColor.text_color = ColorToStr(text_color.ToString());
+                        CurrentSkin.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
+                        CurrentSkin.UsedColor.label_color = ColorToStr(label_color.ToString());
+                        CurrentSkin.UsedColor.back_color = ColorToStr(back_color.ToString());
+                        CurrentSkin.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
+                        CurrentSkin.UsedColor.border_color = ColorToStr(border_color.ToString());
+                        CurrentSkin.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
+                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
 
-                        UpdateCurrentColor(null);
+                        UpdateCurrentSkin(null);
                     }
 
                     ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
@@ -289,40 +290,43 @@ namespace WubiMaster.ViewModels
                 int index = rd.Next(ColorsList.Count);
                 var rdModel = ColorsList[index];
 
-                ChangeColor(rdModel.style.color_scheme);
+                ChangeSkin(rdModel.style.color_scheme);
                 ServiceHelper.Deployer();
             }
 
             ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
-        [RelayCommand]
-        public void UpdateCurrentColor(object obj)
+        // 更新当前显示的皮肤
+        public void UpdateCurrentSkin(object obj)
         {
-            var tempColor = CurrentColor;
-            CurrentColor = null;
-            CurrentColor = tempColor;
+            // 将config中的配置更新到当前皮肤中
+            CurrentSkin.OtherProperty.IsUseShade = ConfigModel.ThemeUseShade;  // 是否使用阴影效果
+
+            var tempColor = CurrentSkin;
+            CurrentSkin = null;
+            CurrentSkin = tempColor;
         }
 
         [RelayCommand]
         public void UpdateTemplate(object obj)
         {
-            CurrentColor.Style.inline_preedit = ColorTemplate.InLine.ToString();
-            CurrentColor.Style.vertical_text = ColorTemplate.TextVertical.ToString();
+            CurrentSkin.Style.inline_preedit = ColorTemplate.InLine.ToString();
+            CurrentSkin.Style.vertical_text = ColorTemplate.TextVertical.ToString();
             if (ColorTemplate.IsBanyueMode)
             {
-                CurrentColor.Style.layout.margin_x = "0";
-                CurrentColor.Style.layout.margin_y = "0";
+                CurrentSkin.Style.layout.margin_x = "0";
+                CurrentSkin.Style.layout.margin_y = "0";
             }
             else
             {
-                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
-                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
-                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+                double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
+                CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
+                CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
             }
-            CurrentColor.Style.horizontal = ColorTemplate.Horizontal.ToString();
+            CurrentSkin.Style.horizontal = ColorTemplate.Horizontal.ToString();
 
-            UpdateCurrentColor(null);
+            UpdateCurrentSkin(null);
 
             ConfigHelper.WriteConfigByBool("is_template_all", ColorTemplate.IsTemplateAll);
             ConfigHelper.WriteConfigByBool("inline_preedit", ColorTemplate.InLine);
@@ -337,9 +341,18 @@ namespace WubiMaster.ViewModels
             if (is_loaded) return;
 
             if (ColorIndex == -1)
-                LoadCurrentColor();
+                LoadCurrentSkin();
 
             is_loaded = true;
+        }
+
+        // todo: 将变量color更换为skin
+        // 更新皮肤配色
+        [RelayCommand]
+        public void UpdateSkinColor()
+        {
+            ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
         }
 
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x000000", string colorFormat = "abgr")
@@ -494,7 +507,7 @@ namespace WubiMaster.ViewModels
         /// <summary>
         /// 加载当前使用中的皮肤
         /// </summary>
-        private void LoadCurrentColor()
+        private void LoadCurrentSkin()
         {
             // 首先要从 custom 文件中去加载
             // 如果无法从 custom 文件中正确地加载，则从 weasel 文件中去加载
@@ -549,7 +562,7 @@ namespace WubiMaster.ViewModels
 
             // 加载当前使用的主题
             string shemeName = WeaselCustomDetails.patch.style.color_scheme;
-            ChangeColor(shemeName);
+            ChangeSkin(shemeName);
         }
 
         private void LoadCustomColor()
@@ -564,7 +577,7 @@ namespace WubiMaster.ViewModels
                 ColorSchemeModel _colorModel = new ColorSchemeModel();
                 _colorModel.Style = WeaselCustomDetails.patch.style;
                 _colorModel.UsedColor = WeaselCustomDetails.patch.preset_color_schemes[shemeName];
-                CurrentColor = _colorModel;
+                CurrentSkin = _colorModel;
                 ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(shemeName);
             }
             catch (Exception ex)
@@ -591,9 +604,9 @@ namespace WubiMaster.ViewModels
                 WeaselCustomDetails = new WeaselCustomModel();
                 WeaselCustomDetails.patch = new CustomPatch();
                 WeaselCustomDetails.patch.preset_color_schemes = new Dictionary<string, ColorScheme>();
-                WeaselCustomDetails.patch.style = CurrentColor.Style;
+                WeaselCustomDetails.patch.style = CurrentSkin.Style;
                 string name = ColorsList[ColorIndex].description.color_name;
-                WeaselCustomDetails.patch.preset_color_schemes.Add(name, CurrentColor.UsedColor);
+                WeaselCustomDetails.patch.preset_color_schemes.Add(name, CurrentSkin.UsedColor);
 
                 YamlHelper.WriteYaml(WeaselCustomDetails, weaselCustomPath);
             }
@@ -605,31 +618,31 @@ namespace WubiMaster.ViewModels
 
         private void SetColorFromTemp()
         {
-            CurrentColor.Style.inline_preedit = ColorTemplate.InLine.ToString();
-            CurrentColor.Style.vertical_text = ColorTemplate.TextVertical.ToString();
+            CurrentSkin.Style.inline_preedit = ColorTemplate.InLine.ToString();
+            CurrentSkin.Style.vertical_text = ColorTemplate.TextVertical.ToString();
             if (ColorTemplate.IsBanyueMode)
             {
-                CurrentColor.Style.layout.margin_x = "0";
-                CurrentColor.Style.layout.margin_y = "0";
+                CurrentSkin.Style.layout.margin_x = "0";
+                CurrentSkin.Style.layout.margin_y = "0";
             }
             else
             {
-                double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
-                CurrentColor.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
-                CurrentColor.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+                double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
+                CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
+                CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
             }
-            CurrentColor.Style.horizontal = ColorTemplate.Horizontal.ToString();
+            CurrentSkin.Style.horizontal = ColorTemplate.Horizontal.ToString();
         }
 
         private void SetTempFromColor()
         {
-            double lay_margin = double.Parse(CurrentColor.Style.layout.margin_x);
-            double lay_hilite_padding = double.Parse(CurrentColor.Style.layout.hilite_padding);
+            double lay_margin = double.Parse(CurrentSkin.Style.layout.margin_x);
+            double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
 
-            ColorTemplate.InLine = bool.Parse(CurrentColor.Style.inline_preedit);
-            ColorTemplate.TextVertical = bool.Parse(CurrentColor.Style.vertical_text);
+            ColorTemplate.InLine = bool.Parse(CurrentSkin.Style.inline_preedit);
+            ColorTemplate.TextVertical = bool.Parse(CurrentSkin.Style.vertical_text);
             ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
-            ColorTemplate.Horizontal = bool.Parse(CurrentColor.Style.horizontal);
+            ColorTemplate.Horizontal = bool.Parse(CurrentSkin.Style.horizontal);
         }
     }
 }

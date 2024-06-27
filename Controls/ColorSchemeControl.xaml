@@ -206,7 +206,6 @@
             <Setter Property="Margin" Value="0,0,2,0" />
             <Setter Property="Padding" Value="0,3,1,0" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="CornerRadius" Value="10" />
             <Setter Property="CornerRadius" Value="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}" />
         </Style>
 
@@ -537,10 +536,9 @@
                                 <!--编码-->
                                 <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
                                     <Border Width="28"
-                                            Margin="0,0,2,0"
                                             VerticalAlignment="Top"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}">
                                         <TextBlock Width="10"
                                                    Margin="2,5,0,5"
                                                    VerticalAlignment="Top"
@@ -560,6 +558,7 @@
 
                                     <Border Grid.RowSpan="4"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}"
                                             Style="{StaticResource v_hilited_candidate_border_style}">
                                         <Grid>
                                             <Grid.RowDefinitions>

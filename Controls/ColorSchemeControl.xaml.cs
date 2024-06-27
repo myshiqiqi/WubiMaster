@@ -1172,7 +1172,7 @@ namespace WubiMaster.Controls
                 {
                     // 判断是天圆地方模式
                     c.IsBanYueMode = true;
-                    c.HiliteBorderCornerTV = new CornerRadius(0, 0, 0, c.RoundCorner);
+                    c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, 0);
                     c.HiliteBorderCornerV = new CornerRadius(0);
                     c.HiliteBorderCornerH = new CornerRadius(0, 0, 0, c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(-2);

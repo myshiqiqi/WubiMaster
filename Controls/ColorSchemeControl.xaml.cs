@@ -324,14 +324,14 @@ namespace WubiMaster.Controls
             set { SetValue(BorderColorProperty, value); }
         }
 
-        ///// <summary>
-        ///// 边框与主体间的内边距
-        ///// </summary>
-        //public Thickness BorderPadding
-        //{
-        //    get { return (Thickness)GetValue(BorderPaddingProperty); }
-        //    set { SetValue(BorderPaddingProperty, configValue); }
-        //}
+        /// <summary>
+        /// 边框与主体间的内边距
+        /// </summary>
+        public Thickness BorderPadding
+        {
+            get { return (Thickness)GetValue(BorderPaddingProperty); }
+            set { SetValue(BorderPaddingProperty, value); }
+        }
 
         /// <summary>
         /// 边框宽度
@@ -1058,6 +1058,7 @@ namespace WubiMaster.Controls
 
 
 
+
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -1121,8 +1122,6 @@ namespace WubiMaster.Controls
             c.MarginX = c.MarginX <= 0 ? 0 : c.MarginX;
             c.MarginY = c.MarginY <= 0 ? 0 : c.MarginY;
             c.ContentMargin = new Thickness(c.MarginX, c.MarginY, c.MarginX, c.MarginY);
-            //
-            //c.BorderPadding = new Thickness(c.MarginX, c.MarginY, c.MarginX, c.MarginY);
             c.Spacing = double.Parse(styleModel.layout.spacing) - (c.BorderWidth * 2);
             c.SpacingMargin = new Thickness(0, 0, 0, c.Spacing);
             c.CandidateSpacing = double.Parse(styleModel.layout.candidate_spacing) - (c.BorderWidth * 4);
@@ -1155,6 +1154,7 @@ namespace WubiMaster.Controls
                     c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(-2);
+                    c.BorderPadding = new Thickness(0);
                 }
                 else
                 {
@@ -1163,21 +1163,22 @@ namespace WubiMaster.Controls
                     c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(0);
+                    c.BorderPadding = new Thickness(3);
                 }
             }
-            else
+            else // 当编码在高亮区时
             {
-                // 当编码在高亮区时
                 if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
                 {
                     // 判断是天圆地方模式
                     c.IsBanYueMode = true;
-                    c.HiliteBorderCornerTV = new CornerRadius(0);
+                    c.HiliteBorderCornerTV = new CornerRadius(0, 0, 0, c.RoundCorner);
                     c.HiliteBorderCornerV = new CornerRadius(0);
-                    c.HiliteBorderCornerH = new CornerRadius(0);
+                    c.HiliteBorderCornerH = new CornerRadius(0, 0, 0, c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(-2);
                     c.CandidateBorderMargin = new Thickness(-2, -2, 0, 2);
-                    c.CandidateBorderCorner = new CornerRadius(10, 0, 0, 0);
+                    c.CandidateBorderCorner = new CornerRadius(c.RoundCorner, 0, 0, 0);
+                    c.BorderPadding = new Thickness(0);
                 }
                 else
                 {
@@ -1189,6 +1190,7 @@ namespace WubiMaster.Controls
                     c.HiliteBorderMargin = new Thickness(0);
                     c.CandidateBorderMargin = new Thickness(0, 0, 0, 2);  // 编码区的外边距
                     c.CandidateBorderCorner = new CornerRadius(c.RoundCorner);  // 编码区的圆角值
+                    c.BorderPadding = new Thickness(3);
                 }
             }
 

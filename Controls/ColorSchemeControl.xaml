@@ -538,7 +538,7 @@
                                     <Border Width="28"
                                             VerticalAlignment="Top"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}">
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=CandidateBorderCorner}">
                                         <TextBlock Width="10"
                                                    Margin="2,5,0,5"
                                                    VerticalAlignment="Top"
@@ -558,7 +558,7 @@
 
                                     <Border Grid.RowSpan="4"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}"
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}"
                                             Style="{StaticResource v_hilited_candidate_border_style}">
                                         <Grid>
                                             <Grid.RowDefinitions>

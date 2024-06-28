@@ -43,8 +43,14 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty CandidateBorderColorProperty =
             DependencyProperty.Register("CandidateBorderColor", typeof(Brush), typeof(ColorSchemeControl));
 
+        public static readonly DependencyProperty CandidateBorderCornerProperty =
+            DependencyProperty.Register("CandidateBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+        public static readonly DependencyProperty CandidateBorderMarginProperty =
+            DependencyProperty.Register("CandidateBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
+
         public static readonly DependencyProperty CandidateMarginProperty =
-            DependencyProperty.Register("CandidateMargin", typeof(Thickness), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("CandidateMargin", typeof(Thickness), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CandidateShadowColorProperty =
                             DependencyProperty.Register("CandidateShadowColor", typeof(Color), typeof(ColorSchemeControl));
@@ -172,8 +178,11 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty IsBanYueModeProperty =
             DependencyProperty.Register("IsBanYueMode", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty IsShowSpellingProperty =
+            DependencyProperty.Register("IsShowSpelling", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
+
         public static readonly DependencyProperty Label_1Property =
-            DependencyProperty.Register("Label_1", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊀"));
+                    DependencyProperty.Register("Label_1", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊀"));
 
         public static readonly DependencyProperty Label_2Property =
             DependencyProperty.Register("Label_2", typeof(string), typeof(ColorSchemeControl), new PropertyMetadata("㊁"));
@@ -367,6 +376,20 @@ namespace WubiMaster.Controls
         {
             get { return (Brush)GetValue(CandidateBorderColorProperty); }
             set { SetValue(CandidateBorderColorProperty, value); }
+        }
+
+        // 编码区边框圆角度
+        public CornerRadius CandidateBorderCorner
+        {
+            get { return (CornerRadius)GetValue(CandidateBorderCornerProperty); }
+            set { SetValue(CandidateBorderCornerProperty, value); }
+        }
+
+        // 编码区边框边距
+        public Thickness CandidateBorderMargin
+        {
+            get { return (Thickness)GetValue(CandidateBorderMarginProperty); }
+            set { SetValue(CandidateBorderMarginProperty, value); }
         }
 
         /// <summary>
@@ -762,6 +785,13 @@ namespace WubiMaster.Controls
             set { SetValue(IsBanYueModeProperty, value); }
         }
 
+        // 是否显示字根拆分提示
+        public bool IsShowSpelling
+        {
+            get { return (bool)GetValue(IsShowSpellingProperty); }
+            set { SetValue(IsShowSpellingProperty, value); }
+        }
+
         public string Label_1
         {
             get { return (string)GetValue(Label_1Property); }
@@ -1020,45 +1050,6 @@ namespace WubiMaster.Controls
             set { SetValue(VerticalTextWithWrapProperty, value); }
         }
 
-
-        // 是否显示字根拆分提示
-        public bool IsShowSpelling
-        {
-            get { return (bool)GetValue(IsShowSpellingProperty); }
-            set { SetValue(IsShowSpellingProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsShowSpellingProperty =
-            DependencyProperty.Register("IsShowSpelling", typeof(bool), typeof(ColorSchemeControl), new PropertyMetadata(true));
-
-
-        // 编码区边框边距
-        public Thickness CandidateBorderMargin
-        {
-            get { return (Thickness)GetValue(CandidateBorderMarginProperty); }
-            set { SetValue(CandidateBorderMarginProperty, value); }
-        }
-
-        public static readonly DependencyProperty CandidateBorderMarginProperty =
-            DependencyProperty.Register("CandidateBorderMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
-
-
-        // 编码区边框圆角度
-        public CornerRadius CandidateBorderCorner
-        {
-            get { return (CornerRadius)GetValue(CandidateBorderCornerProperty); }
-            set { SetValue(CandidateBorderCornerProperty, value); }
-        }
-
-        public static readonly DependencyProperty CandidateBorderCornerProperty =
-            DependencyProperty.Register("CandidateBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
-
-
-
-
-
-
-
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
@@ -1193,8 +1184,6 @@ namespace WubiMaster.Controls
                     c.BorderPadding = new Thickness(3);
                 }
             }
-
-
 
             /**处理阴影**/
             // 判断是否要启用阴影效果

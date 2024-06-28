@@ -275,6 +275,7 @@ namespace WubiMaster.ViewModels
             if (ConfigModel.Theme_RandomColor)
                 ConfigModel.Theme_FollowTheme = false;
 
+            return;
             App.Current.Dispatcher.BeginInvoke(() =>
             {
                 try

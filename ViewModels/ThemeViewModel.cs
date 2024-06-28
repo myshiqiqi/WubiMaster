@@ -275,8 +275,69 @@ namespace WubiMaster.ViewModels
             if (ConfigModel.Theme_RandomColor)
                 ConfigModel.Theme_FollowTheme = false;
 
+            App.Current.Dispatcher.BeginInvoke(() =>
+            {
+                try
+                {
+                    LoadCurrentSkin();
 
-            Console.WriteLine();
+                    if (ConfigModel.Theme_RandomColor)
+                    {
+                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
+
+                        SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
+                        SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
+                        SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
+                        SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
+                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                        SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+
+                        //CurrentSkin.UsedColor.color_format = "argb";
+                        CurrentSkin.UsedColor.text_color = ColorToStr(text_color.ToString());
+                        CurrentSkin.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
+                        CurrentSkin.UsedColor.label_color = ColorToStr(label_color.ToString());
+                        CurrentSkin.UsedColor.back_color = ColorToStr(back_color.ToString());
+                        CurrentSkin.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
+                        CurrentSkin.UsedColor.border_color = ColorToStr(border_color.ToString());
+                        CurrentSkin.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
+                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+
+                        UpdateCurrentSkin(null);
+                    }
+
+                    // 如果包含 custom 文件，先将其删除掉
+                    if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
+                    {
+                        File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
+                    }
+
+                    // 将 colors 文件下的主题数据写入到 custom 外观文件中去
+                    SaveWeaselCustom();
+
+                    string colorScheme = ColorsList[ColorIndex].description.color_name;
+                    ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
+                    ServiceHelper.Deployer();
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex.ToString());
+                    this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
+                }
+            });
         }
 
         [RelayCommand]

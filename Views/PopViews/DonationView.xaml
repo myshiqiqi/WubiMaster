@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:WubiMaster.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:WubiMaster.Views.PopViews"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WubiMaster.ViewModels"
         Title="DonationView"
         Width="600"
-        Height="500"
+        Height="300"
+        d:Background="{DynamicResource bg-100}"
         Style="{StaticResource PopViewBaseStyle}"
         mc:Ignorable="d">
 
@@ -16,132 +16,171 @@
         <vm:PopViewModel />
     </Window.DataContext>
 
-    <Border Background="{DynamicResource bg-200}"
-            BorderBrush="{DynamicResource bg-300}"
-            BorderThickness="2"
-            CornerRadius="10"
-            SnapsToDevicePixels="True"
-            UseLayoutRounding="True">
-        <Grid Margin="10,15,10,10">
+    <Grid Style="{StaticResource UIElementFadeIn}">
+        <Grid Margin="10">
+            <Viewbox>
+                <Viewbox.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="8" />
+                </Viewbox.Effect>
+                <TextBlock FontFamily="../../Fonts/#iconfont"
+                           Foreground="{DynamicResource primary-100}"
+                           Text="&#xe6ab;" />
+            </Viewbox>
+        </Grid>
+
+        <Grid Width="400"
+              Height="200"
+              Margin="10"
+              ClipToBounds="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <c:CancelButton Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            CBCommand="{Binding CloseCommand}"
-                            CBCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                            CBForeground="{DynamicResource primary-100}" />
 
-            <Grid Grid.Row="0">
-                <Viewbox>
-                    <TextBlock FontFamily="../../Fonts/#iconfont"
-                               Foreground="{DynamicResource primary-100}"
-                               Text="&#xe696;" />
-                </Viewbox>
+            <TextBlock Margin="0,5,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="25"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource primary-200}"
+                       Text="捐赠" />
 
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Margin="0,2,5,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontFamily="../../Fonts/#iconfont"
-                               FontSize="22"
-                               Foreground="{DynamicResource accent-100}"
-                               Text="&#xe661;" />
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="22"
-                               FontWeight="Bold"
-                               Foreground="{DynamicResource text-100}"
-                               Text="捐赠" />
+            <Image Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   Source="../../Images/donation.png" />
+
+            <Button Grid.Row="2"
+                    Width="90"
+                    Height="30"
+                    Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    Content="离开" />
+        </Grid>
+
+        <Border Padding="20"
+                Background="White"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True"
+                Visibility="Collapsed">
+            <Grid Margin="10,15,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <c:CancelButton Width="20"
+                                Height="20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                CBCommand="{Binding CloseCommand}"
+                                CBCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                CBForeground="{DynamicResource primary-100}" />
+
+                <Grid Grid.Row="0">
+                    <Viewbox>
+                        <TextBlock FontFamily="../../Fonts/#iconfont"
+                                   Foreground="{DynamicResource primary-100}"
+                                   Text="&#xe696;" />
+                    </Viewbox>
+
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                        <TextBlock Margin="0,2,5,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="../../Fonts/#iconfont"
+                                   FontSize="22"
+                                   Foreground="{DynamicResource accent-100}"
+                                   Text="&#xe661;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource text-100}"
+                                   Text="捐赠" />
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="1"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="Foreground" Value="{DynamicResource text-100}" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock>
+                        感谢您选择并使用这款开源软件！您的信任与支持是我持续前进的动力。
+                    </TextBlock>
+                    <TextBlock>
+                        开源软件的研发与维护离不开开发者的辛勤付出与无私奉献。为了保持软件的持续更新与优化，恳请您在能力范围内考虑对本项目进行捐赠。
+                    </TextBlock>
+                    <TextBlock>
+                        您的每一份捐赠，都将直接用于软件的开发、测试、维护以及优化，帮助更多用户享受到更好的使用体验。
+                    </TextBlock>
+                    <TextBlock>
+                        您可以选择通过支付宝、微信等在线支付平台进行捐赠，捐赠金额不限，您的每一份心意我都将倍加珍惜。
+                    </TextBlock>
+                    <TextBlock>
+                        再次感谢您的支持与厚爱！祝您生活愉快，工作顺利！
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Right">
+                        空山明月 敬上
+                    </TextBlock>
                 </StackPanel>
 
+                <Grid Grid.Row="2">
+                    <Grid.Resources>
+                        <Style TargetType="Viewbox">
+                            <Setter Property="Width" Value="50" />
+                            <Setter Property="Height" Value="50" />
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                        </Style>
 
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="../../Fonts/#iconfont" />
+                            <Setter Property="Foreground" Value="{DynamicResource primary-100}" />
+                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                            <Setter Property="Text" Value="&#xe67b;" />
+                        </Style>
+                    </Grid.Resources>
+
+                    <Viewbox HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <TextBlock />
+                    </Viewbox>
+
+                    <Viewbox HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <TextBlock>
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="90" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Viewbox>
+
+                    <Viewbox HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <TextBlock>
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Viewbox>
+
+                    <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <TextBlock>
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="-90" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Viewbox>
+
+                    <Image Source="../../Images/donation.jpg" />
+                </Grid>
             </Grid>
-
-            <StackPanel Grid.Row="1"
-                        Margin="10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="14" />
-                        <Setter Property="Foreground" Value="{DynamicResource text-100}" />
-                        <Setter Property="TextWrapping" Value="Wrap" />
-                    </Style>
-                </StackPanel.Resources>
-                <TextBlock>
-                    感谢您选择并使用这款开源软件！您的信任与支持是我持续前进的动力。
-                </TextBlock>
-                <TextBlock>
-                    开源软件的研发与维护离不开开发者的辛勤付出与无私奉献。为了保持软件的持续更新与优化，恳请您在能力范围内考虑对本项目进行捐赠。
-                </TextBlock>
-                <TextBlock>
-                    您的每一份捐赠，都将直接用于软件的开发、测试、维护以及优化，帮助更多用户享受到更好的使用体验。
-                </TextBlock>
-                <TextBlock>
-                    您可以选择通过支付宝、微信等在线支付平台进行捐赠，捐赠金额不限，您的每一份心意我都将倍加珍惜。
-                </TextBlock>
-                <TextBlock>
-                    再次感谢您的支持与厚爱！祝您生活愉快，工作顺利！
-                </TextBlock>
-                <TextBlock HorizontalAlignment="Right">
-                    空山明月 敬上
-                </TextBlock>
-            </StackPanel>
-
-            <Grid Grid.Row="2">
-                <Grid.Resources>
-                    <Style TargetType="Viewbox">
-                        <Setter Property="Width" Value="50" />
-                        <Setter Property="Height" Value="50" />
-                        <Setter Property="Panel.ZIndex" Value="100" />
-                    </Style>
-
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontFamily" Value="../../Fonts/#iconfont" />
-                        <Setter Property="Foreground" Value="{DynamicResource primary-100}" />
-                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-                        <Setter Property="Text" Value="&#xe67b;" />
-                    </Style>
-                </Grid.Resources>
-
-                <Viewbox HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <TextBlock />
-                </Viewbox>
-
-                <Viewbox HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <TextBlock>
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="90" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                </Viewbox>
-
-                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                    <TextBlock>
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="180" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                </Viewbox>
-
-                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <TextBlock>
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="-90" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                </Viewbox>
-
-                <Image Source="../../Images/donation.jpg" />
-            </Grid>
-        </Grid>
-    </Border>
-
+        </Border>
+    </Grid>
 </Window>

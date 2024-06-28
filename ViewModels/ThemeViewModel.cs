@@ -17,9 +17,6 @@ namespace WubiMaster.ViewModels
         private ThemeConfigModel configModel;
 
         [ObservableProperty]
-        private bool autoColor;
-
-        [ObservableProperty]
         private ColorCandidateModel candidateModel;  // 候选项模型类
 
         [ObservableProperty]
@@ -40,9 +37,6 @@ namespace WubiMaster.ViewModels
         private bool is_loaded = false;
 
         [ObservableProperty]
-        private bool randomColor;
-
-        [ObservableProperty]
         private WeaselCustomModel weaselCustomDetails;
 
         private string weaselCustomPath = "";
@@ -61,7 +55,7 @@ namespace WubiMaster.ViewModels
             DefaultCustomDetails = new DefaultCustomModel();
 
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
-            WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeAutoColor", ChangeAutoColor);
+            WeakReferenceMessenger.Default.Register<string, string>(this, "SmartSkinColor", SmartSkinColor);
 
             LoadColorShemes();
             LoadConfig();
@@ -107,7 +101,6 @@ namespace WubiMaster.ViewModels
                 UpdateCurrentSkin(null);
 
                 CandidateModel.SaveConfig();
-                ConfigModel.SaveConfig();
             }
             catch (Exception ex)
             {
@@ -155,6 +148,9 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// 删除主题
+        /// </summary>
         [RelayCommand]
         public void DeleteColor()
         {
@@ -194,16 +190,23 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// 皮肤跟随主题
+        /// </summary>
         [RelayCommand]
-        public void SetAutoColor()
+        public void ColorFromTheme()
         {
+            // 开关互冲
+            if (ConfigModel.Theme_FollowTheme)
+                ConfigModel.Theme_RandomColor = false;
+
             App.Current.Dispatcher.BeginInvoke(() =>
             {
                 try
                 {
                     LoadCurrentSkin();
 
-                    if (AutoColor)
+                    if (ConfigModel.Theme_FollowTheme)
                     {
                         ChangeSkin(ColorsList[ColorIndex].description.color_name);
 
@@ -241,7 +244,6 @@ namespace WubiMaster.ViewModels
                         UpdateCurrentSkin(null);
                     }
 
-                    ConfigHelper.WriteConfigByBool("auto_color", AutoColor);
                     // 如果包含 custom 文件，先将其删除掉
                     if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
                     {
@@ -261,6 +263,20 @@ namespace WubiMaster.ViewModels
                     this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
                 }
             });
+        }
+
+        /// <summary>
+        /// 随机配色
+        /// </summary>
+        [RelayCommand]
+        public void RandomColor()
+        {
+            // 开关互冲
+            if (ConfigModel.Theme_RandomColor)
+                ConfigModel.Theme_FollowTheme = false;
+
+
+            Console.WriteLine();
         }
 
         [RelayCommand]
@@ -284,7 +300,7 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetRandomColor()
         {
-            if (RandomColor)
+            if (ConfigModel.Theme_RandomSkin)
             {
                 Random rd = new Random();
                 int index = rd.Next(ColorsList.Count);
@@ -293,8 +309,6 @@ namespace WubiMaster.ViewModels
                 ChangeSkin(rdModel.style.color_scheme);
                 ServiceHelper.Deployer();
             }
-
-            ConfigHelper.WriteConfigByBool("random_color", RandomColor);
         }
 
         // 更新当前显示的皮肤
@@ -306,6 +320,8 @@ namespace WubiMaster.ViewModels
             var tempColor = CurrentSkin;
             CurrentSkin = null;
             CurrentSkin = tempColor;
+
+            ConfigModel.SaveConfig();
         }
 
         [RelayCommand]
@@ -362,12 +378,13 @@ namespace WubiMaster.ViewModels
             return targetBrush;
         }
 
-        private void ChangeAutoColor(object recipient, string message)
+        // 切换智能换肤
+        private void SmartSkinColor(object recipient, string message)
         {
-            if (RandomColor)
+            if (ConfigModel.Theme_RandomSkin)
                 SetRandomColor();
-            if (AutoColor)
-                SetAutoColor();
+            if (ConfigModel.Theme_FollowTheme)
+                ColorFromTheme();
         }
 
         private void ChangeColorScheme(object recipient, string message)
@@ -493,11 +510,6 @@ namespace WubiMaster.ViewModels
 
         private void LoadConfig()
         {
-            // 加载rime外观跟随主题
-            AutoColor = ConfigHelper.ReadConfigByBool("auto_color");
-
-            // 加载rime外观随机更换
-            RandomColor = ConfigHelper.ReadConfigByBool("random_color");
 
             // 加载是否是将模板应用于全部皮肤
             ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");

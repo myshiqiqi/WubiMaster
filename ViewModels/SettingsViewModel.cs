@@ -237,7 +237,7 @@ namespace WubiMaster.ViewModels
                 ThemeIndex = ThemeList.IndexOf(themeModel);
                 ConfigHelper.WriteConfigByString("theme_value", theme);
 
-                WeakReferenceMessenger.Default.Send<string, string>("ChangeAutoColor", "ChangeAutoColor");
+                WeakReferenceMessenger.Default.Send<string, string>("SmartSkinColor", "SmartSkinColor");
             }
             catch (Exception ex)
             {

@@ -298,6 +298,7 @@ namespace WubiMaster.ViewModels
             // 异步加载 loading
             LodingView lodingView = new LodingView();
             App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
+            await Task.Delay(1500);
 
             if (!isFromLocal)
             {
@@ -622,6 +623,7 @@ namespace WubiMaster.ViewModels
             // 异步加载 loading
             LodingView lodingView = new LodingView();
             App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
+            await Task.Delay(1500);
 
             if (!isFromLocal)
             {

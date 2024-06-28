@@ -17,7 +17,7 @@
         <vm:PopViewModel />
     </Window.DataContext>
 
-    <Grid Margin="10">
+    <Grid Margin="10" Style="{StaticResource UIElementFadeIn}">
         <ContentControl Content="{Binding MessageBox}" />
     </Grid>
 </Window>

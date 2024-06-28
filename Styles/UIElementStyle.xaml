@@ -17,9 +17,9 @@
                         <Storyboard>
                             <DoubleAnimation BeginTime="00:00:00"
                                              Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                             From="0.1"
+                                             From="0.2"
                                              To="1"
-                                             Duration="00:00:1">
+                                             Duration="00:00:0.8">
 
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
@@ -28,9 +28,9 @@
 
                             <DoubleAnimation BeginTime="00:00:00"
                                              Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                             From="0.1"
+                                             From="0.2"
                                              To="1"
-                                             Duration="00:00:1">
+                                             Duration="00:00:0.8">
 
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />

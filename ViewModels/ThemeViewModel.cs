@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -274,8 +276,27 @@ namespace WubiMaster.ViewModels
             // 开关互冲
             if (ConfigModel.Theme_RandomColor)
                 ConfigModel.Theme_FollowTheme = false;
+            else
+                return;
 
-            return;
+            List<ThemeModel> themeList = new List<ThemeModel>();
+            var sourceThemes = new ResourceDictionary();
+            sourceThemes.Source = new Uri("pack://application:,,,/WubiMaster;component/Themes/ThemeNames.xaml");
+            foreach (string name in sourceThemes.Keys)
+            {
+                string path = sourceThemes[name].ToString();
+                ThemeModel themeModel = new ThemeModel();
+                themeModel.Name = name;
+                themeModel.Value = path;
+                themeList?.Add(themeModel);
+            }
+            themeList = themeList.OrderBy(t => t.Name).ToList();
+            var usedTheme = themeList[new Random().Next(themeList.Count)];
+
+            var theme_resource = new ResourceDictionary();
+            theme_resource.Source = new Uri($"pack://application:,,,/WubiMaster;component/Themes/{usedTheme.Value}.xaml");
+            var test = (SolidColorBrush)theme_resource["text-100"];
+
             App.Current.Dispatcher.BeginInvoke(() =>
             {
                 try
@@ -284,22 +305,157 @@ namespace WubiMaster.ViewModels
 
                     if (ConfigModel.Theme_RandomColor)
                     {
-                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
+                        //ChangeSkin(ColorsList[ColorIndex].description.color_name);
 
-                        SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                        SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                        SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                        SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                        SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
-                        SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
-                        SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
-                        SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
-                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
-                        SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                        SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                        SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush text_color = (SolidColorBrush)theme_resource["text-100"];
+                        SolidColorBrush comment_text_color = (SolidColorBrush)theme_resource["text-200"];
+                        SolidColorBrush label_color = (SolidColorBrush)theme_resource["text-200"];
+                        SolidColorBrush back_color = (SolidColorBrush)theme_resource["bg-100"];
+                        SolidColorBrush shadow_color = (SolidColorBrush)theme_resource["primary-300"];
+                        SolidColorBrush border_color = (SolidColorBrush)theme_resource["primary-200"];
+                        SolidColorBrush hilited_text_color = (SolidColorBrush)theme_resource["accent-200"];
+                        SolidColorBrush hilited_back_color = (SolidColorBrush)theme_resource["accent-100"];
+                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)theme_resource["bg-100"];
+                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)theme_resource["primary-100"];
+                        SolidColorBrush hilited_label_color = (SolidColorBrush)theme_resource["bg-200"];
+                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)theme_resource["bg-200"];
+                        SolidColorBrush candidate_text_color = (SolidColorBrush)theme_resource["text-100"];
+                        SolidColorBrush candidate_back_color = (SolidColorBrush)theme_resource["bg-100"];
+
+                        /*首选项颜色随机匹配
+                         *结果一：
+                         *    背景色：bg-100
+                         *    边框色：随机主色或随机背景色
+                         *    首选背景色：随机主色
+                         *    首选文字色：bg-100
+                         *    编码背景色：随机高亮色
+                         *    编码文字色：另一个高亮色
+                         *    其他文字色：默认
+                         *    
+                         *结果二：
+                         *    背景色：bg-100
+                         *    边框色：随机高亮或随机背景色
+                         *    首选背景色：随机高亮色
+                         *    首选文字色：另一个高亮色
+                         *    编码背景色：随机主色
+                         *    编码文字色：bg-100
+                         *    其他文字色：默认
+                         *结果三：
+                         *    背景色：随机主色或随机高亮色
+                         *    边框色：随机主色或随机高亮色
+                         *    首选背景色：bg-100
+                         *    首选文字色：txt-100
+                         *    编码背景色：bg-300
+                         *    编码文字色：随机主色或随机高亮色
+                         *    其他文字色：bg-200
+                         *结果四：
+                         *    背景色：随机背景色
+                         *    边框色：随机主色或随机高亮色
+                         *    首选背景色：同背景色
+                         *    首选文字色：随机主色
+                         *    首选label: 高亮色1
+                         *    道选注解：高亮色2
+                         *    编码背景色：背景色
+                         *    编码文字色：text-100
+                         *    其他文字色：默认
+                         */
+
+                        //----首选项颜色随机匹配----------//
+                        // 结果一：
+                        //     背景色：bg-100
+                        //     边框色：随机主色
+
+                        //     首选背景色：主色随机，首选字体：背景色3，其他字体：字体色1，边框色：主色随机，编码背景：高亮色随机，编码字体色：纯白色
+                        // 结果二：高亮色1作背景 + 高亮色2作文字色
+                        // 结果三：以上任意一个颜色 + 纯白色字体
+                        // 结果四：首选项没有颜色，字体是主色系
+                        List<string> primary_colors = new List<string>() { "primary-100", "primary-200", "primary-300" };
+                        List<string> accent_colors = new List<string>() { "accent-100", "accent-200" };
+                        List<string> bg_colors = new List<string>() { "bg-100", "bg-200", "bg-300" };
+                        var hilited_candidate_random = new Random();
+                        int hilited_candidate_index =  hilited_candidate_random.Next(4);
+                        if (hilited_candidate_index == 0)
+                        {
+                            // 背景色
+                            back_color = (SolidColorBrush)theme_resource["bg-100"];
+                            // 边框色
+                            var bor_list = primary_colors.Concat(bg_colors).ToList();
+                            border_color = (SolidColorBrush)theme_resource[bor_list[new Random().Next(bor_list.Count)]];
+                            // 首选背景色
+                            hilited_candidate_back_color = (SolidColorBrush)theme_resource[primary_colors[new Random().Next(primary_colors.Count)]];
+                            // 首选文字色
+                            hilited_candidate_text_color = (SolidColorBrush)theme_resource["bg-100"];
+                            hilited_label_color = hilited_candidate_text_color;
+                            hilited_comment_text_color = hilited_candidate_text_color;
+                            // 编码区颜色
+                            int accent_incex = new Random().Next(accent_colors.Count);
+                            hilited_text_color = (SolidColorBrush)theme_resource[accent_colors[accent_incex]];
+                            accent_colors.RemoveAt(accent_incex);
+                            hilited_back_color = (SolidColorBrush)theme_resource[accent_colors[new Random().Next(accent_colors.Count)]];
+                        }
+                        else if (hilited_candidate_index == 1)
+                        {
+                            // 背景色
+                            back_color = (SolidColorBrush)theme_resource["bg-100"];
+                            // 边框色
+                            var bor_list = accent_colors.Concat(bg_colors).ToList();
+                            border_color = (SolidColorBrush)theme_resource[bor_list[new Random().Next(bor_list.Count)]];
+                            // 首选背景色
+                            int accent_index = new Random().Next(accent_colors.Count);
+                            hilited_candidate_back_color = (SolidColorBrush)theme_resource[accent_colors[accent_index]];
+                            // 首选文字色
+                            accent_colors.RemoveAt(accent_index);
+                            hilited_candidate_text_color = (SolidColorBrush)theme_resource[accent_colors[new Random().Next(accent_colors.Count)]];
+                            hilited_label_color = hilited_candidate_text_color;
+                            hilited_comment_text_color = hilited_candidate_text_color;
+                            // 编码区颜色
+                            hilited_text_color = (SolidColorBrush)theme_resource[primary_colors[new Random().Next(primary_colors.Count)]];
+                            hilited_back_color = (SolidColorBrush)theme_resource[accent_colors[new Random().Next(accent_colors.Count)]];
+                        }
+                        else if (hilited_candidate_index == 2)
+                        {
+                            var bg_list = primary_colors.Concat(accent_colors).ToList();
+                            // 背景色
+                            back_color = (SolidColorBrush)theme_resource[bg_list[new Random().Next(bg_list.Count)]];
+                            border_color = (SolidColorBrush)theme_resource[bg_list[new Random().Next(bg_list.Count)]];
+                            // 首选背景色
+                            hilited_candidate_back_color = (SolidColorBrush)theme_resource[bg_colors[new Random().Next(bg_colors.Count)]];
+                            // 首选文字色
+                            hilited_candidate_text_color = (SolidColorBrush)theme_resource["text-100"];
+                            hilited_label_color = hilited_candidate_text_color;
+                            hilited_comment_text_color = hilited_candidate_text_color;
+                            // 编码区颜色
+                            hilited_text_color = (SolidColorBrush)theme_resource["text-200"];
+                            hilited_back_color = (SolidColorBrush)theme_resource["bg-300"];
+                            // 其它
+                            label_color = (SolidColorBrush)theme_resource["bg-200"];
+                            candidate_text_color = (SolidColorBrush)theme_resource["bg-200"];
+                            comment_text_color = (SolidColorBrush)theme_resource["bg-200"];
+                        }
+                        else if (hilited_candidate_index==3)
+                        {
+                            // 背景色
+                            back_color = (SolidColorBrush)theme_resource["bg-100"];
+                            // 边框色
+                            var bor_list = primary_colors.Concat(bg_colors).ToList();
+                            border_color = (SolidColorBrush)theme_resource[bor_list[new Random().Next(bor_list.Count)]];
+                            // 首选背景色
+                            hilited_candidate_back_color = back_color;
+                            // 首选文字色
+                            hilited_candidate_text_color = (SolidColorBrush)theme_resource["primary-100"];
+                            int accent_index = new Random().Next(accent_colors.Count);
+                            hilited_label_color = (SolidColorBrush)theme_resource[accent_colors[accent_index]];
+                            accent_colors.RemoveAt(accent_index);
+                            hilited_comment_text_color = (SolidColorBrush)theme_resource[accent_colors[new Random().Next(accent_colors.Count)]];
+                            // 编码区颜色
+                            hilited_text_color = (SolidColorBrush)theme_resource["text-100"];
+                            hilited_back_color = back_color;
+                        }
+                        //else
+                        //{
+                        //    hilited_candidate_back_color = (SolidColorBrush)theme_resource["bg-100"];
+                        //    hilited_candidate_text_color = (SolidColorBrush)theme_resource["primary-100"];
+                        //}
 
                         //CurrentSkin.UsedColor.color_format = "argb";
                         CurrentSkin.UsedColor.text_color = ColorToStr(text_color.ToString());
@@ -331,7 +487,7 @@ namespace WubiMaster.ViewModels
 
                     string colorScheme = ColorsList[ColorIndex].description.color_name;
                     ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-                    ServiceHelper.Deployer();
+                    //ServiceHelper.Deployer();
                 }
                 catch (Exception ex)
                 {

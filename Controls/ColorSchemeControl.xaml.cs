@@ -1086,16 +1086,16 @@ namespace WubiMaster.Controls
 
             // 高亮候选
             c.HilitedCandidateBackColor = c.BrushConvter(schemeModel.hilited_candidate_back_color, schemeModel.back_color, colorFormat: color_format);
-            c.HilitedCandidateTextColor = c.BrushConvter(schemeModel.hilited_candidate_text_color, c.HilitedTextColor.ToString(), "argb");
+            c.HilitedCandidateTextColor = c.BrushConvter(schemeModel.hilited_candidate_text_color, c.HilitedTextColor.ToString(), colorFormat: color_format);
             c.HilitedCandidateBorderColor = c.BrushConvter(schemeModel.hilited_candidate_border_color, schemeModel.hilited_candidate_back_color, colorFormat: color_format);
             c.RoundCorner = 10;//double.Parse(styleModel.layout.round_corner);
-            c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), "argb");
+            c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), colorFormat: color_format);
             c.MarkText = styleModel.mark_text;
             c.HilitedMarkColor = c.BrushConvter(schemeModel.hilited_mark_color, schemeModel.text_color, colorFormat: color_format);
             if (!string.IsNullOrEmpty(schemeModel.hilited_mark_color))
                 c.MarkTextVisible = Visibility.Visible;
             c.HilitedCandidateShadowColor = c.ColorConvter(schemeModel.hilited_candidate_shadow_color, colorFormat: color_format);
-            c.HilitedCommentTextColor = c.BrushConvter(schemeModel.hilited_comment_text_color, Colors.Gray.ToString(), "argb");
+            c.HilitedCommentTextColor = c.BrushConvter(schemeModel.hilited_comment_text_color, Colors.Gray.ToString(), colorFormat: color_format);
 
             // 非高亮区
             c.CandidateTextColor = c.BrushConvter(schemeModel.candidate_text_color, schemeModel.text_color, colorFormat: color_format);

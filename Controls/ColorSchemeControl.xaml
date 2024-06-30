@@ -119,8 +119,7 @@
 
                                 <Grid>
                                     <ContentPresenter x:Name="ContentSite"
-                                                      Width="0"
-                                                      Height="0"
+                                                      Width="0" Height="0"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"
                                                       ContentSource="Header"
@@ -139,7 +138,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0" />
-            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}" />
+            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}" />
         </Style>
 
         <!--候选文本样式-->

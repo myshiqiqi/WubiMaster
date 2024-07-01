@@ -73,6 +73,7 @@ namespace WubiMaster.ViewModels
                         if (!ConfigModel.EnableUserDict)
                         {
                             ConfigModel.EnableEncoder = false;  // 自造词禁
+                            ConfigModel.DisUserDictPatt = false;  // 关闭一二三简禁用调频
                         }
                         break;
 
@@ -150,6 +151,9 @@ namespace WubiMaster.ViewModels
             /**----------------菜单类开关----------------**/
             // 启用自动调频
             WubiCustom.SetAttribute(WubiCustom.enable_user_dict, ConfigModel.EnableUserDict.ToString().ToLower());
+            // 一二三简禁用调频
+            string dis_user_dict_patt_str = "\r\n    - \"^[a-y]{1,3}$\"";
+            WubiCustom.SetAttribute(WubiCustom.dis_user_dict_patt, ConfigModel.DisUserDictPatt ? dis_user_dict_patt_str : "");
             // 启用逐码提示
             WubiCustom.SetAttribute(WubiCustom.enable_completion, ConfigModel.EnableCompletion.ToString().ToLower());
             // 启用连打模式，与四码唯一自动上屏互冲，需要添加分词符以帮助长句模式

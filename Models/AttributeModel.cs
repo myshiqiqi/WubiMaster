@@ -68,6 +68,11 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private bool enableUserDict;
 
+        // 不参与调频的参数
+        // 这里指的是一二三简字不参与调频
+        [ObservableProperty]
+        private bool disUserDictPatt;
+
         // 启用逐码提示
         [ObservableProperty]
         private bool enableCompletion;

@@ -220,6 +220,20 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
+                               Text="简码字不参与调频" />
+
+                    <ToggleButton Width="30"
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  Command="{Binding UpdateCommand}"
+                                  IsChecked="{Binding ConfigModel.DisUserDictPatt}"
+                                  IsEnabled="{Binding ConfigModel.EnableUserDict}" />
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="15"
+                               Foreground="{DynamicResource text-100}"
                                Text="逐码提示" />
 
                     <ToggleButton Width="30"

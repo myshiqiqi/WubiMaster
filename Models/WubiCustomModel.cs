@@ -19,6 +19,7 @@ namespace WubiMaster.Models
         //public string single_char { get; set; }
         //public string full_shape { get; set; }
         public string enable_user_dict { get; set; }
+        public string dis_user_dict_patt { get; set; }
         public string enable_completion { get; set; }
         public string enable_sentence { get; set; }
         public string max_code_length { get; set; }
@@ -47,6 +48,7 @@ namespace WubiMaster.Models
             //single_char = "switches/@5/reset";
             //full_shape = "switches/@6/reset";
             enable_user_dict = "translator/enable_user_dict";
+            dis_user_dict_patt = "translator/disable_user_dict_for_patterns/+";
             enable_completion = "translator/enable_completion";
             enable_sentence = "translator/enable_sentence";
             max_code_length = "speller/max_code_length";

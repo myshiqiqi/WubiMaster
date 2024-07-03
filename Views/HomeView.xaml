@@ -342,15 +342,25 @@
                                 </Grid>
                             </StackPanel>
 
-                            <Border Grid.Row="1"
-                                    Margin="5"
-                                    CornerRadius="15">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="../Images/wubi_demo.png"
-                                                Stretch="Uniform"
-                                                Viewbox="0.2, 0.3 0.6,0.6" />
-                                </Border.Background>
-                            </Border>
+                            <Grid Grid.Row="1" Margin="5">
+                                <Viewbox Margin="25">
+                                    <c:ColorSchemeControl BackColor="{DynamicResource bg-100}"
+                                                          BorderColor="{DynamicResource bg-300}"
+                                                          BorderPadding="3"
+                                                          CandidateBorderCorner="10"
+                                                          CandidateTextColor="{DynamicResource text-100}"
+                                                          CommentTextColor="{DynamicResource text-200}"
+                                                          HilitedCandidateBackColor="{DynamicResource primary-100}"
+                                                          HilitedCandidateTextColor="{DynamicResource bg-100}"
+                                                          HilitedCommentTextColor="{DynamicResource bg-200}"
+                                                          HilitedLabelColor="{DynamicResource bg-200}"
+                                                          InlinePreedit="False"
+                                                          IsBanYueMode="False"
+                                                          LabelColor="{DynamicResource text-200}"
+                                                          UnInlinePreedit="True" />
+                                </Viewbox>
+
+                            </Grid>
                         </Grid>
                     </Border>
 

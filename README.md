@@ -46,7 +46,7 @@
 ### 方案地址
 
 - 📌 https://gitee.com/hi-coder/rime-wubi
-- 📌 https://github.com/mrshiqiqi/rime-wubi
+- 📌 https://github.com/myshiqiqi/rime-wubi
 
 ## 捐赠 🌻
 

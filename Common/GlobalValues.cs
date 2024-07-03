@@ -5,7 +5,7 @@ namespace WubiMaster.Common
     public class GlobalValues
     {
         public static string AppDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        public static string GithubZipUrl = "https://github.com/mrshiqiqi/rime-wubi/archive/refs/heads/master.zip";
+        public static string GithubZipUrl = "https://github.com/myshiqiqi/rime-wubi/archive/refs/heads/master.zip";
         public static string HeitiFont = AppDomain.CurrentDomain.BaseDirectory + @$"Assets\Fonts\黑体字根.ttf";
         public static string SchemaKey = @"\wubi_master.txt";
         public static string SchemaZip = AppDomain.CurrentDomain.BaseDirectory + @$"Assets\Schemas\schema.zip";

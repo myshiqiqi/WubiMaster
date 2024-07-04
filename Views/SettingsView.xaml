@@ -98,6 +98,20 @@
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
 
+                    <c:SettingPanel Title="五笔模式"
+                                    IconText="&#xe6f2;"
+                                    SubTitle="经典模式：以字型结构作为识别码；音辅模式：以单字声母作为识别码">
+                        <c:SettingPanel.SettingContent>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton Content="经典"
+                                             GroupName="w_model"
+                                             IsChecked="True" />
+
+                                <RadioButton Content="音辅" GroupName="w_model" />
+                            </StackPanel>
+                        </c:SettingPanel.SettingContent>
+                    </c:SettingPanel>
+
                     <c:SettingPanel Title="方案备份"
                                     IconText="&#xe82f;"
                                     SubTitle="从用户目录备份配置文件">

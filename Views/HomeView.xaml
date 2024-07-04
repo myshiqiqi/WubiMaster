@@ -342,23 +342,63 @@
                                 </Grid>
                             </StackPanel>
 
-                            <Grid Grid.Row="1" Margin="5">
-                                <Viewbox Margin="25">
+                            <Grid Grid.Row="1" Margin="20">
+                                <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <c:ColorSchemeControl BackColor="{DynamicResource primary-300}"
+                                                          BorderColor="{DynamicResource primary-100}"
+                                                          BorderPadding="3"
+                                                          CandidateBorderCorner="10"
+                                                          CandidateTextColor="{DynamicResource bg-100}"
+                                                          CommentTextColor="{DynamicResource bg-200}"
+                                                          HilitedBackColor="{DynamicResource bg-100}"
+                                                          HilitedCandidateBackColor="{DynamicResource accent-200}"
+                                                          HilitedCandidateTextColor="{DynamicResource accent-100}"
+                                                          HilitedCommentTextColor="{DynamicResource accent-100}"
+                                                          HilitedLabelColor="{DynamicResource accent-100}"
+                                                          HilitedTextColor="{DynamicResource text-100}"
+                                                          InlinePreedit="False"
+                                                          IsBanYueMode="False"
+                                                          LabelColor="{DynamicResource bg-200}"
+                                                          UnInlinePreedit="True" />
+                                </Grid>
+
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <c:ColorSchemeControl BackColor="{DynamicResource bg-100}"
+                                                          BorderColor="{DynamicResource accent-200}"
+                                                          BorderPadding="3"
+                                                          CandidateBorderCorner="10"
+                                                          CandidateTextColor="{DynamicResource text-100}"
+                                                          CommentTextColor="{DynamicResource text-200}"
+                                                          HilitedBackColor="{DynamicResource primary-200}"
+                                                          HilitedCandidateBackColor="{DynamicResource accent-100}"
+                                                          HilitedCandidateTextColor="{DynamicResource bg-100}"
+                                                          HilitedCommentTextColor="{DynamicResource bg-200}"
+                                                          HilitedLabelColor="{DynamicResource bg-200}"
+                                                          HilitedTextColor="{DynamicResource text-100}"
+                                                          InlinePreedit="False"
+                                                          IsBanYueMode="False"
+                                                          LabelColor="{DynamicResource text-200}"
+                                                          UnInlinePreedit="True" />
+                                </Grid>
+
+                                <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                     <c:ColorSchemeControl BackColor="{DynamicResource bg-100}"
                                                           BorderColor="{DynamicResource bg-300}"
                                                           BorderPadding="3"
                                                           CandidateBorderCorner="10"
                                                           CandidateTextColor="{DynamicResource text-100}"
                                                           CommentTextColor="{DynamicResource text-200}"
+                                                          HilitedBackColor="{DynamicResource accent-100}"
                                                           HilitedCandidateBackColor="{DynamicResource primary-100}"
                                                           HilitedCandidateTextColor="{DynamicResource bg-100}"
                                                           HilitedCommentTextColor="{DynamicResource bg-200}"
                                                           HilitedLabelColor="{DynamicResource bg-200}"
+                                                          HilitedTextColor="{DynamicResource accent-200}"
                                                           InlinePreedit="False"
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource text-200}"
                                                           UnInlinePreedit="True" />
-                                </Viewbox>
+                                </Grid>
 
                             </Grid>
                         </Grid>

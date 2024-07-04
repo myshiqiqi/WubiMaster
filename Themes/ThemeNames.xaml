@@ -38,4 +38,5 @@
     <sys:String x:Key="长春花">PeriwinkleTheme</sys:String>
     <sys:String x:Key="桔子汽水">OrangeTheme</sys:String>
     <sys:String x:Key="薄荷">MintTheme</sys:String>
+    <sys:String x:Key="火星">MarsTheme</sys:String>
 </ResourceDictionary>

@@ -123,7 +123,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBox IsReadOnly="True"
                                          Style="{StaticResource SettingTextBoxStyle}"
-                                         Text="{Binding BackupPath}" />
+                                         Text="{Binding ConfigModel.SettingsBackupPath}" />
                                 <Button Margin="10,0,0,0"
                                         Command="{Binding SetBackupPathCommand}"
                                         Content="备份到"
@@ -223,7 +223,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <ToggleButton HorizontalAlignment="Left"
                                               VerticalAlignment="Center"
-                                              IsChecked="{Binding AutoStart, Mode=TwoWay}">
+                                              IsChecked="{Binding ConfigModel.SettingsAutoStart, Mode=TwoWay}">
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Checked">
                                             <b:InvokeCommandAction Command="{Binding SetAutoStartCommand}" />

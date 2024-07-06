@@ -24,12 +24,6 @@ namespace WubiMaster.ViewModels
         #region ObservablePropertys
 
         [ObservableProperty]
-        private bool autoStart;
-
-        [ObservableProperty]
-        private string backupPath;
-
-        [ObservableProperty]
         private bool canUpdateRimeWubi;
 
         [ObservableProperty]
@@ -311,14 +305,14 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
-                if (string.IsNullOrEmpty(BackupPath))
+                if (string.IsNullOrEmpty(ConfigModel.SettingsBackupPath))
                     this.ShowMessage("请先设置备份目录");
 
                 ServiceHelper.KillService();
                 await Task.Delay(500);
 
                 string zipName = $"backup_{DateTime.Now.ToString("yyyy.MM.dd.HH.mm.ss.fff")}.zip";
-                ZipHelper.CompressDirectoryZip(GlobalValues.UserPath, BackupPath + $@"\{zipName}");
+                ZipHelper.CompressDirectoryZip(GlobalValues.UserPath, ConfigModel.SettingsBackupPath + $@"\{zipName}");
 
                 ServiceHelper.RunService();
 
@@ -637,12 +631,12 @@ namespace WubiMaster.ViewModels
         {
             var exeName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
-            if (AutoStart)
+            if (ConfigModel.SettingsAutoStart)
             {
                 if (!StartAutomaticallyCreate(exeName))
                 {
                     this.ShowMessage("设置程序开机自启失败！", DialogType.Error);
-                    AutoStart = false;
+                    ConfigModel.SettingsAutoStart = false;
                 }
             }
             else
@@ -650,11 +644,11 @@ namespace WubiMaster.ViewModels
                 if (!StartAutomaticallyDel(exeName))
                 {
                     this.ShowMessage("取消程序开机自启失败！", DialogType.Error);
-                    AutoStart = true;
+                    ConfigModel.SettingsAutoStart = true;
                 }
             }
 
-            ConfigHelper.WriteConfigByBool("auto_start", AutoStart);
+            ConfigModel.SaveConfig();
         }
 
         [RelayCommand]
@@ -667,9 +661,9 @@ namespace WubiMaster.ViewModels
             {
                 return;
             }
-            BackupPath = dialog.SelectedPath;
+            ConfigModel.SettingsBackupPath = dialog.SelectedPath;
 
-            ConfigHelper.WriteConfigByString("backup_path", BackupPath);
+            ConfigModel.SaveConfig();
         }
 
         [RelayCommand]
@@ -1002,9 +996,6 @@ namespace WubiMaster.ViewModels
             else
                 QuickSpllType86 = true;
 
-            // 加载方案备份目录
-            BackupPath = ConfigHelper.ReadConfigByString("backup_path");
-
             // 加载工作方案版本
             UpdateWubiSchemaTip();
 
@@ -1020,9 +1011,6 @@ namespace WubiMaster.ViewModels
             // 加载插件名称
             string plugName = ConfigHelper.ReadConfigByString("plugin_name");
             PluginIndex = string.IsNullOrEmpty(plugName) ? 0 : PluginsList.IndexOf(plugName);
-
-            // 加载是否自动启动
-            AutoStart = ConfigHelper.ReadConfigByBool("auto_start");
         }
 
         #region 开机自启

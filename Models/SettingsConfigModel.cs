@@ -20,5 +20,17 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private bool settingsYinfuMode;
+
+        /// <summary>
+        /// 是否开机自动启动
+        /// </summary>
+        [ObservableProperty]
+        private bool settingsAutoStart;
+
+        /// <summary>
+        /// 方案备份目录
+        /// </summary>
+        [ObservableProperty]
+        private string settingsBackupPath;
     }
 }

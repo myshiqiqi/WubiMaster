@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Security;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -33,6 +34,9 @@ namespace WubiMaster.ViewModels
 
         [ObservableProperty]
         private bool cobboxThemesEnable;
+
+        [ObservableProperty]
+        private SettingsConfigModel configModel;
 
         [ObservableProperty]
         private bool daemonIsRun;
@@ -105,6 +109,7 @@ namespace WubiMaster.ViewModels
 
         public SettingsViewModel()
         {
+            ConfigModel = new SettingsConfigModel();
             registryHelper = new RegistryHelper();
             ThemeList = new List<ThemeModel>();
             ShiciIntervalList = new ObservableCollection<ShiciIntervalModel>();
@@ -152,6 +157,145 @@ namespace WubiMaster.ViewModels
             catch (Exception e)
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// 更新五笔方案文件或配置
+        /// </summary>
+        private async void UpdateWubiFilesAsync(bool online, string zip_name, string url = "", string save_path = "", string target_zip = "")
+        {
+            // 获取当前五笔版本
+            string wubi_type = ConfigHelper.ReadConfigByString("running_schema", "none");
+            if (wubi_type == "none") return;
+
+            if (online)
+            {
+                await DownLoadWubiSchemaAsync(url, save_path);
+            }
+            else
+            {
+                save_path = target_zip;
+            }
+
+            await App.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, async () =>
+            {
+                try
+                {
+                    // 将下载好的方案zip解压
+                    ZipHelper.DecompressZip(save_path, GlobalValues.UserPath);
+
+                    // 将解压的方案文件复制到用户目录下，然后删除
+                    string wubi_file = GlobalValues.UserPath + "\\" + zip_name;
+                    if (Directory.Exists(wubi_file))
+                        CopyDirectory(wubi_file, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{wubi_file}");
+                    Directory.Delete(wubi_file, true);
+
+                    // 要点：更新操作时，将对应五笔版本的tables下的信息复制到用户目录下
+                    string table_path = "";
+                    if (wubi_type == "86") table_path = @$"{GlobalValues.UserPath}\tables\86";
+                    else if (wubi_type == "98") table_path = @$"{GlobalValues.UserPath}\tables\98";
+                    else table_path = @$"{GlobalValues.UserPath}\tables\06";
+                    if (Directory.Exists(table_path))
+                        CopyDirectory(table_path, GlobalValues.UserPath);
+                    else
+                        throw new Exception($"找到不到路径：{table_path}");
+
+                    // 更新 wubi master 文本信息
+                    string wubi_master_info = "";
+                    wubi_master_info += "中书君标记文件，请勿删除！\n\r";
+                    wubi_master_info += $"更新时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}\n\r";
+                    wubi_master_info += $"五笔类型：{wubi_type}\n\r";
+                    if (File.Exists(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey))
+                        File.Delete(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey);
+                    File.WriteAllText(GlobalValues.UserPath + "\\" + GlobalValues.SchemaKey, wubi_master_info);
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        [RelayCommand]
+        public async void ChangeWubiMode()
+        {
+            LodingView lodingView = new LodingView();
+
+            try
+            {
+                // 判断当前环境是否已经安装rime
+                if (string.IsNullOrEmpty(GlobalValues.UserPath) || string.IsNullOrEmpty(GlobalValues.ProcessPath))
+                {
+                    this.ShowMessage("未检测到 Rime 引擎的安装信息，请先安装 Rime 程序！", DialogType.Warring);
+                    return;
+                }
+
+                // 判断当前环境是否已经初始化
+                if (!File.Exists(GlobalValues.UserPath + GlobalValues.SchemaKey))
+                {
+                    this.ShowMessage("请先初始化五笔引擎！", DialogType.Warring);
+                    return;
+                }
+
+                // 检测环境正常的情况下，对切换模式也起提示与说明
+                string ask_info = "确定要切换吗？此过程有可能需要网络环境！";
+                var ask = this.ShowAskMessage(ask_info);
+                if (!(bool)ask)
+                    return;
+
+                // 停止服务
+                ServiceHelper.KillService();
+                await Task.Delay(100);
+
+                // 异步加载 loading
+                App.Current.Dispatcher.BeginInvoke(() => { lodingView.ShowPop(); });
+                await Task.Delay(1500);
+
+                if (ConfigModel.SettingsClassMode)
+                {
+                    // 切换为经典模式
+                    if (File.Exists(GlobalValues.WubiZipPath))
+                    {
+                        UpdateWubiFilesAsync(false, GlobalValues.WubiFileName, target_zip: GlobalValues.WubiZipPath);
+                    }
+                    else
+                    {
+                        UpdateWubiFilesAsync(true, GlobalValues.WubiFileName, url: GlobalValues.RimeWubiZipUrl, save_path: GlobalValues.WubiZipPath);
+                    }
+                }
+                else
+                {
+                    // 切换为音辅模式
+                    if (File.Exists(GlobalValues.YinfuZipPath))
+                    {
+                        UpdateWubiFilesAsync(false, GlobalValues.YinfuFileName, target_zip: GlobalValues.YinfuZipPath);
+                    }
+                    else
+                    {
+                        UpdateWubiFilesAsync(true, GlobalValues.YinfuFileName, url: GlobalValues.YinfuZipUrl, save_path: GlobalValues.YinfuZipPath);
+                    }
+                }
+
+                ConfigModel.SaveConfig();
+                this.ShowMessage("切换成功", DialogType.Success);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage(ex.ToString(), DialogType.Error);
+            }
+            finally
+            {
+                // 启动服务
+                UpdateWubiSchemaTip();
+                lodingView.ClosePop();
+                ServiceHelper.RunService();
+                await Task.Delay(500);
+                ServiceHelper.Deployer();
             }
         }
 
@@ -307,7 +451,7 @@ namespace WubiMaster.ViewModels
                     File.Delete(GlobalValues.WubiZipPath);
 
                 // 从github下载方案
-                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.RimeWubiZipUrl, GlobalValues.WubiZipPath);
                 if (!down_value)
                 {
                     lodingView.ClosePop();
@@ -632,7 +776,7 @@ namespace WubiMaster.ViewModels
                     File.Delete(GlobalValues.WubiZipPath);
 
                 // 从github下载方案
-                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.GithubZipUrl, GlobalValues.WubiZipPath);
+                var down_value = await DownLoadWubiSchemaAsync(GlobalValues.RimeWubiZipUrl, GlobalValues.WubiZipPath);
                 if (!down_value)
                 {
                     lodingView.ClosePop();

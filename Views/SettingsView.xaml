@@ -103,11 +103,15 @@
                                     SubTitle="经典模式：以字型结构作为识别码；音辅模式：以单字声母作为识别码">
                         <c:SettingPanel.SettingContent>
                             <StackPanel Orientation="Horizontal">
-                                <RadioButton Content="经典"
+                                <RadioButton Command="{Binding ChangeWubiModeCommand}"
+                                             Content="经典"
                                              GroupName="w_model"
-                                             IsChecked="True" />
+                                             IsChecked="{Binding ConfigModel.SettingsClassMode}" />
 
-                                <RadioButton Content="音辅" GroupName="w_model" />
+                                <RadioButton Command="{Binding ChangeWubiModeCommand}"
+                                             Content="音辅"
+                                             GroupName="w_model"
+                                             IsChecked="{Binding ConfigModel.SettingsYinfuMode}" />
                             </StackPanel>
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>

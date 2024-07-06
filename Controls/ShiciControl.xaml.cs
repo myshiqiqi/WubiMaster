@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Management;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -253,6 +255,10 @@ namespace WubiMaster.Controls
                 ShiciTitle = model.origin.Split(new char[] { '·', '/' })[0].Trim();
                 ShiciAuthor = model.author;
                 ShiciTexts = ShiciToArray(model.content);
+
+                // 保证最长只有三句
+                for (int i = 0; i < ShiciTexts.Count - 3; i++)
+                    ShiciTexts.RemoveAt(0);
             }
             catch (Exception ex)
             {

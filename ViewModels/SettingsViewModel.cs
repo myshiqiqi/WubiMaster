@@ -285,6 +285,7 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
+                ConfigModel.SettingsClassMode = ConfigModel.SettingsYinfuMode;
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage(ex.ToString(), DialogType.Error);
             }
@@ -294,7 +295,7 @@ namespace WubiMaster.ViewModels
                 UpdateWubiSchemaTip();
                 lodingView.ClosePop();
                 ServiceHelper.RunService();
-                await Task.Delay(500);
+                await Task.Delay(1000);
                 ServiceHelper.Deployer();
             }
         }

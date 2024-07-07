@@ -59,6 +59,21 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
 
+                <Viewbox Grid.Row="2"
+                         Width="110"
+                         Height="110"
+                         Margin="5,0,0,20"
+                         VerticalAlignment="Bottom">
+                    <TextBlock FontFamily="../Fonts/#iconfont"
+                               Foreground="{DynamicResource accent-200}"
+                               RenderTransformOrigin="0.5,0.5"
+                               Text="&#xe678;">
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="-1" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Viewbox>
+
                 <Image x:Name="image_shici"
                        Grid.Row="2"
                        Margin="10,0,0,20"
@@ -66,7 +81,8 @@
                        VerticalAlignment="Bottom"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        SnapsToDevicePixels="True"
-                       Source="{Binding ElementName=shici_control, Path=ShiciImage}">
+                       Source="{Binding ElementName=shici_control, Path=ShiciImage}"
+                       Visibility="Collapsed">
                     <!--<Image.Effect>
                         <DropShadowEffect BlurRadius="20"
                                           Direction="0"

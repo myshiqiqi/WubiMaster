@@ -4,7 +4,15 @@
     <sys:String x:Key="&#xe708;">&#xe708;</sys:String>
     <sys:String x:Key="&#xe90b;">&#xe90b;</sys:String>
     <sys:String x:Key="&#xe707;">&#xe707;</sys:String>
-
+    <sys:String x:Key="&#xe6f7;">&#xe6f7;</sys:String>
+    <sys:String x:Key="&#xe7c7;">&#xe7c7;</sys:String>
+    <sys:String x:Key="&#xe70d;">&#xe70d;</sys:String>
+    <sys:String x:Key="&#xe70e;">&#xe70e;</sys:String>
+    <sys:String x:Key="&#xe70f;">&#xe70f;</sys:String>
+    <sys:String x:Key="&#xe710;">&#xe710;</sys:String>
+    <sys:String x:Key="&#xe711;">&#xe711;</sys:String>
+    <sys:String x:Key="&#xe712;">&#xe712;</sys:String>
+    <sys:String x:Key="&#xe709;">&#xe709;</sys:String>
     <sys:String x:Key="&#xe678;">&#xe678;</sys:String>
     <sys:String x:Key="&#xe6f8;">&#xe6f8;</sys:String>
     <sys:String x:Key="&#xe706;">&#xe706;</sys:String>

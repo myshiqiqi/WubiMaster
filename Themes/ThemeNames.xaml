@@ -40,4 +40,5 @@
     <sys:String x:Key="薄荷">MintTheme</sys:String>
     <sys:String x:Key="火星">MarsTheme</sys:String>
     <sys:String x:Key="万寿菊">MarigoldTheme</sys:String>
+    <sys:String x:Key="微信">WeichatTheme</sys:String>
 </ResourceDictionary>

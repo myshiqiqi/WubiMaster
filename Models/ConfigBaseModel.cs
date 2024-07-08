@@ -26,7 +26,7 @@ namespace WubiMaster.Models
                 else if (type == typeof(int))
                     value = ConfigHelper.ReadConfigByInt(p.Name, int.Parse(default_value?.ToString()));
                 else
-                    value = ConfigHelper.ReadConfigByString(p.Name, default_value?.ToString());
+                    value = ConfigHelper.ReadConfigByString(p.Name, default_value == null ? "" : default_value.ToString());
 
                 p.SetValue(this, Convert.ChangeType(value, p.PropertyType));
             }
@@ -44,7 +44,7 @@ namespace WubiMaster.Models
                 else if (type == typeof(int))
                     ConfigHelper.WriteConfigByInt(k, int.Parse(dcit[k].ConfigValue.ToString()));
                 else
-                    ConfigHelper.WriteConfigByString(k, dcit[k].ConfigValue.ToString());
+                    ConfigHelper.WriteConfigByString(k, dcit[k].ConfigValue == null ? "" : dcit[k].ConfigValue.ToString());
             }
         }
 
@@ -70,9 +70,8 @@ namespace WubiMaster.Models
     {
         private string configKey;
 
-        private object valueType;
-
         private object configValue;
+        private object valueType;
 
         public string ConfigKey
         {
@@ -80,16 +79,16 @@ namespace WubiMaster.Models
             set { configKey = value; }
         }
 
-        public object ValueType
-        {
-            get { return valueType; }
-            set { valueType = value; }
-        }
-
         public object ConfigValue
         {
             get { return configValue; }
             set { configValue = value; }
+        }
+
+        public object ValueType
+        {
+            get { return valueType; }
+            set { valueType = value; }
         }
     }
 }

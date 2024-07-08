@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Management;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,9 +13,11 @@ namespace WubiMaster.Controls
 {
     public partial class ShiciControl : UserControl
     {
+        public static readonly DependencyProperty IconTextProperty =
+            DependencyProperty.Register("IconText", typeof(string), typeof(ShiciControl), new PropertyMetadata("&#xeb2c;"));
 
         public static readonly DependencyProperty ShiciAuthorProperty =
-            DependencyProperty.Register("ShiciAuthor", typeof(string), typeof(ShiciControl));
+                    DependencyProperty.Register("ShiciAuthor", typeof(string), typeof(ShiciControl));
 
         public static readonly DependencyProperty ShiciImageProperty =
                             DependencyProperty.Register("ShiciImage", typeof(ImageSource), typeof(ShiciControl));
@@ -47,14 +46,16 @@ namespace WubiMaster.Controls
 
         public ShiciControl()
         {
+            Icons = new List<string>();
             ShiciTimer = new DispatcherTimer();
             InitializeComponent();
             InitDefaultShici();
             InitImages();
             InitTimer();
 
-            ShiciImage = ChangeImage();
-
+            //ShiciImage = ChangeImage();
+            InitIconText();
+            ChangeIcon();
             GetJinrishiciAsync();
         }
 
@@ -62,6 +63,14 @@ namespace WubiMaster.Controls
         {
             get { return defaultShiciList; }
             set { defaultShiciList = value; }
+        }
+
+        public List<string> Icons { get; set; }
+
+        public string IconText
+        {
+            get { return (string)GetValue(IconTextProperty); }
+            set { SetValue(IconTextProperty, value); }
         }
 
         public List<ImageSource> Images { get; set; }
@@ -120,6 +129,15 @@ namespace WubiMaster.Controls
 
         private HttpRequestHelper httpRequestHelper { get; set; }
 
+        public void ChangeIcon()
+        {
+            if (Icons == null)
+                return;
+            Random rd = new Random();
+            int index = rd.Next(Icons.Count);
+            IconText = Icons[index];
+        }
+
         private static void OnShiciIntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ShiciControl shiciControl = (ShiciControl)d;
@@ -128,7 +146,8 @@ namespace WubiMaster.Controls
             shiciControl.ShiciTimer.Stop();
             shiciControl.ShiciTimer.Interval = TimeSpan.FromMinutes(newValue);
 
-            shiciControl.ShiciImage = shiciControl.ChangeImage();
+            //shiciControl.ShiciImage = shiciControl.ChangeImage();
+            shiciControl.ChangeIcon();
             shiciControl.GetJinrishiciAsync();
 
             shiciControl.ShiciTimer.Start();
@@ -342,6 +361,26 @@ namespace WubiMaster.Controls
             model11.origin = "自笑";
             model11.author = "苏轼";
             DefaultShiciList.Add(model11);
+        }
+
+        private void InitIconText()
+        {
+            try
+            {
+                List<string> icon_texts = new List<string>();
+                var backIconDict = new ResourceDictionary();
+                backIconDict.Source = new Uri("pack://application:,,,/WubiMaster;component/Resource/ShiciIconText.xaml");
+                foreach (string name in backIconDict.Keys)
+                {
+                    string text = backIconDict[name].ToString();
+                    icon_texts.Add(text);
+                }
+                Icons = icon_texts;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+            }
         }
 
         private void InitImages()

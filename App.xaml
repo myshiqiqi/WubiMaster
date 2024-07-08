@@ -41,6 +41,7 @@
 
                 <!--字符串资源-->
                 <ResourceDictionary Source="/Resource/IconText.xaml" />
+                <ResourceDictionary Source="/Resource/ShiciIconText.xaml" />
                 <ResourceDictionary Source="/Resource/AboutViewStrings.xaml" />
                 <ResourceDictionary Source="/Resource/ThemeViewStrings.xaml" />
                 <ResourceDictionary Source="/Resource/WelcomeViewStrings.xaml" />

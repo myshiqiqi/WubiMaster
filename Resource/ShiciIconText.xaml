@@ -1,6 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--
+        笔记备注：
+        &#xe708; 格式的字体在解析的时候应该是 unicode 码
+        所以，直接 binding 到 string 类型的变量里，是不能正确地显示字体的
+        但添加到资源中时，会被直接解析成 unicode 码
+    -->
     <sys:String x:Key="&#xe708;">&#xe708;</sys:String>
     <sys:String x:Key="&#xe90b;">&#xe90b;</sys:String>
     <sys:String x:Key="&#xe707;">&#xe707;</sys:String>
@@ -13,7 +20,17 @@
     <sys:String x:Key="&#xe711;">&#xe711;</sys:String>
     <sys:String x:Key="&#xe712;">&#xe712;</sys:String>
     <sys:String x:Key="&#xe709;">&#xe709;</sys:String>
+
+    <!--
+        多次添加诗人图标，
+        以提升诗人出现的概率
+    -->
     <sys:String x:Key="&#xe678;">&#xe678;</sys:String>
+    <sys:String x:Key="&#xe678;1">&#xe678;</sys:String>
+    <sys:String x:Key="&#xe678;2">&#xe678;</sys:String>
+    <sys:String x:Key="&#xe678;3">&#xe678;</sys:String>
+    <sys:String x:Key="&#xe678;4">&#xe678;</sys:String>
+
     <sys:String x:Key="&#xe6f8;">&#xe6f8;</sys:String>
     <sys:String x:Key="&#xe706;">&#xe706;</sys:String>
 </ResourceDictionary>

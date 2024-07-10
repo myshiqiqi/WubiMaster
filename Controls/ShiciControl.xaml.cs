@@ -133,6 +133,7 @@ namespace WubiMaster.Controls
         {
             if (Icons == null)
                 return;
+
             Random rd = new Random();
             int index = rd.Next(Icons.Count);
             IconText = Icons[index];
@@ -411,7 +412,8 @@ namespace WubiMaster.Controls
 
         private void ShiciTimer_Tick(object? sender, EventArgs e)
         {
-            ShiciImage = ChangeImage();
+            //ShiciImage = ChangeImage();
+            ChangeIcon();
             GetJinrishiciAsync();
         }
 

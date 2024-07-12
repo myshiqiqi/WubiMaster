@@ -361,8 +361,8 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Background="White" CornerRadius="10">
-        <Grid Margin="10">
+    <Border>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition />

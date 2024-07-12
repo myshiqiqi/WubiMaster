@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
+using WubiMaster.Views.PopViews;
 
 namespace WubiMaster.ViewModels
 {
@@ -265,6 +266,15 @@ namespace WubiMaster.ViewModels
                     this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
                 }
             });
+        }
+
+        [RelayCommand]
+        public void Test()
+        {
+            ColorPickerView cpv = new ColorPickerView();
+            cpv.Owner = App.Current.MainWindow;
+            cpv.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            cpv.ShowDialog();
         }
 
         /// <summary>

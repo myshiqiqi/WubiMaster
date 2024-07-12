@@ -137,9 +137,10 @@ namespace WubiMaster.Controls
             set { SetValue(OpcityValueProperty, value); }
         }
 
-        private void ellipse_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             is_mouse_down = true;
+            e.Handled = true;
         }
 
         private Color GetColorBySlider(double s_value)
@@ -273,14 +274,14 @@ namespace WubiMaster.Controls
             return new_value;
         }
 
-        private void Grid_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             is_mouse_down = false;
         }
 
-        private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Grid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (is_mouse_down && e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            if (is_mouse_down && e.LeftButton == MouseButtonState.Pressed)
             {
                 Grid g = sender as Grid;
                 Point mouse_p = e.GetPosition(g);
@@ -299,7 +300,7 @@ namespace WubiMaster.Controls
 
         private void InitColors()
         {
-            DefaultColors ??= new List<ColorModel>();
+            DefaultColors = new List<ColorModel>();
 
             var colors = new List<string>();
             colors.Add("#f44336");

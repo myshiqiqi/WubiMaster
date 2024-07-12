@@ -345,7 +345,8 @@
 
                                                 <Button HorizontalAlignment="Right"
                                                         Background="{Binding ElementName=color_skin, Path=HilitedCandidateBackColor}"
-                                                        Command="{Binding TestCommand}" />
+                                                        Command="{Binding TestCommand}"
+                                                        CommandParameter="background" />
                                             </Grid>
 
                                             <Grid Height="30">

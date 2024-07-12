@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WubiMaster.Views.PopViews
 {
@@ -19,9 +9,18 @@ namespace WubiMaster.Views.PopViews
     /// </summary>
     public partial class ColorPickerView : Window
     {
+        public static readonly DependencyProperty CurrentBrushProperty =
+            DependencyProperty.Register("CurrentBrush", typeof(Brush), typeof(ColorPickerView));
+
         public ColorPickerView()
         {
             InitializeComponent();
+        }
+
+        public Brush CurrentBrush
+        {
+            get { return (Brush)GetValue(CurrentBrushProperty); }
+            set { SetValue(CurrentBrushProperty, value); }
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

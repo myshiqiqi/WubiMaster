@@ -5,11 +5,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WubiMaster.Views.PopViews"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WubiMaster.ViewModels"
+        Name="color_pick_view"
         Title="ColorPickerView"
         Width="350"
         Height="480"
         Style="{StaticResource PopViewBaseStyle}"
         mc:Ignorable="d">
+
+    <Window.DataContext>
+        <vm:PopViewModel />
+    </Window.DataContext>
+
     <Border Margin="10"
             Background="{DynamicResource bg-100}"
             CornerRadius="10"
@@ -26,11 +33,13 @@
                 <RowDefinition Height="30" />
             </Grid.RowDefinitions>
 
-            <c:ColorPickerControl />
+            <c:ColorPickerControl CurrentBrush="{Binding ElementName=color_pick_view, Path=CurrentBrush, Mode=TwoWay}" />
 
             <Button Grid.Row="1"
                     Width="70"
                     Height="28"
+                    Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     Content="确认" />
 
         </Grid>

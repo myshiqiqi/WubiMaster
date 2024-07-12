@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -269,12 +270,17 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public void Test()
+        public void Test(object obj)
         {
+            if (obj == null) return;
+
+            Brush brush = obj as SolidColorBrush;
             ColorPickerView cpv = new ColorPickerView();
-            cpv.Owner = App.Current.MainWindow;
-            cpv.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            cpv.ShowDialog();
+            cpv.CurrentBrush = brush;
+            cpv.ShowPop();
+
+            CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(cpv.CurrentBrush.ToString());
+            UpdateCurrentSkin(null);
         }
 
         /// <summary>
@@ -383,7 +389,7 @@ namespace WubiMaster.ViewModels
                         List<string> accent_colors = new List<string>() { "accent-100", "accent-200" };
                         List<string> bg_colors = new List<string>() { "bg-100", "bg-200", "bg-300" };
                         var hilited_candidate_random = new Random();
-                        int hilited_candidate_index =  hilited_candidate_random.Next(4);
+                        int hilited_candidate_index = hilited_candidate_random.Next(4);
                         if (hilited_candidate_index == 0)
                         {
                             // 背景色
@@ -442,7 +448,7 @@ namespace WubiMaster.ViewModels
                             candidate_text_color = (SolidColorBrush)theme_resource["bg-200"];
                             comment_text_color = (SolidColorBrush)theme_resource["bg-200"];
                         }
-                        else if (hilited_candidate_index==3)
+                        else if (hilited_candidate_index == 3)
                         {
                             // 背景色
                             back_color = (SolidColorBrush)theme_resource["bg-100"];

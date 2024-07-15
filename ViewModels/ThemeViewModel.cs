@@ -270,13 +270,22 @@ namespace WubiMaster.ViewModels
         }
 
         [RelayCommand]
-        public void Test(object obj)
+        public void SetSkinColor(object obj)
         {
             if (obj == null) return;
+            string color_name = obj.ToString();
+            Brush brush = null;
+            switch (color_name)
+            {
+                case "hilited_candidate_back_color":
+                    brush = 
+                    break;
+                default:
+                    break;
+            }
 
-            Brush brush = obj as SolidColorBrush;
             ColorPickerView cpv = new ColorPickerView();
-            cpv.CurrentBrush = brush;
+            cpv.FirstColor = brush.ToString();
             cpv.ShowPop();
 
             CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(cpv.CurrentBrush.ToString());

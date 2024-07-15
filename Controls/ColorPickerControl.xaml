@@ -460,7 +460,7 @@
                         <Border Width="200" Height="15">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0 0.5" EndPoint="1 0.5">
-                                    <GradientStop Offset="1" Color="{Binding ElementName=color_picker, Path=CurrnetColor}" />
+                                    <GradientStop Offset="1" Color="{Binding ElementName=color_picker, Path=CurrentColor}" />
                                     <GradientStop Offset="0" />
                                 </LinearGradientBrush>
                             </Border.Background>
@@ -482,7 +482,8 @@
             </Grid>
 
             <Grid Grid.Row="2">
-                <TextBox Height="30"
+                <TextBox x:Name="txt_colorstr"
+                         Height="30"
                          Margin="10,0"
                          VerticalAlignment="Center"
                          VerticalContentAlignment="Center"

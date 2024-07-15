@@ -1,31 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WubiMaster.Controls
 {
-
     public class ColorModel
     {
         public string Color { get; set; }
         public string Name { get; set; }
-    }
-
-    public class ColorRange
-    {
-        public Color Color1 { get; set; }
-        public Color Color2 { get; set; }
     }
 
     public partial class ColorPickerControl : UserControl
@@ -39,19 +24,20 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty CurrentBrushProperty =
                     DependencyProperty.Register("CurrentBrush", typeof(Brush), typeof(ColorPickerControl), new PropertyMetadata(Brushes.Black));
 
-        public static readonly DependencyProperty CurrentColorStrProperty =
-            DependencyProperty.Register("CurrentColorStr", typeof(string), typeof(ColorPickerControl), new PropertyMetadata("#000000"));
+        public static readonly DependencyProperty CurrentColorProperty =
+                    DependencyProperty.Register("CurrentColor", typeof(Color), typeof(ColorPickerControl), new PropertyMetadata(Colors.Black));
 
-        public static readonly DependencyProperty CurrnetColorProperty =
-                    DependencyProperty.Register("CurrnetColor", typeof(Color), typeof(ColorPickerControl), new PropertyMetadata(Colors.Black));
+        public static readonly DependencyProperty CurrentColorStrProperty =
+                    DependencyProperty.Register("CurrentColorStr", typeof(string), typeof(ColorPickerControl), new PropertyMetadata("#000000"));
 
         public static readonly DependencyProperty DefaultColorsProperty =
             DependencyProperty.Register("DefaultColors", typeof(List<ColorModel>), typeof(ColorPickerControl), new PropertyMetadata(new List<ColorModel>()));
 
-        public static readonly DependencyProperty OpcityValueProperty =
-            DependencyProperty.Register("OpcityValue", typeof(double), typeof(ColorPickerControl), new PropertyMetadata(255.0));
+        public static readonly DependencyProperty FirstColorProperty =
+            DependencyProperty.Register("FirstColor", typeof(string), typeof(ColorPickerControl), new PropertyMetadata("#000000", OnFirstColorChanged));
 
-        private bool is_tbox_foucsed;
+        public static readonly DependencyProperty OpcityValueProperty =
+                    DependencyProperty.Register("OpcityValue", typeof(double), typeof(ColorPickerControl), new PropertyMetadata(255.0));
 
         private readonly List<ColorRange> _colorRangeList = new List<ColorRange>()
         {
@@ -88,6 +74,7 @@ namespace WubiMaster.Controls
         };
 
         private bool is_mouse_down;
+        private bool is_tbox_foucsed;
 
         public ColorPickerControl()
         {
@@ -113,16 +100,16 @@ namespace WubiMaster.Controls
             set { SetValue(CurrentBrushProperty, value); }
         }
 
+        public Color CurrentColor
+        {
+            get { return (Color)GetValue(CurrentColorProperty); }
+            set { SetValue(CurrentColorProperty, value); }
+        }
+
         public string CurrentColorStr
         {
             get { return (string)GetValue(CurrentColorStrProperty); }
             set { SetValue(CurrentColorStrProperty, value); }
-        }
-
-        public Color CurrnetColor
-        {
-            get { return (Color)GetValue(CurrnetColorProperty); }
-            set { SetValue(CurrnetColorProperty, value); }
         }
 
         public List<ColorModel> DefaultColors
@@ -131,14 +118,49 @@ namespace WubiMaster.Controls
             set { SetValue(DefaultColorsProperty, value); }
         }
 
+        /// <summary>
+        /// 用于设置初始颜色值
+        /// 特意使用 string 类型,方便转换成 color 和 brush 类型
+        /// </summary>
+        public string FirstColor
+        {
+            get { return (string)GetValue(FirstColorProperty); }
+            set { SetValue(FirstColorProperty, value); }
+        }
+
         public double OpcityValue
         {
             get { return (double)GetValue(OpcityValueProperty); }
             set { SetValue(OpcityValueProperty, value); }
         }
 
+        private static void OnFirstColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (ColorPickerControl)d;
+
+            // 设置当前颜色对象
+            var new_color = (Color)ColorConverter.ConvertFromString(e.NewValue.ToString());
+
+            // 更新滑块
+            control.ColorValue = control.GetValueByColor(new_color);
+
+            // 更新颜色属性
+            control.Update(new_color);
+        }
+
+        private void color_picker_Loaded(object sender, RoutedEventArgs e)
+        {
+            MoveColorFirst();
+
+            //var new_color = GetColorBySlider(0);
+            //Update(new_color);
+        }
+
         private void ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // 当移动圆点时，让文本框失焦
+            slider_opcity.Focus();
+
             is_mouse_down = true;
             e.Handled = true;
         }
@@ -151,37 +173,37 @@ namespace WubiMaster.Controls
             {
                 var color_range = _colorRangeList[0];
                 var color_b = (byte)(255.0 * s_value);
-                new_color = Color.FromArgb(CurrnetColor.A, 255, 0, color_b);
+                new_color = Color.FromArgb(CurrentColor.A, 255, 0, color_b);
             }
             else if (s_value > 1 && s_value <= 2)
             {
                 var color_range = _colorRangeList[1];
                 var color_b = (byte)(255 - (255.0 * (s_value - 1)));
-                new_color = Color.FromArgb(CurrnetColor.A, color_b, 0, 255);
+                new_color = Color.FromArgb(CurrentColor.A, color_b, 0, 255);
             }
             else if (s_value > 2 && s_value <= 3)
             {
                 var color_range = _colorRangeList[2];
                 var color_b = (byte)(255.0 * (s_value - 2));
-                new_color = Color.FromArgb(CurrnetColor.A, 0, color_b, 255);
+                new_color = Color.FromArgb(CurrentColor.A, 0, color_b, 255);
             }
             else if (s_value > 3 && s_value <= 4)
             {
                 var color_range = _colorRangeList[3];
                 var color_b = (byte)(255 - (255.0 * (s_value - 3)));
-                new_color = Color.FromArgb(CurrnetColor.A, 0, 255, color_b);
+                new_color = Color.FromArgb(CurrentColor.A, 0, 255, color_b);
             }
             else if (s_value > 4 && s_value <= 5)
             {
                 var color_range = _colorRangeList[4];
                 var color_b = (byte)(255.0 * (s_value - 4));
-                new_color = Color.FromArgb(CurrnetColor.A, color_b, 255, 0);
+                new_color = Color.FromArgb(CurrentColor.A, color_b, 255, 0);
             }
             else if (s_value > 5 && s_value <= 6)
             {
                 var color_range = _colorRangeList[5];
                 var color_b = (byte)(255 - (255.0 * (s_value - 5)));
-                new_color = Color.FromArgb(CurrnetColor.A, 255, color_b, 0);
+                new_color = Color.FromArgb(CurrentColor.A, 255, color_b, 0);
             }
             else
             {
@@ -375,21 +397,19 @@ namespace WubiMaster.Controls
             if (is_tbox_foucsed)
                 return;
             var new_color_a = (byte)e.NewValue;
-            var new_color = Color.FromArgb(new_color_a, CurrnetColor.R, CurrnetColor.G, CurrnetColor.B);
+            var new_color = Color.FromArgb(new_color_a, CurrentColor.R, CurrentColor.G, CurrentColor.B);
 
             Update(new_color, true);
         }
 
-        // 颜色更新
-        private void Update(Color new_color, bool is_deep = false, bool is_str = false)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            CurrentBrush = new SolidColorBrush(new_color);
-            CurrnetColor = new_color;
-            if (!is_deep)
-                CanvasColor = Color.FromRgb(new_color.R, new_color.G, new_color.B);
-            if (!is_str)
-                CurrentColorStr = new_color.ToString();
-            OpcityValue = new_color.A;
+            is_tbox_foucsed = true;
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            is_tbox_foucsed = false;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -418,25 +438,24 @@ namespace WubiMaster.Controls
             }
             catch (System.Exception ex)
             { }
-
         }
 
-        private void color_picker_Loaded(object sender, RoutedEventArgs e)
+        // 颜色更新
+        private void Update(Color new_color, bool is_deep = false, bool is_str = false)
         {
-            MoveColorFirst();
-
-            var new_color = GetColorBySlider(0);
-            Update(new_color);
+            CurrentBrush = new SolidColorBrush(new_color);
+            CurrentColor = new_color;
+            if (!is_deep)
+                CanvasColor = Color.FromRgb(new_color.R, new_color.G, new_color.B);
+            if (!is_str)
+                CurrentColorStr = new_color.ToString();
+            OpcityValue = new_color.A;
         }
+    }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            is_tbox_foucsed = true;
-        }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            is_tbox_foucsed = false;
-        }
+    public class ColorRange
+    {
+        public Color Color1 { get; set; }
+        public Color Color2 { get; set; }
     }
 }

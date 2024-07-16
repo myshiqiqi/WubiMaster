@@ -41,4 +41,8 @@
     <sys:String x:Key="火星">MarsTheme</sys:String>
     <sys:String x:Key="万寿菊">MarigoldTheme</sys:String>
     <sys:String x:Key="微信">WeichatTheme</sys:String>
+    <sys:String x:Key="青岩">RockGreenTheme</sys:String>
+    <sys:String x:Key="牛皮纸">VellumTheme</sys:String>
+    <sys:String x:Key="水蜜桃">PeachTheme</sys:String>
+    <sys:String x:Key="萤火虫">RireflyTheme</sys:String>
 </ResourceDictionary>

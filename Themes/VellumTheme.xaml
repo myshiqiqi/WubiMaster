@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="primary-100" Color="#810000" />
+    <SolidColorBrush x:Key="primary-200" Color="#630000" />
+    <SolidColorBrush x:Key="primary-300" Color="#F0F5F9" />
+    <SolidColorBrush x:Key="accent-100" Color="#788189" />
+    <SolidColorBrush x:Key="accent-200" Color="#e1e4e6" />
+    <SolidColorBrush x:Key="text-100" Color="#1E2022" />
+    <SolidColorBrush x:Key="text-200" Color="#52616B" />
+    <SolidColorBrush x:Key="bg-100" Color="#EEEBDD" />
+    <SolidColorBrush x:Key="bg-200" Color="#DFD3C3" />
+    <SolidColorBrush x:Key="bg-300" Color="#C7B198" />
+
+    <Color x:Key="primary-1000">#810000</Color>
+    <Color x:Key="primary-2000">#630000</Color>
+    <Color x:Key="primary-3000">#F0F5F9</Color>
+    <Color x:Key="accent-1000">#788189</Color>
+    <Color x:Key="accent-2000">#e1e4e6</Color>
+    <Color x:Key="text-1000">#1E2022</Color>
+    <Color x:Key="text-2000">#52616B</Color>
+    <Color x:Key="bg-1000">#EEEBDD</Color>
+    <Color x:Key="bg-2000">#DFD3C3</Color>
+    <Color x:Key="bg-3000">#C7B198</Color>
+
+</ResourceDictionary>

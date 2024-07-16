@@ -230,20 +230,20 @@ namespace WubiMaster.ViewModels
                         SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
 
                         //CurrentSkin.UsedColor.color_format = "argb";
-                        CurrentSkin.UsedColor.text_color = ColorToStr(text_color.ToString());
-                        CurrentSkin.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
-                        CurrentSkin.UsedColor.label_color = ColorToStr(label_color.ToString());
-                        CurrentSkin.UsedColor.back_color = ColorToStr(back_color.ToString());
-                        CurrentSkin.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
-                        CurrentSkin.UsedColor.border_color = ColorToStr(border_color.ToString());
-                        CurrentSkin.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
-                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
+                        CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(comment_text_color.ToString());
+                        CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(label_color.ToString());
+                        CurrentSkin.UsedColor.back_color = ColorConverterHelper.ConverterToRime(back_color.ToString());
+                        CurrentSkin.UsedColor.shadow_color = ColorConverterHelper.ConverterToRime(shadow_color.ToString());
+                        CurrentSkin.UsedColor.border_color = ColorConverterHelper.ConverterToRime(border_color.ToString());
+                        CurrentSkin.UsedColor.hilited_text_color = ColorConverterHelper.ConverterToRime(hilited_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_back_color = ColorConverterHelper.ConverterToRime(hilited_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorConverterHelper.ConverterToRime(hilited_candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(hilited_candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_label_color = ColorConverterHelper.ConverterToRime(hilited_label_color.ToString());
+                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorConverterHelper.ConverterToRime(hilited_comment_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_text_color = ColorConverterHelper.ConverterToRime(candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(candidate_back_color.ToString());
 
                         UpdateCurrentSkin(null);
                     }
@@ -272,23 +272,41 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetSkinColor(object obj)
         {
+            // 建立一个颜色转换的临时函数
+            var get_brush = (string colorstr) =>
+            {
+                var color_str = ColorConverterHelper.ConverterFromRime(colorstr);
+                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color_str));
+                return brush;
+            };
+
+            // 根据参数类型识别颜色对象
             if (obj == null) return;
             string color_name = obj.ToString();
             Brush brush = null;
             switch (color_name)
             {
                 case "hilited_candidate_back_color":
-                    brush = 
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_candidate_back_color);
                     break;
                 default:
                     break;
             }
 
+            // 打开窗口
             ColorPickerView cpv = new ColorPickerView();
             cpv.FirstColor = brush.ToString();
             cpv.ShowPop();
 
-            CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(cpv.CurrentBrush.ToString());
+            // 颜色赋值，并通知更新
+            switch (color_name)
+            {
+                case "hilited_candidate_back_color":
+                    CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+                default:
+                    break;
+            }
             UpdateCurrentSkin(null);
         }
 
@@ -483,20 +501,20 @@ namespace WubiMaster.ViewModels
                         //}
 
                         //CurrentSkin.UsedColor.color_format = "argb";
-                        CurrentSkin.UsedColor.text_color = ColorToStr(text_color.ToString());
-                        CurrentSkin.UsedColor.comment_text_color = ColorToStr(comment_text_color.ToString());
-                        CurrentSkin.UsedColor.label_color = ColorToStr(label_color.ToString());
-                        CurrentSkin.UsedColor.back_color = ColorToStr(back_color.ToString());
-                        CurrentSkin.UsedColor.shadow_color = ColorToStr(shadow_color.ToString());
-                        CurrentSkin.UsedColor.border_color = ColorToStr(border_color.ToString());
-                        CurrentSkin.UsedColor.hilited_text_color = ColorToStr(hilited_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_back_color = ColorToStr(hilited_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorToStr(hilited_candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorToStr(hilited_candidate_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_label_color = ColorToStr(hilited_label_color.ToString());
-                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorToStr(hilited_comment_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_text_color = ColorToStr(candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_back_color = ColorToStr(candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
+                        CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(comment_text_color.ToString());
+                        CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(label_color.ToString());
+                        CurrentSkin.UsedColor.back_color = ColorConverterHelper.ConverterToRime(back_color.ToString());
+                        CurrentSkin.UsedColor.shadow_color = ColorConverterHelper.ConverterToRime(shadow_color.ToString());
+                        CurrentSkin.UsedColor.border_color = ColorConverterHelper.ConverterToRime(border_color.ToString());
+                        CurrentSkin.UsedColor.hilited_text_color = ColorConverterHelper.ConverterToRime(hilited_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_back_color = ColorConverterHelper.ConverterToRime(hilited_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorConverterHelper.ConverterToRime(hilited_candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(hilited_candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_label_color = ColorConverterHelper.ConverterToRime(hilited_label_color.ToString());
+                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorConverterHelper.ConverterToRime(hilited_comment_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_text_color = ColorConverterHelper.ConverterToRime(candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(candidate_back_color.ToString());
 
                         UpdateCurrentSkin(null);
                     }
@@ -675,29 +693,6 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
                 return Colors.Black;
             }
-        }
-
-        private string ColorToStr(string color_str, string color_format = "argb", string result_format = "abgr")
-        {
-            string color_result = "";
-            color_str = color_str.Contains("#") ? color_str.Substring(1, color_str.Length - 1) : color_str;
-            var color_array = color_str.ToArray().Select(c => c.ToString()).ToList();
-
-            switch (result_format)
-            {
-                case "argb":
-                    break;
-
-                case "agbr":
-                    break;
-
-                default:  // 默认是返回 abgr 格式
-                    color_result = $"{color_array[0]}{color_array[1]}{color_array[6]}{color_array[7]}{color_array[4]}{color_array[5]}{color_array[2]}{color_array[3]}";
-                    break;
-            }
-            color_result = $"0x{color_result}";
-
-            return color_result;
         }
 
         private void LoadColorShemes()

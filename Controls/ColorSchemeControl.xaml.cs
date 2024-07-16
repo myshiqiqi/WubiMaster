@@ -1236,59 +1236,9 @@ namespace WubiMaster.Controls
 
         private Color ColorConvter(string colorTxt, string defaultColor = "0x00000000", string colorFormat = "abgr")
         {
-            var ConverColorText = (string colorTxt) =>
-            {
-                if (colorTxt.Contains("0x"))
-                    colorTxt = colorTxt.Substring(2, colorTxt.Length - 2);
-                else if (colorTxt.Contains("#"))
-                    colorTxt = colorTxt.Substring(1, colorTxt.Length - 1);
-                return colorTxt;
-            };
-
-            try
-            {
-                if (string.IsNullOrEmpty(colorTxt))
-                    colorTxt = defaultColor;
-
-                string colorStr = "";
-                Color targetColor = Colors.Black;
-                char[] _cArray = null;
-
-                switch (colorFormat)
-                {
-                    case "argb":
-                        colorTxt = ConverColorText(colorTxt);
-                        if (colorTxt.Length <= 6) colorTxt = "FF" + colorTxt;
-                        _cArray = colorTxt.ToArray();
-                        colorStr = "#" + $"{_cArray[0]}{_cArray[1]}{_cArray[2]}{_cArray[3]}{_cArray[4]}{_cArray[5]}{_cArray[6]}{_cArray[7]}";
-                        targetColor = (Color)ColorConverter.ConvertFromString(colorStr);
-                        break;
-
-                    case "rgba":
-                        colorTxt = ConverColorText(colorTxt);
-                        if (colorTxt.Length <= 6) colorTxt = colorTxt + "FF";
-                        _cArray = colorTxt.ToArray();
-                        colorStr = "#" + $"{_cArray[6]}{_cArray[7]}{_cArray[0]}{_cArray[1]}{_cArray[2]}{_cArray[3]}{_cArray[4]}{_cArray[5]}";
-                        targetColor = (Color)ColorConverter.ConvertFromString(colorStr);
-                        break;
-
-                    default:
-                        // 默认是 abgr
-                        colorTxt = ConverColorText(colorTxt);
-                        if (colorTxt.Length <= 6) colorTxt = "FF" + colorTxt;
-                        _cArray = colorTxt.ToArray();
-                        colorStr = "#" + $"{_cArray[0]}{_cArray[1]}{_cArray[6]}{_cArray[7]}{_cArray[4]}{_cArray[5]}{_cArray[2]}{_cArray[3]}";
-                        targetColor = (Color)ColorConverter.ConvertFromString(colorStr);
-                        break;
-                }
-
-                return targetColor;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                return Colors.Orange;
-            }
+            var color_str = ColorConverterHelper.ConverterFromRime(colorTxt, defaultColor, colorFormat);
+            var color = (Color)ColorConverter.ConvertFromString(color_str);
+            return color;
         }
     }
 }

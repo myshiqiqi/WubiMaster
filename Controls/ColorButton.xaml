@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WubiMaster.Controls.ColorButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WubiMaster.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="color_button"
+             d:DesignHeight="28"
+             d:DesignWidth="80"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="color_button_style" TargetType="Button">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Height="70" VerticalAlignment="Center">
+                            <Viewbox Stretch="Fill">
+                                <TextBlock FontFamily="../Fonts/#iconfont"
+                                           Foreground="{Binding ElementName=color_button, Path=IconColor}"
+                                           RenderTransformOrigin="0.5 0.5"
+                                           Text="{StaticResource 图标-印章-1}">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="90" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Viewbox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid ClipToBounds="True">
+        <Button Command="{Binding ElementName=color_button, Path=ButtonCommand}"
+                CommandParameter="{Binding ElementName=color_button, Path=ButtonCommandParameter}"
+                Style="{StaticResource color_button_style}" />
+    </Grid>
+</UserControl>

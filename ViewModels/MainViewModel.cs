@@ -416,7 +416,7 @@ namespace WubiMaster.ViewModels
             {
                 List<string> icon_texts = new List<string>();
                 var backIconDict = new ResourceDictionary();
-                backIconDict.Source = new Uri("pack://application:,,,/WubiMaster;component/Resource/IconText.xaml");
+                backIconDict.Source = new Uri("pack://application:,,,/WubiMaster;component/Resource/BackIconText.xaml");
                 foreach (string name in backIconDict.Keys)
                 {
                     string text = backIconDict[name].ToString();

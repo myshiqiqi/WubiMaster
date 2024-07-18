@@ -5,4 +5,8 @@
     <sys:String x:Key="图标-印章-2">&#xe6bd;</sys:String>
     <sys:String x:Key="图标-印章-3">&#xe689;</sys:String>
     <sys:String x:Key="图标-印章-4">&#xe68d;</sys:String>
+    <sys:String x:Key="图标-诗人-1">&#xe678;</sys:String>
+    <sys:String x:Key="图标-诗人-2">&#xe677;</sys:String>
+    <sys:String x:Key="图标-服饰-1">&#xe875;</sys:String>
+    <sys:String x:Key="图标-服饰-2">&#xe6c6;</sys:String>
 </ResourceDictionary>

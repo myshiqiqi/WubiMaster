@@ -416,7 +416,9 @@
                         </Border.InputBindings>
 
                         <Grid>
-                            <c:ShiciControl ShiciInterval="{Binding ShiciInterval}" />
+                            <c:ShiciControl ShiciInterval="{Binding ShiciInterval}"
+                                            ShowQinghuaBack="{Binding ConfigModel.HomeQinghuaBack}"
+                                            ShowVectorBack="{Binding ConfigModel.HomeVectorBack}" />
                         </Grid>
 
                         <Border.Style>
@@ -429,7 +431,8 @@
                                                     <DoubleAnimation AccelerationRatio="0.3"
                                                                      DecelerationRatio="0.2"
                                                                      Storyboard.TargetProperty="(Border.Opacity)"
-                                                                     From="1" To="0"
+                                                                     From="1"
+                                                                     To="0"
                                                                      Duration="0:0:1.5" />
                                                 </Storyboard>
                                             </BeginStoryboard>
@@ -441,7 +444,8 @@
                                             <BeginStoryboard>
                                                 <Storyboard>
                                                     <DoubleAnimation Storyboard.TargetProperty="(Border.Opacity)"
-                                                                     From="0" To="1"
+                                                                     From="0"
+                                                                     To="1"
                                                                      Duration="0:0:0.5" />
                                                 </Storyboard>
                                             </BeginStoryboard>
@@ -478,7 +482,8 @@
                                                Foreground="{DynamicResource bg-300}"
                                                Text="&#xe67c;" />
 
-                                    <c:RimeLogo Width="5" Height="5"
+                                    <c:RimeLogo Width="5"
+                                                Height="5"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 IconColor="{DynamicResource primary-100}"

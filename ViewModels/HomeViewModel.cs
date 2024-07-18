@@ -10,12 +10,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using WubiMaster.Common;
+using WubiMaster.Models;
 using WubiMaster.Views.PopViews;
 
 namespace WubiMaster.ViewModels
 {
     public partial class HomeViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private HomeConfigModel configModel;
+
         [ObservableProperty]
         private bool schema06State;
 
@@ -45,13 +49,32 @@ namespace WubiMaster.ViewModels
 
         public HomeViewModel()
         {
+            ConfigModel = new HomeConfigModel();
+
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeShiciInterval", ChangeShiciInterval);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeShcemaState", ChangeShcemaState);
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeWubiDict", ChangeWubiDict);
+            WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeShiciBackType", ChangeShiciBackType);
 
             LoadSpellTextShow();
             GetTheKeyTextAsync();
             LoadConfig();
+        }
+
+        private void ChangeShiciBackType(object recipient, string message)
+        {
+            string type = message.ToString();
+            if (type == "0")
+            {
+                ConfigModel.HomeVectorBack = true;
+                ConfigModel.HomeQinghuaBack = false;
+            }
+            else
+            {
+                ConfigModel.HomeVectorBack = false;
+                ConfigModel.HomeQinghuaBack = true;
+            }
+            ConfigModel.SaveConfig();
         }
 
         // 切换五笔码表

@@ -32,5 +32,17 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private string settingsBackupPath;
+
+        /// <summary>
+        /// 诗词背景显示矢量图
+        /// </summary>
+        [ObservableProperty]
+        private bool settingsVectorBack = true;
+
+        /// <summary>
+        /// 诗词背景显示青花女
+        /// </summary>
+        [ObservableProperty]
+        private bool settingsQinghuaBack;
     }
 }

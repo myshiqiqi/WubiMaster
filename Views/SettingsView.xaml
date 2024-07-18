@@ -181,8 +181,10 @@
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
 
+
+
                     <c:SettingPanel Title="主题"
-                                    IconText="&#xe654;"
+                                    IconText="{StaticResource 图标-服饰-1}"
                                     SubTitle="设置主题配色">
                         <c:SettingPanel.SettingContent>
                             <StackPanel Orientation="Horizontal">
@@ -300,6 +302,38 @@
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
 
+                    <c:SettingPanel Title="诗词插画"
+                                    IconText="{StaticResource 图标-诗人-2}"
+                                    SubTitle="设置随机诗词背景插画类型">
+                        <c:SettingPanel.SettingContent>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton Content="矢量图"
+                                             GroupName="shici_back_group"
+                                             IsChecked="{Binding ConfigModel.SettingsVectorBack}"
+                                             Style="{StaticResource RadioButtonStyle}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:InvokeCommandAction Command="{Binding ChangeShiciBackCommand}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </RadioButton>
+
+                                <RadioButton Content="青花女"
+                                             GroupName="shici_back_group"
+                                             IsChecked="{Binding ConfigModel.SettingsQinghuaBack}"
+                                             Style="{StaticResource RadioButtonStyle}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:InvokeCommandAction Command="{Binding ChangeShiciBackCommand}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </RadioButton>
+                            </StackPanel>
+                        </c:SettingPanel.SettingContent>
+                    </c:SettingPanel>
+
+
+
                     <c:SettingPanel Title="日志备份"
                                     IconText="&#xe649;"
                                     SubTitle="设置日志的保留天数，过期的将被删除">
@@ -349,7 +383,8 @@
 
                     <c:SettingPanel Title="默认词库"
                                     IconText="&#xe610;"
-                                    SubTitle="关联以 .yaml 为后缀的默认词库文件">
+                                    SubTitle="关联以 .yaml 为后缀的默认词库文件"
+                                    Visibility="Collapsed">
                         <c:SettingPanel.SettingContent>
                             <StackPanel Margin="0,4" Orientation="Horizontal">
                                 <TextBox Style="{StaticResource SettingTextBoxStyle}" Text="{Binding DefaultCikuFile}" />
@@ -362,7 +397,8 @@
 
                     <c:SettingPanel Title="扩展词库"
                                     IconText="&#xe610;"
-                                    SubTitle="关联以 .yaml 为后缀的扩展词库文件">
+                                    SubTitle="关联以 .yaml 为后缀的扩展词库文件"
+                                    Visibility="Collapsed">
                         <c:SettingPanel.SettingContent>
                             <StackPanel Margin="0,4" Orientation="Horizontal">
                                 <TextBox Style="{StaticResource SettingTextBoxStyle}" Text="{Binding UserCikuFile}" />

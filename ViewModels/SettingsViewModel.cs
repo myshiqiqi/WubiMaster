@@ -901,6 +901,13 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        [RelayCommand]
+        public void ChangeShiciBack()
+        {
+            WeakReferenceMessenger.Default.Send<string, string>(ConfigModel.SettingsVectorBack ? "0" : "1", "ChangeShiciBackType");
+            ConfigModel.SaveConfig();
+        }
+
         private void InitLogBackList()
         {
             int[] backDays = new int[] { 5, 15, 30, 100 };

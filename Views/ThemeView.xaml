@@ -147,7 +147,6 @@
                                                               Command="{Binding SetRandomColorCommand}"
                                                               IsChecked="{Binding ConfigModel.Theme_RandomSkin}" />
                                             </Grid>
-
                                         </UniformGrid>
 
                                         <Separator Grid.Row="3"
@@ -333,48 +332,207 @@
                                                 <TextBlock Style="{StaticResource TVTextStyle}" Text="背景色" />
 
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                                    <TextBox Width="100"
-                                                             Height="30"
-                                                             Margin="0,0,20,0"
-                                                             HorizontalContentAlignment="Center"
-                                                             Text="#2342ff" />
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=BackColor, Mode=OneWay}" />
 
                                                     <c:ColorButton HorizontalAlignment="Right"
                                                                    ButtonCommand="{Binding SetSkinColorCommand}"
-                                                                   ButtonCommandParameter="hilited_candidate_back_color"
+                                                                   ButtonCommandParameter="back_color"
                                                                    IconColor="{Binding ElementName=color_skin, Path=BackColor}" />
                                                 </StackPanel>
-
                                             </Grid>
 
                                             <Grid Height="30" Margin="0,10,0,0">
                                                 <TextBlock Style="{StaticResource TVTextStyle}" Text="边框色" />
 
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                                    <TextBox Width="100"
-                                                             Margin="0,0,20,0"
-                                                             HorizontalContentAlignment="Center"
-                                                             Text="#2342ff" />
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=BorderColor, Mode=OneWay}" />
 
-                                                    <c:ColorButton HorizontalAlignment="Right" IconColor="{Binding ElementName=color_skin, Path=BorderColor}" />
-                                                    <!--<Button Background="{Binding ElementName=color_skin, Path=HilitedCandidateBackColor}"
-                                                            Command="{Binding SetSkinColorCommand}"
-                                                            CommandParameter="hilited_candidate_back_color" />-->
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="border_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=BorderColor}" />
                                                 </StackPanel>
-
                                             </Grid>
 
                                             <Grid Height="30" Margin="0,10,0,0">
                                                 <TextBlock Style="{StaticResource TVTextStyle}" Text="首选项背景色" />
 
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                                    <TextBox Width="100"
-                                                             Height="30"
-                                                             Margin="0,0,20,0"
-                                                             HorizontalContentAlignment="Center"
-                                                             Text="#2342ff" />
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedCandidateBackColor, Mode=OneWay}" />
 
-                                                    <c:ColorButton HorizontalAlignment="Right" IconColor="{Binding ElementName=color_skin, Path=HilitedCandidateBackColor}" />
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_candidate_back_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedCandidateBackColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="首选项边框色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedCandidateBorderColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_candidate_border_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedCandidateBorderColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="首选项文本色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedCandidateTextColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_candidate_text_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedCandidateTextColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="首选项标签色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedLabelColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_label_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedLabelColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="首选项解释色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedCommentTextColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_comment_text_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedCommentTextColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="非首选项背景色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=CandidateBackColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="candidate_back_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=CandidateBackColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="非首选项文本色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=CandidateTextColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="candidate_text_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=CandidateTextColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="非首选项标签色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=LabelColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="label_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=LabelColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="非首选项注解色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=CommentTextColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="comment_text_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=CommentTextColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="编码区背景色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=HilitedBackColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="hilited_back_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=HilitedBackColor}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Height="30" Margin="0,10,0,0">
+                                                <TextBlock Style="{StaticResource TVTextStyle}" Text="编码区文本色" />
+
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock Width="100"
+                                                               Margin="0,0,20,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding ElementName=color_skin, Path=TextColor, Mode=OneWay}" />
+
+                                                    <c:ColorButton HorizontalAlignment="Right"
+                                                                   ButtonCommand="{Binding SetSkinColorCommand}"
+                                                                   ButtonCommandParameter="text_color"
+                                                                   IconColor="{Binding ElementName=color_skin, Path=TextColor}" />
                                                 </StackPanel>
                                             </Grid>
                                         </UniformGrid>

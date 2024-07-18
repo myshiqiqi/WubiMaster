@@ -3,11 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -18,19 +16,20 @@ namespace WubiMaster.ViewModels
     public partial class ThemeViewModel : ObservableRecipient
     {
         [ObservableProperty]
-        private ThemeConfigModel configModel;
-
-        [ObservableProperty]
-        private ColorCandidateModel candidateModel;  // 候选项模型类
+        private ColorCandidateModel candidateModel;
 
         [ObservableProperty]
         private int colorIndex = -1;
 
+        // 候选项模型类
         [ObservableProperty]
         private List<ColorsModel> colorsList;
 
         [ObservableProperty]
         private ColorTemplateModel colorTemplate;
+
+        [ObservableProperty]
+        private ThemeConfigModel configModel;
 
         [ObservableProperty]
         private ColorSchemeModel currentSkin;
@@ -63,54 +62,6 @@ namespace WubiMaster.ViewModels
 
             LoadColorShemes();
             LoadConfig();
-        }
-
-        /// <summary>
-        /// 选择候选项样式
-        /// </summary> C1andidateChange
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void UpdateSkinCandidate(object obj)
-        {
-            try
-            {
-                // 首先需要将新值更新到model中
-                CandidateModel.Change();
-
-                // 候选序号样式
-                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
-                CurrentSkin.OtherProperty.LabelStr = candidate_str;
-
-                // 候选个数设定
-                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
-                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.PageSize, candidate_count);
-
-                // 候选序号后缀（标签符）
-                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                CurrentSkin.OtherProperty.LabelSuffix = suffix_str;
-                suffix_str = suffix_str == "无" ? "" : suffix_str;
-                suffix_str = suffix_str == "空格" ? " " : suffix_str;
-                CurrentSkin.Style.label_format = "%s" + suffix_str;
-
-                // mark 符
-                //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
-                //CurrentSkin.OtherProperty.MarkText = mark_str;
-                //CurrentSkin.Style.mark_text = mark_str;
-
-                // 是否显示拆分提示
-                CurrentSkin.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
-
-                DefaultCustomDetails.Write();
-                UpdateCurrentSkin(null);
-
-                CandidateModel.SaveConfig();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("设置失败，请查看日志定位问题。");
-            }
         }
 
         [RelayCommand]
@@ -149,48 +100,6 @@ namespace WubiMaster.ViewModels
             {
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("选中的样式在外观文件中不存在！", DialogType.Error);
-            }
-        }
-
-        /// <summary>
-        /// 删除主题
-        /// </summary>
-        [RelayCommand]
-        public void DeleteColor()
-        {
-            try
-            {
-                var ask = this.ShowAskMessage("被删除的主题无法恢复，确定要执行删除操作吗？");
-                if (!((bool)ask))
-                {
-                    return;
-                }
-
-                string color_name = CurrentSkin.Style.color_scheme;
-                ColorSchemeModel csModel = new ColorSchemeModel();
-                csModel.Style = default_color.style;
-                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
-                CurrentSkin = csModel;
-
-                string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
-                if (File.Exists(yaml_name))
-                {
-                    File.Delete(yaml_name);
-                }
-                else
-                {
-                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
-                    return;
-                }
-
-                LoadColorShemes();
-                ColorIndex = 0;
-                this.ShowMessage("主题删除成功！", DialogType.Success);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("主题删除失败！", DialogType.Fail);
             }
         }
 
@@ -269,45 +178,46 @@ namespace WubiMaster.ViewModels
             });
         }
 
+        /// <summary>
+        /// 删除主题
+        /// </summary>
         [RelayCommand]
-        public void SetSkinColor(object obj)
+        public void DeleteColor()
         {
-            // 建立一个颜色转换的临时函数
-            var get_brush = (string colorstr) =>
+            try
             {
-                var color_str = ColorConverterHelper.ConverterFromRime(colorstr);
-                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color_str));
-                return brush;
-            };
+                var ask = this.ShowAskMessage("被删除的主题无法恢复，确定要执行删除操作吗？");
+                if (!((bool)ask))
+                {
+                    return;
+                }
 
-            // 根据参数类型识别颜色对象
-            if (obj == null) return;
-            string color_name = obj.ToString();
-            Brush brush = null;
-            switch (color_name)
-            {
-                case "hilited_candidate_back_color":
-                    brush = get_brush(CurrentSkin.UsedColor.hilited_candidate_back_color);
-                    break;
-                default:
-                    break;
+                string color_name = CurrentSkin.Style.color_scheme;
+                ColorSchemeModel csModel = new ColorSchemeModel();
+                csModel.Style = default_color.style;
+                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
+                CurrentSkin = csModel;
+
+                string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
+                if (File.Exists(yaml_name))
+                {
+                    File.Delete(yaml_name);
+                }
+                else
+                {
+                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
+                    return;
+                }
+
+                LoadColorShemes();
+                ColorIndex = 0;
+                this.ShowMessage("主题删除成功！", DialogType.Success);
             }
-
-            // 打开窗口
-            ColorPickerView cpv = new ColorPickerView();
-            cpv.FirstColor = brush.ToString();
-            cpv.ShowPop();
-
-            // 颜色赋值，并通知更新
-            switch (color_name)
+            catch (Exception ex)
             {
-                case "hilited_candidate_back_color":
-                    CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
-                    break;
-                default:
-                    break;
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("主题删除失败！", DialogType.Fail);
             }
-            UpdateCurrentSkin(null);
         }
 
         /// <summary>
@@ -374,7 +284,7 @@ namespace WubiMaster.ViewModels
                          *    编码背景色：随机高亮色
                          *    编码文字色：另一个高亮色
                          *    其他文字色：默认
-                         *    
+                         *
                          *结果二：
                          *    背景色：bg-100
                          *    边框色：随机高亮或随机背景色
@@ -572,6 +482,145 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        [RelayCommand]
+        public void SetSkinColor(object obj)
+        {
+            // 建立一个颜色转换的临时函数
+            var get_brush = (string colorstr) =>
+            {
+                var color_str = ColorConverterHelper.ConverterFromRime(colorstr);
+                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color_str));
+                return brush;
+            };
+
+            // 根据参数类型识别颜色对象
+            if (obj == null) return;
+            string color_name = obj.ToString();
+            Brush brush = null;
+            switch (color_name)
+            {
+                case "back_color":
+                    brush = get_brush(CurrentSkin.UsedColor.back_color);
+                    break;
+
+                case "border_color":
+                    brush = get_brush(CurrentSkin.UsedColor.border_color);
+                    break;
+
+                case "hilited_candidate_back_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_candidate_back_color);
+                    break;
+
+                case "hilited_candidate_border_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_candidate_border_color);
+                    break;
+
+                case "hilited_candidate_text_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_candidate_text_color);
+                    break;
+
+                case "hilited_label_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_label_color);
+                    break;
+
+                case "hilited_comment_text_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_comment_text_color);
+                    break;
+
+                case "candidate_back_color":
+                    brush = get_brush(CurrentSkin.UsedColor.candidate_back_color);
+                    break;
+
+                case "candidate_text_color":
+                    brush = get_brush(CurrentSkin.UsedColor.candidate_text_color);
+                    break;
+
+                case "label_color":
+                    brush = get_brush(CurrentSkin.UsedColor.label_color);
+                    break;
+
+                case "comment_text_color":
+                    brush = get_brush(CurrentSkin.UsedColor.comment_text_color);
+                    break;
+
+                case "hilited_back_color":
+                    brush = get_brush(CurrentSkin.UsedColor.hilited_back_color);
+                    break;
+
+                case "text_color":
+                    brush = get_brush(CurrentSkin.UsedColor.text_color);
+                    break;
+
+                default:
+                    break;
+            }
+
+            // 打开窗口
+            ColorPickerView cpv = new ColorPickerView();
+            cpv.FirstColor = brush.ToString();
+            cpv.ShowPop();
+
+            // 颜色赋值，并通知更新
+            switch (color_name)
+            {
+                case "back_color":
+                    CurrentSkin.UsedColor.back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "border_color":
+                    CurrentSkin.UsedColor.border_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_candidate_back_color":
+                    CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_candidate_border_color":
+                    CurrentSkin.UsedColor.hilited_candidate_border_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_candidate_text_color":
+                    CurrentSkin.UsedColor.hilited_candidate_text_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_label_color":
+                    CurrentSkin.UsedColor.hilited_label_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_comment_text_color":
+                    CurrentSkin.UsedColor.hilited_comment_text_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "candidate_back_color":
+                    CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "candidate_text_color":
+                    CurrentSkin.UsedColor.candidate_text_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "label_color":
+                    CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "comment_text_color":
+                    CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "hilited_back_color":
+                    CurrentSkin.UsedColor.hilited_back_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                case "text_color":
+                    CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(cpv.CurrentBrush.ToString());
+                    break;
+
+                default:
+                    break;
+            }
+            UpdateCurrentSkin(null);
+        }
+
         // 更新当前显示的皮肤
         public void UpdateCurrentSkin(object obj)
         {
@@ -583,6 +632,63 @@ namespace WubiMaster.ViewModels
             CurrentSkin = tempColor;
 
             ConfigModel.SaveConfig();
+        }
+
+        /// <summary>
+        /// 选择候选项样式
+        /// </summary> C1andidateChange
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void UpdateSkinCandidate(object obj)
+        {
+            try
+            {
+                // 首先需要将新值更新到model中
+                CandidateModel.Change();
+
+                // 候选序号样式
+                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
+                CurrentSkin.OtherProperty.LabelStr = candidate_str;
+
+                // 候选个数设定
+                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
+                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.PageSize, candidate_count);
+
+                // 候选序号后缀（标签符）
+                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+                CurrentSkin.OtherProperty.LabelSuffix = suffix_str;
+                suffix_str = suffix_str == "无" ? "" : suffix_str;
+                suffix_str = suffix_str == "空格" ? " " : suffix_str;
+                CurrentSkin.Style.label_format = "%s" + suffix_str;
+
+                // mark 符
+                //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
+                //CurrentSkin.OtherProperty.MarkText = mark_str;
+                //CurrentSkin.Style.mark_text = mark_str;
+
+                // 是否显示拆分提示
+                CurrentSkin.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
+
+                DefaultCustomDetails.Write();
+                UpdateCurrentSkin(null);
+
+                CandidateModel.SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("设置失败，请查看日志定位问题。");
+            }
+        }
+
+        // todo: 将变量color更换为skin
+        // 更新皮肤配色
+        [RelayCommand]
+        public void UpdateSkinColor()
+        {
+            ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
         }
 
         [RelayCommand]
@@ -623,29 +729,11 @@ namespace WubiMaster.ViewModels
             is_loaded = true;
         }
 
-        // todo: 将变量color更换为skin
-        // 更新皮肤配色
-        [RelayCommand]
-        public void UpdateSkinColor()
-        {
-            ConfigModel.SaveConfig();
-            UpdateCurrentSkin(null);
-        }
-
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x000000", string colorFormat = "abgr")
         {
             Color targetColor = ColorConvter(colorTxt, defaultColor, colorFormat);
             SolidColorBrush targetBrush = new SolidColorBrush(targetColor);
             return targetBrush;
-        }
-
-        // 切换智能换肤
-        private void SmartSkinColor(object recipient, string message)
-        {
-            if (ConfigModel.Theme_RandomSkin)
-                SetRandomColor();
-            if (ConfigModel.Theme_FollowTheme)
-                ColorFromTheme();
         }
 
         private void ChangeColorScheme(object recipient, string message)
@@ -748,7 +836,6 @@ namespace WubiMaster.ViewModels
 
         private void LoadConfig()
         {
-
             // 加载是否是将模板应用于全部皮肤
             ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
             LoadTemplate();
@@ -893,6 +980,15 @@ namespace WubiMaster.ViewModels
             ColorTemplate.TextVertical = bool.Parse(CurrentSkin.Style.vertical_text);
             ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
             ColorTemplate.Horizontal = bool.Parse(CurrentSkin.Style.horizontal);
+        }
+
+        // 切换智能换肤
+        private void SmartSkinColor(object recipient, string message)
+        {
+            if (ConfigModel.Theme_RandomSkin)
+                SetRandomColor();
+            if (ConfigModel.Theme_FollowTheme)
+                ColorFromTheme();
         }
     }
 }

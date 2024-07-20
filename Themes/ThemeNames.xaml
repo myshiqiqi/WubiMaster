@@ -45,4 +45,6 @@
     <sys:String x:Key="牛皮纸">VellumTheme</sys:String>
     <sys:String x:Key="水蜜桃">PeachTheme</sys:String>
     <sys:String x:Key="萤火虫">RireflyTheme</sys:String>
+    <sys:String x:Key="星际远航">VoyageTheme</sys:String>
+    <sys:String x:Key="静谧的热情">PassionTheme</sys:String>
 </ResourceDictionary>

@@ -278,7 +278,7 @@
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>
 
-                    <c:SettingPanel Title="随机诗词间隔"
+                    <c:SettingPanel Title="诗词切换间隔"
                                     IconText="&#xe692;"
                                     SubTitle="设置随机诗词自动更换时间间隔">
                         <c:SettingPanel.SettingContent>
@@ -341,6 +341,7 @@
                             <StackPanel Orientation="Horizontal">
 
                                 <ComboBox Width="150"
+                                          Height="28"
                                           MinHeight="24"
                                           DisplayMemberPath="Text"
                                           Foreground="{DynamicResource text-100}"

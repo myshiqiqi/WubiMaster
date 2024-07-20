@@ -4,7 +4,7 @@
         <Setter Property="Background" Value="{DynamicResource bg-200}" />
         <Setter Property="BorderBrush" Value="{DynamicResource primary-200}" />
         <Setter Property="Foreground" Value="{DynamicResource text-100}" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="1" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -14,7 +14,6 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5"
                             SnapsToDevicePixels="True">
 
                         <Grid>

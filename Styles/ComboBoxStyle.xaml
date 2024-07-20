@@ -21,7 +21,7 @@
     <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
         <Setter Property="Background" Value="{DynamicResource bg-200}" />
         <Setter Property="BorderBrush" Value="{DynamicResource primary-200}" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{DynamicResource text-100}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -42,7 +42,6 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5"
                             SnapsToDevicePixels="True">
 
                         <Grid>
@@ -83,7 +82,6 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="5"
                                         SnapsToDevicePixels="True">
 
                                     <ScrollViewer Padding="0"
@@ -94,8 +92,10 @@
                                 </Border>
                             </Popup>
 
-                            <Viewbox x:Name="view_box" Grid.Column="1">
-                                <Polyline x:Name="polyline"
+                            <Viewbox x:Name="view_box"
+                                     Grid.Column="1"
+                                     Margin="4">
+                                <!--<Polyline x:Name="polyline"
                                           Margin="8"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -105,7 +105,17 @@
                                           StrokeEndLineCap="Round"
                                           StrokeLineJoin="Round"
                                           StrokeStartLineCap="Round"
-                                          StrokeThickness="3" />
+                                          StrokeThickness="3" />-->
+
+                                <TextBlock x:Name="polyline"
+                                           FontFamily="../Fonts/#iconfont"
+                                           Foreground="{DynamicResource primary-100}"
+                                           RenderTransformOrigin="0.5 0.5"
+                                           Text="&#xe687;">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="90" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
                             </Viewbox>
                         </Grid>
                     </Border>
@@ -118,7 +128,7 @@
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="polyline" Property="RenderTransform">
                                 <Setter.Value>
-                                    <RotateTransform Angle="180" />
+                                    <RotateTransform Angle="270" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

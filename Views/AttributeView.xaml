@@ -369,7 +369,7 @@
                                   IsChecked="{Binding ConfigModel.ShowKeyName}" />
                 </Grid>
 
-                <Grid Margin="0,5">
+                <Grid Margin="0,5" Visibility="Collapsed">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"
@@ -386,7 +386,7 @@
                                          UnCheckedState="反查" />
                 </Grid>
 
-                <Grid Margin="0,5">
+                <Grid Margin="0,5" Visibility="Collapsed">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="15"
                                Foreground="{DynamicResource text-100}"

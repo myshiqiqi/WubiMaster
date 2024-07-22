@@ -71,6 +71,7 @@
                             </ToggleButton>
 
                             <Popup x:Name="popup"
+                                   MaxHeight="300"
                                    AllowsTransparency="True"
                                    IsOpen="{TemplateBinding IsDropDownOpen}"
                                    Placement="Bottom"

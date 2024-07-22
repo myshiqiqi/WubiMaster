@@ -40,5 +40,23 @@ namespace WubiMaster.Models
         // 随机主题
         [ObservableProperty]
         private bool theme_RandomSkin;
+
+        /// <summary>
+        /// 文本字体
+        /// </summary>
+        [ObservableProperty]
+        private string themeTextFont = "微软雅黑";
+
+        /// <summary>
+        /// 标签字体
+        /// </summary>
+        [ObservableProperty]
+        private string themeLabelFont = "微软雅黑";
+
+        /// <summary>
+        /// 注解字体
+        /// </summary>
+        [ObservableProperty]
+        private string themeCommentFont = "黑体字根";
     }
 }

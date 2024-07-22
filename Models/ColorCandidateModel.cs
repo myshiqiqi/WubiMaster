@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using WubiMaster.Common;
 
 namespace WubiMaster.Models
@@ -42,6 +44,9 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private List<string> numList;
 
+        [ObservableProperty]
+        private List<string> localFonts;
+
         public ColorCandidateModel()
         {
             // 初始化序号列表
@@ -52,8 +57,19 @@ namespace WubiMaster.Models
             InitSuffixList();
             // 初始化 Mark 符集合
             InitMarkTextList();
+            // 加载本地字体
+            GetLocalFonts();
             // 加载配置数据
             LoadConfig();
+        }
+
+        private void GetLocalFonts()
+        {
+            LocalFonts = new List<string>();
+            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            {
+                LocalFonts.Add(fontFamily.ToString());
+            }
         }
 
         public void Change()

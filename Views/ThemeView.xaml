@@ -374,11 +374,11 @@
                                                        Text="字体：" />
                                             <ComboBox Width="120"
                                                       HorizontalAlignment="Right"
-                                                      ItemsSource="{Binding CandidateModel.LabelDict.Keys}"
-                                                      SelectedIndex="{Binding CandidateModel.LabelIndex, Mode=TwoWay}">
+                                                      ItemsSource="{Binding CandidateModel.LocalFonts}"
+                                                      SelectedIndex="0">
                                                 <b:Interaction.Triggers>
                                                     <b:EventTrigger EventName="SelectionChanged">
-                                                        <b:InvokeCommandAction Command="{Binding UpdateSkinCandidateCommand}" />
+                                                        <b:InvokeCommandAction Command="{Binding UpdateTextFontCommand}" />
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
                                             </ComboBox>

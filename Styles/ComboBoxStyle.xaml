@@ -42,6 +42,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
                             SnapsToDevicePixels="True">
 
                         <Grid>
@@ -57,15 +58,17 @@
 
                             <ToggleButton x:Name="toggle_button"
                                           Grid.ColumnSpan="2"
+                                          Width="{Binding ElementName=border, Path=ActualWidth}"
                                           HorizontalContentAlignment="Left"
                                           VerticalContentAlignment="Center"
-                                          Background="Transparent"
+                                          Panel.ZIndex="100"
                                           ClickMode="Press"
-                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{x:Null}">
 
                                 <ToggleButton.Template>
                                     <ControlTemplate>
-                                        <Border Background="Transparent" />
+                                        <Border HorizontalAlignment="Stretch" Background="Transparent" />
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
@@ -79,10 +82,12 @@
                                    PopupAnimation="Slide"
                                    VerticalOffset="3">
 
-                                <Border Width="{Binding ElementName=border, Path=ActualWidth}"
+                                <Border MinWidth="{Binding ElementName=border, Path=ActualWidth}"
+                                        MaxHeight="300"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="4"
                                         SnapsToDevicePixels="True">
 
                                     <ScrollViewer Padding="0"
@@ -95,19 +100,8 @@
 
                             <Viewbox x:Name="view_box"
                                      Grid.Column="1"
-                                     Margin="4">
-                                <!--<Polyline x:Name="polyline"
-                                          Margin="8"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Points="1,1 10,10 20,1"
-                                          RenderTransformOrigin="0.5, 0.5"
-                                          Stroke="{DynamicResource text-200}"
-                                          StrokeEndLineCap="Round"
-                                          StrokeLineJoin="Round"
-                                          StrokeStartLineCap="Round"
-                                          StrokeThickness="3" />-->
-
+                                     Margin="4"
+                                     Panel.ZIndex="-100">
                                 <TextBlock x:Name="polyline"
                                            FontFamily="../Fonts/#iconfont"
                                            Foreground="{DynamicResource primary-100}"

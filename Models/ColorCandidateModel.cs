@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Markup;
 using System.Windows.Media;
 using WubiMaster.Common;
 
@@ -47,6 +48,12 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private List<string> localFonts;
 
+        [ObservableProperty]
+        private List<string> fontWeights;
+
+        [ObservableProperty]
+        private List<string> fontSizes;
+
         public ColorCandidateModel()
         {
             // 初始化序号列表
@@ -63,13 +70,33 @@ namespace WubiMaster.Models
             LoadConfig();
         }
 
+        /// <summary>
+        /// 加载字体属性：字体，字型，字号
+        /// </summary>
         private void GetLocalFonts()
         {
+            // 字体
             LocalFonts = new List<string>();
             foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
             {
                 LocalFonts.Add(fontFamily.ToString());
             }
+
+            LocalFonts = LocalFonts.OrderBy(l => l).ToList();
+
+            // 字型
+            FontWeights = new List<string>();
+            FontWeights.Add("常规");
+            FontWeights.Add("加粗");
+            FontWeights.Add("倾斜");
+            FontWeights.Add("加粗 倾斜");
+
+            // 字号
+            FontSizes = new List<string>();
+            FontSizes.Add("小号");
+            FontSizes.Add("中号");
+            FontSizes.Add("大号");
+
         }
 
         public void Change()

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Windows;
 using System.Windows.Media;
 using WubiMaster.Common;
@@ -62,6 +63,70 @@ namespace WubiMaster.ViewModels
 
             LoadColorShemes();
             LoadConfig();
+        }
+
+        /// <summary>
+        /// 设置或更改候选项字体
+        /// </summary>
+        [RelayCommand]
+        public void UpdateFont(object obj)
+        {
+            string type = obj.ToString();
+
+            switch (type)
+            {
+                case "text":
+                    break;
+                case "label":
+                    break;
+                case "comment":
+                    break;
+                default:
+                    break;
+            }
+            ConfigModel.SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置或更改候选项label字型
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void UpdateFontWeight(object obj)
+        {
+            string type = obj.ToString();
+
+            switch (type)
+            {
+                case "text":
+                    break;
+                case "label":
+                    break;
+                case "comment":
+                    break;
+                default:
+                    break;
+            }
+            ConfigModel.SaveConfig();
+        }
+
+        [RelayCommand]
+        public void UpdateFontSize(object obj)
+        {
+            string type = obj.ToString();
+
+            switch (type)
+            {
+                case "text":
+                    break;
+                case "label":
+                    break;
+                case "comment":
+                    break;
+                default:
+                    break;
+            }
+            ConfigModel.SaveConfig();
         }
 
         [RelayCommand]

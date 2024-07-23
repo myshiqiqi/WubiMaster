@@ -45,18 +45,54 @@ namespace WubiMaster.Models
         /// 文本字体
         /// </summary>
         [ObservableProperty]
-        private string themeTextFont = "微软雅黑";
+        private string themeTextFont = "Microsoft YaHei";
 
         /// <summary>
         /// 标签字体
         /// </summary>
         [ObservableProperty]
-        private string themeLabelFont = "微软雅黑";
+        private string themeLabelFont = "Microsoft YaHei";
 
         /// <summary>
         /// 注解字体
         /// </summary>
         [ObservableProperty]
         private string themeCommentFont = "黑体字根";
+
+        /// <summary>
+        /// 文本字型
+        /// </summary>
+        [ObservableProperty]
+        private string themeTextWeight = "常规";
+
+        /// <summary>
+        /// 标签字型
+        /// </summary>
+        [ObservableProperty]
+        private string themeLabelWeight = "常规";
+
+        /// <summary>
+        /// 注解字型
+        /// </summary>
+        [ObservableProperty]
+        private string themeCommentWeight = "常规";
+
+        /// <summary>
+        /// 文本字号
+        /// </summary>
+        [ObservableProperty]
+        private string themeTextSize = "中号";
+
+        /// <summary>
+        /// 标签字号
+        /// </summary>
+        [ObservableProperty]
+        private string themeLabelSize = "中号";
+
+        /// <summary>
+        /// 注解字号
+        /// </summary>
+        [ObservableProperty]
+        private string themeCommentSize = "中号";
     }
 }

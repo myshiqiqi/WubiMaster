@@ -3329,8 +3329,9 @@
                                 <StackPanel Style="{StaticResource LeftStackPanelStyle}">
                                     <TextBlock Style="{StaticResource FirstKeyTextStyle}" Text="月" />
                                     <TextBlock Style="{StaticResource SubKeyTextStyle}" Text="" />
-                                    <TextBlock Style="{StaticResource PrimaryKeyTextStyle}" Text="" />
-                                    <TextBlock Style="{StaticResource PrimaryKeyTextStyle}" Text="" />
+                                    <TextBlock Margin="5,0,0,0"
+                                               Style="{StaticResource PrimaryKeyTextStyle}"
+                                               Text="" />
                                 </StackPanel>
 
                                 <StackPanel Style="{StaticResource RightStackPanelStyle}">
@@ -3338,8 +3339,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Style="{StaticResource LeftStackPanelStyle}">
-                                    <TextBlock Style="{StaticResource PrimaryKeyTextStyle}" Text="用" />
-                                    <TextBlock Style="{StaticResource SubKeyTextStyle}" Text="" />
+                                    <TextBlock Style="{StaticResource PrimaryKeyTextStyle}" Text="" />
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Style="{StaticResource RightStackPanelStyle}">

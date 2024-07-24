@@ -20,7 +20,7 @@
         <Grid Margin="10">
             <Viewbox>
                 <Viewbox.Effect>
-                    <DropShadowEffect BlurRadius="20" ShadowDepth="15" />
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="10" />
                 </Viewbox.Effect>
                 <TextBlock FontFamily="../../Fonts/#iconfont"
                            Foreground="{DynamicResource primary-100}"
@@ -42,7 +42,7 @@
                        VerticalAlignment="Center"
                        FontSize="25"
                        FontWeight="Bold"
-                       Foreground="{DynamicResource primary-100}"
+                       Foreground="{DynamicResource text-100}"
                        Text="请我吃盏茶吧~~" />
 
             <Image Grid.Row="1"

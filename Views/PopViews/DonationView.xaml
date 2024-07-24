@@ -43,7 +43,7 @@
                        FontSize="25"
                        FontWeight="Bold"
                        Foreground="{DynamicResource primary-100}"
-                       Text="请我喝杯茶吧~~" />
+                       Text="请我吃盏茶吧~~" />
 
             <Image Grid.Row="1"
                    HorizontalAlignment="Center"

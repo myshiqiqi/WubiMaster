@@ -6,8 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WubiMaster.ViewModels"
         Title="DonationView"
-        Width="600"
-        Height="300"
+        Width="800"
+        Height="400"
         d:Background="{DynamicResource bg-100}"
         Style="{StaticResource PopViewBaseStyle}"
         mc:Ignorable="d">
@@ -20,7 +20,7 @@
         <Grid Margin="10">
             <Viewbox>
                 <Viewbox.Effect>
-                    <DropShadowEffect BlurRadius="8" ShadowDepth="8" />
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="15" />
                 </Viewbox.Effect>
                 <TextBlock FontFamily="../../Fonts/#iconfont"
                            Foreground="{DynamicResource primary-100}"
@@ -28,9 +28,8 @@
             </Viewbox>
         </Grid>
 
-        <Grid Width="400"
-              Height="200"
-              Margin="10"
+        <Grid Width="450"
+              Height="250"
               ClipToBounds="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -43,8 +42,8 @@
                        VerticalAlignment="Center"
                        FontSize="25"
                        FontWeight="Bold"
-                       Foreground="{DynamicResource primary-200}"
-                       Text="捐赠" />
+                       Foreground="{DynamicResource primary-100}"
+                       Text="请我喝杯茶吧~~" />
 
             <Image Grid.Row="1"
                    HorizontalAlignment="Center"
@@ -55,7 +54,7 @@
                     Height="30"
                     Command="{Binding CloseCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    Content="离开" />
+                    Content="慢用" />
         </Grid>
 
         <Border Padding="20"

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -112,8 +111,14 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty FontFaceProperty =
             DependencyProperty.Register("FontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
 
+        public static readonly DependencyProperty FontFaceStyleProperty =
+            DependencyProperty.Register("FontFaceStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
+
+        public static readonly DependencyProperty FontFaceWeightProperty =
+                    DependencyProperty.Register("FontFaceWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
+
         public static readonly DependencyProperty FontPointProperty =
-            DependencyProperty.Register("FontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
+                    DependencyProperty.Register("FontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
 
         public static readonly DependencyProperty FullScreenProperty =
             DependencyProperty.Register("FullScreen", typeof(bool), typeof(ColorSchemeControl));
@@ -527,6 +532,35 @@ namespace WubiMaster.Controls
             set { SetValue(CommentFontFaceProperty, value); }
         }
 
+
+        /// <summary>
+        /// 注解字重
+        /// </summary>
+        public FontWeight CommentFontWeight
+        {
+            get { return (FontWeight)GetValue(CommentFontWeightProperty); }
+            set { SetValue(CommentFontWeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommentFontWeightProperty =
+            DependencyProperty.Register("CommentFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
+
+
+        /// <summary>
+        /// 注解字型
+        /// </summary>
+        public FontStyle CommentFontStyle
+        {
+            get { return (FontStyle)GetValue(CommentFontStyleProperty); }
+            set { SetValue(CommentFontStyleProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommentFontStyleProperty =
+            DependencyProperty.Register("CommentFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
+
+
+
+
         /// <summary>
         /// 注释字号
         /// </summary>
@@ -588,6 +622,24 @@ namespace WubiMaster.Controls
         {
             get { return (FontFamily)GetValue(FontFaceProperty); }
             set { SetValue(FontFaceProperty, value); }
+        }
+
+        /// <summary>
+        /// 全局字体样式
+        /// </summary>
+        public FontStyle FontFaceStyle
+        {
+            get { return (FontStyle)GetValue(FontFaceStyleProperty); }
+            set { SetValue(FontFaceStyleProperty, value); }
+        }
+
+        /// <summary>
+        /// 全局字体粗细
+        /// </summary>
+        public FontWeight FontFaceWeight
+        {
+            get { return (FontWeight)GetValue(FontFaceWeightProperty); }
+            set { SetValue(FontFaceWeightProperty, value); }
         }
 
         /// <summary>
@@ -828,6 +880,34 @@ namespace WubiMaster.Controls
             set { SetValue(LabelFontFaceProperty, value); }
         }
 
+
+        /// <summary>
+        /// 标签字重
+        /// </summary>
+        public FontWeight LabelFontWeight
+        {
+            get { return (FontWeight)GetValue(LabelFontWeightProperty); }
+            set { SetValue(LabelFontWeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty LabelFontWeightProperty =
+            DependencyProperty.Register("LabelFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
+
+
+        /// <summary>
+        /// 标签字型
+        /// </summary>
+        public FontStyle LabelFontStyle
+        {
+            get { return (FontStyle)GetValue(LabelFontStyleProperty); }
+            set { SetValue(LabelFontStyleProperty, value); }
+        }
+
+        public static readonly DependencyProperty LabelFontStyleProperty =
+            DependencyProperty.Register("LabelFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
+
+
+
         /// <summary>
         /// 标签字号
         /// </summary>
@@ -1067,10 +1147,102 @@ namespace WubiMaster.Controls
             c.LabelFontPoint = string.IsNullOrEmpty(styleModel.label_font_point) ? c.FontPoint : double.Parse(styleModel.label_font_point);
             c.LabelColor = c.BrushConvter(schemeModel.label_color, Colors.Gray.ToString(), "argb");
             c.CommentFontPoint = string.IsNullOrEmpty(styleModel.comment_font_point) ? c.FontPoint : double.Parse(styleModel.comment_font_point);
-            c.FontFace = new FontFamily(styleModel.font_face);
             c.LabelFontFace = string.IsNullOrEmpty(styleModel.label_font_face) ? c.FontFace : new FontFamily(styleModel.label_font_face);
             c.CommentFontFace = string.IsNullOrEmpty(styleModel.comment_font_face) ? c.FontFace : new FontFamily(styleModel.comment_font_face);
             c.CommentTextColor = c.BrushConvter(schemeModel.comment_text_color, Colors.Gray.ToString(), "argb");
+            #region 候选文本字体处理
+
+            string[] font_info = new string[] { "微软雅黑", "", "" };
+            var font_strs = styleModel.font_face.Split(":");
+            for (int i = 0; i < font_strs.Length; i++)
+                font_info[i] = font_strs[i];
+
+            c.FontFace = new FontFamily(font_info[0]);
+
+            if (font_info[1] == "bold")
+            {
+                c.FontFaceWeight = FontWeights.Bold;
+                c.FontFaceStyle = FontStyles.Normal;
+            }
+            else if (font_info[1] == "italic")
+            {
+                c.FontFaceWeight = FontWeights.Normal;
+                c.FontFaceStyle = FontStyles.Italic;
+            }
+            else
+            {
+                c.FontFaceWeight = FontWeights.Normal;
+                c.FontFaceStyle = FontStyles.Normal;
+            }
+
+            if (font_info[2] == "italic")
+                c.FontFaceStyle = FontStyles.Italic;
+
+            c.FontPoint = double.Parse(styleModel.font_point);
+
+            #endregion 候选文本字体处理
+
+            #region 标签字体处理
+
+            string[] label_font_info = new string[] { "微软雅黑", "", "" };
+            var label_font_strs = styleModel.label_font_face.Split(":");
+            for (int i = 0; i < label_font_strs.Length; i++)
+                label_font_info[i] = label_font_strs[i];
+
+            c.LabelFontFace = new FontFamily(label_font_info[0]);
+
+            if (label_font_info[1] == "bold")
+            {
+                c.LabelFontWeight = FontWeights.Bold;
+                c.LabelFontStyle = FontStyles.Normal;
+            }
+            else if (label_font_info[1] == "italic")
+            {
+                c.LabelFontWeight = FontWeights.Normal;
+                c.LabelFontStyle = FontStyles.Italic;
+            }
+            else
+            {
+                c.LabelFontWeight = FontWeights.Normal;
+                c.LabelFontStyle = FontStyles.Normal;
+            }
+
+            if (label_font_info[2] == "italic")
+                c.LabelFontStyle = FontStyles.Italic;
+
+            c.LabelFontPoint = double.Parse(styleModel.label_font_point);
+
+            #endregion 标签字体处理
+
+            #region 注解字体处理
+            string[] comment_font_info = new string[] { "微软雅黑", "", "" };
+            var comment_font_strs = styleModel.comment_font_face.Split(":");
+            for (int i = 0; i < comment_font_strs.Length; i++)
+                comment_font_info[i] = comment_font_strs[i];
+
+            c.CommentFontFace = new FontFamily(comment_font_info[0]);
+
+            if (comment_font_info[1] == "bold")
+            {
+                c.CommentFontWeight = FontWeights.Bold;
+                c.CommentFontStyle = FontStyles.Normal;
+            }
+            else if (comment_font_info[1] == "italic")
+            {
+                c.CommentFontWeight = FontWeights.Normal;
+                c.CommentFontStyle = FontStyles.Italic;
+            }
+            else
+            {
+                c.CommentFontWeight = FontWeights.Normal;
+                c.CommentFontStyle = FontStyles.Normal;
+            }
+
+            if (comment_font_info[2] == "italic")
+                c.CommentFontStyle = FontStyles.Italic;
+
+            c.CommentFontPoint = double.Parse(styleModel.comment_font_point);
+            #endregion
 
             // 边框/候选窗口
             c.BackColor = c.BrushConvter(schemeModel.back_color, colorFormat: color_format);

@@ -45,13 +45,13 @@ namespace WubiMaster.Models
         /// 文本字体
         /// </summary>
         [ObservableProperty]
-        private string themeTextFont = "Microsoft YaHei";
+        private string themeTextFont = "微软雅黑";
 
         /// <summary>
         /// 标签字体
         /// </summary>
         [ObservableProperty]
-        private string themeLabelFont = "Microsoft YaHei";
+        private string themeLabelFont = "微软雅黑";
 
         /// <summary>
         /// 注解字体

@@ -92,12 +92,10 @@
 
                             <Button Width="60"
                                     Margin="0,0,10,0"
-                                    Command="{Binding SetColorCommand}"
                                     Content="导出" />
 
                             <Button Width="60"
                                     Margin="0,0,10,0"
-                                    Command="{Binding SetColorCommand}"
                                     Content="新建" />
 
                             <Button Width="60"
@@ -105,9 +103,7 @@
                                     Command="{Binding DeleteColorCommand}"
                                     Content="{StaticResource ThemeStr6}" />
 
-                            <Button Width="60"
-                                    Command="{Binding DeleteColorCommand}"
-                                    Content="保存" />
+                            <Button Width="60" Content="保存" />
                         </StackPanel>
 
                         <Separator Grid.Row="1"
@@ -393,7 +389,7 @@
                                                       SelectedValue="{Binding ConfigModel.ThemeTextWeight}">
                                                 <b:Interaction.Triggers>
                                                     <b:EventTrigger EventName="SelectionChanged">
-                                                        <b:InvokeCommandAction Command="{Binding UpdateFontWeightCommand}" CommandParameter="text" />
+                                                        <b:InvokeCommandAction Command="{Binding UpdateFontCommand}" CommandParameter="text" />
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
                                             </ComboBox>
@@ -446,7 +442,7 @@
                                                       SelectedValue="{Binding ConfigModel.ThemeLabelWeight}">
                                                 <b:Interaction.Triggers>
                                                     <b:EventTrigger EventName="SelectionChanged">
-                                                        <b:InvokeCommandAction Command="{Binding UpdateFontWeightCommand}" CommandParameter="label" />
+                                                        <b:InvokeCommandAction Command="{Binding UpdateFontCommand}" CommandParameter="label" />
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
                                             </ComboBox>
@@ -499,7 +495,7 @@
                                                       SelectedValue="{Binding ConfigModel.ThemeCommentWeight}">
                                                 <b:Interaction.Triggers>
                                                     <b:EventTrigger EventName="SelectionChanged">
-                                                        <b:InvokeCommandAction Command="{Binding UpdateFontWeightCommand}" CommandParameter="comment" />
+                                                        <b:InvokeCommandAction Command="{Binding UpdateFontCommand}" CommandParameter="comment" />
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
                                             </ComboBox>

@@ -77,9 +77,20 @@ namespace WubiMaster.Models
         {
             // 字体
             LocalFonts = new List<string>();
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            foreach (var f in Fonts.SystemFontFamilies)
             {
-                LocalFonts.Add(fontFamily.ToString());
+                string name = "";
+                var lsd = f.FamilyNames;
+                if (lsd.ContainsKey(XmlLanguage.GetLanguage("zh-cn")))
+                {
+                    lsd.TryGetValue(XmlLanguage.GetLanguage("zh-cn"), out name);
+                }
+                else
+                {
+                    name = f.ToString();
+                }
+
+                LocalFonts.Add(name);
             }
 
             LocalFonts = LocalFonts.OrderBy(l => l).ToList();

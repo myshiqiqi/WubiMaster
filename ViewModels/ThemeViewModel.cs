@@ -66,67 +66,96 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 设置或更改候选项字体
-        /// </summary>
-        [RelayCommand]
-        public void UpdateFont(object obj)
-        {
-            string type = obj.ToString();
-
-            switch (type)
-            {
-                case "text":
-                    break;
-                case "label":
-                    break;
-                case "comment":
-                    break;
-                default:
-                    break;
-            }
-            ConfigModel.SaveConfig();
-        }
-
-        /// <summary>
         /// 设置或更改候选项label字型
         /// </summary>
         /// <param name="obj"></param>
         [RelayCommand]
-        public void UpdateFontWeight(object obj)
+        public void UpdateFont(object obj)
         {
             string type = obj.ToString();
+            string font_type = "";
 
             switch (type)
             {
                 case "text":
+                    if (ConfigModel.ThemeTextWeight == "加粗")
+                        font_type = ":bold";
+                    else if(ConfigModel.ThemeTextWeight == "倾斜")
+                        font_type = ":italic";
+                    else if (ConfigModel.ThemeTextWeight == "加粗 倾斜")
+                        font_type = ":bold:italic";
+                    else
+                        font_type = "";
+                    CurrentSkin.Style.font_face = ConfigModel.ThemeTextFont + font_type;
                     break;
                 case "label":
+                    if (ConfigModel.ThemeLabelWeight == "加粗")
+                        font_type = ":bold";
+                    else if (ConfigModel.ThemeLabelWeight == "倾斜")
+                        font_type = ":italic";
+                    else if (ConfigModel.ThemeLabelWeight == "加粗 倾斜")
+                        font_type = ":bold:italic";
+                    else
+                        font_type = "";
+                    CurrentSkin.Style.label_font_face = ConfigModel.ThemeLabelFont + font_type;
                     break;
                 case "comment":
+                    if (ConfigModel.ThemeCommentWeight == "加粗")
+                        font_type = ":bold";
+                    else if (ConfigModel.ThemeCommentWeight == "倾斜")
+                        font_type = ":italic";
+                    else if (ConfigModel.ThemeCommentWeight == "加粗 倾斜")
+                        font_type = ":bold:italic";
+                    else
+                        font_type = "";
+                    CurrentSkin.Style.comment_font_face = ConfigModel.ThemeCommentFont + font_type;
                     break;
                 default:
                     break;
             }
             ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
         }
 
         [RelayCommand]
         public void UpdateFontSize(object obj)
         {
             string type = obj.ToString();
-
+            double font_size = 14;
             switch (type)
             {
                 case "text":
+                    if (ConfigModel.ThemeTextSize == "小号")
+                        font_size = 12;
+                    else if (ConfigModel.ThemeTextSize == "中号")
+                        font_size = 15;
+                    else
+                        font_size = 18;
+                    CurrentSkin.Style.font_point = font_size.ToString();
                     break;
                 case "label":
+                    if (ConfigModel.ThemeLabelSize == "小号")
+                        font_size = 12;
+                    else if (ConfigModel.ThemeLabelSize == "中号")
+                        font_size = 15;
+                    else
+                        font_size = 18;
+                    CurrentSkin.Style.label_font_point = font_size.ToString();
                     break;
                 case "comment":
+                    if (ConfigModel.ThemeCommentSize == "小号")
+                        font_size = 12;
+                    else if (ConfigModel.ThemeCommentSize == "中号")
+                        font_size = 15;
+                    else
+                        font_size = 18;
+                    CurrentSkin.Style.comment_font_point = font_size.ToString();
                     break;
                 default:
                     break;
             }
             ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
         }
 
         [RelayCommand]
@@ -529,8 +558,6 @@ namespace WubiMaster.ViewModels
 
             string colorScheme = ColorsList[ColorIndex].description.color_name;
             ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-
-            this.ShowMessage("应用成功，部署生效", DialogType.Success);
         }
 
         [RelayCommand]
@@ -697,6 +724,8 @@ namespace WubiMaster.ViewModels
             CurrentSkin = tempColor;
 
             ConfigModel.SaveConfig();
+
+            SetColor();
         }
 
         /// <summary>

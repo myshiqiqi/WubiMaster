@@ -93,8 +93,14 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty CommentFontPointProperty =
             DependencyProperty.Register("CommentFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
 
+        public static readonly DependencyProperty CommentFontStyleProperty =
+            DependencyProperty.Register("CommentFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
+
+        public static readonly DependencyProperty CommentFontWeightProperty =
+            DependencyProperty.Register("CommentFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
+
         public static readonly DependencyProperty CommentTextColorProperty =
-                                            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+                                                            DependencyProperty.Register("CommentTextColor", typeof(Brush), typeof(ColorSchemeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         public static readonly DependencyProperty ContentMarginProperty =
             DependencyProperty.Register("ContentMargin", typeof(Thickness), typeof(ColorSchemeControl), new PropertyMetadata(new Thickness(0)));
@@ -204,8 +210,14 @@ namespace WubiMaster.Controls
         public static readonly DependencyProperty LabelFontPointProperty =
             DependencyProperty.Register("LabelFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));
 
+        public static readonly DependencyProperty LabelFontStyleProperty =
+            DependencyProperty.Register("LabelFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
+
+        public static readonly DependencyProperty LabelFontWeightProperty =
+            DependencyProperty.Register("LabelFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
+
         public static readonly DependencyProperty LabelFormatProperty =
-            DependencyProperty.Register("LabelFormat", typeof(string), typeof(ColorSchemeControl));
+                            DependencyProperty.Register("LabelFormat", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty MarginXProperty =
             DependencyProperty.Register("MarginX", typeof(double), typeof(ColorSchemeControl));
@@ -532,19 +544,14 @@ namespace WubiMaster.Controls
             set { SetValue(CommentFontFaceProperty, value); }
         }
 
-
         /// <summary>
-        /// 注解字重
+        /// 注释字号
         /// </summary>
-        public FontWeight CommentFontWeight
+        public double CommentFontPoint
         {
-            get { return (FontWeight)GetValue(CommentFontWeightProperty); }
-            set { SetValue(CommentFontWeightProperty, value); }
+            get { return (double)GetValue(CommentFontPointProperty); }
+            set { SetValue(CommentFontPointProperty, value); }
         }
-
-        public static readonly DependencyProperty CommentFontWeightProperty =
-            DependencyProperty.Register("CommentFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
-
 
         /// <summary>
         /// 注解字型
@@ -555,19 +562,13 @@ namespace WubiMaster.Controls
             set { SetValue(CommentFontStyleProperty, value); }
         }
 
-        public static readonly DependencyProperty CommentFontStyleProperty =
-            DependencyProperty.Register("CommentFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
-
-
-
-
         /// <summary>
-        /// 注释字号
+        /// 注解字重
         /// </summary>
-        public double CommentFontPoint
+        public FontWeight CommentFontWeight
         {
-            get { return (double)GetValue(CommentFontPointProperty); }
-            set { SetValue(CommentFontPointProperty, value); }
+            get { return (FontWeight)GetValue(CommentFontWeightProperty); }
+            set { SetValue(CommentFontWeightProperty, value); }
         }
 
         /// <summary>
@@ -880,19 +881,14 @@ namespace WubiMaster.Controls
             set { SetValue(LabelFontFaceProperty, value); }
         }
 
-
         /// <summary>
-        /// 标签字重
+        /// 标签字号
         /// </summary>
-        public FontWeight LabelFontWeight
+        public double LabelFontPoint
         {
-            get { return (FontWeight)GetValue(LabelFontWeightProperty); }
-            set { SetValue(LabelFontWeightProperty, value); }
+            get { return (double)GetValue(LabelFontPointProperty); }
+            set { SetValue(LabelFontPointProperty, value); }
         }
-
-        public static readonly DependencyProperty LabelFontWeightProperty =
-            DependencyProperty.Register("LabelFontWeight", typeof(FontWeight), typeof(ColorSchemeControl), new PropertyMetadata(FontWeights.Normal));
-
 
         /// <summary>
         /// 标签字型
@@ -903,18 +899,13 @@ namespace WubiMaster.Controls
             set { SetValue(LabelFontStyleProperty, value); }
         }
 
-        public static readonly DependencyProperty LabelFontStyleProperty =
-            DependencyProperty.Register("LabelFontStyle", typeof(FontStyle), typeof(ColorSchemeControl), new PropertyMetadata(FontStyles.Normal));
-
-
-
         /// <summary>
-        /// 标签字号
+        /// 标签字重
         /// </summary>
-        public double LabelFontPoint
+        public FontWeight LabelFontWeight
         {
-            get { return (double)GetValue(LabelFontPointProperty); }
-            set { SetValue(LabelFontPointProperty, value); }
+            get { return (FontWeight)GetValue(LabelFontWeightProperty); }
+            set { SetValue(LabelFontWeightProperty, value); }
         }
 
         /// <summary>
@@ -1150,6 +1141,7 @@ namespace WubiMaster.Controls
             c.LabelFontFace = string.IsNullOrEmpty(styleModel.label_font_face) ? c.FontFace : new FontFamily(styleModel.label_font_face);
             c.CommentFontFace = string.IsNullOrEmpty(styleModel.comment_font_face) ? c.FontFace : new FontFamily(styleModel.comment_font_face);
             c.CommentTextColor = c.BrushConvter(schemeModel.comment_text_color, Colors.Gray.ToString(), "argb");
+
             #region 候选文本字体处理
 
             string[] font_info = new string[] { "微软雅黑", "", "" };
@@ -1215,6 +1207,7 @@ namespace WubiMaster.Controls
             #endregion 标签字体处理
 
             #region 注解字体处理
+
             string[] comment_font_info = new string[] { "微软雅黑", "", "" };
             var comment_font_strs = styleModel.comment_font_face.Split(":");
             for (int i = 0; i < comment_font_strs.Length; i++)
@@ -1242,7 +1235,8 @@ namespace WubiMaster.Controls
                 c.CommentFontStyle = FontStyles.Italic;
 
             c.CommentFontPoint = double.Parse(styleModel.comment_font_point);
-            #endregion
+
+            #endregion 注解字体处理
 
             // 边框/候选窗口
             c.BackColor = c.BrushConvter(schemeModel.back_color, colorFormat: color_format);

@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="AboutStr1">软件版本号</sys:String>
-    <sys:String x:Key="AboutStr2">0.1.51.20240718-alpha</sys:String>
+    <sys:String x:Key="AboutStr2">0.1.52.20240727-alpha</sys:String>
     <sys:String x:Key="AboutStr3">作者</sys:String>
     <sys:String x:Key="AboutStr4">空山明月</sys:String>
     <sys:String x:Key="AboutStr5">联系邮箱</sys:String>

@@ -88,7 +88,7 @@ namespace WubiMaster.Controls
             DependencyProperty.Register("ColorThemeDark", typeof(string), typeof(ColorSchemeControl));
 
         public static readonly DependencyProperty CommentFontFaceProperty =
-            DependencyProperty.Register("CommentFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("Microsoft YaHei")));
+            DependencyProperty.Register("CommentFontFace", typeof(FontFamily), typeof(ColorSchemeControl), new PropertyMetadata(new FontFamily("黑体字根")));
 
         public static readonly DependencyProperty CommentFontPointProperty =
             DependencyProperty.Register("CommentFontPoint", typeof(double), typeof(ColorSchemeControl), new PropertyMetadata(12.0));

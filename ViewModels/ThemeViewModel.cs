@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Windows;
 using System.Windows.Media;
 using WubiMaster.Common;
@@ -66,98 +65,9 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 设置或更改候选项label字型
+        /// 切换皮肤
         /// </summary>
         /// <param name="obj"></param>
-        [RelayCommand]
-        public void UpdateFont(object obj)
-        {
-            string type = obj.ToString();
-            string font_type = "";
-
-            switch (type)
-            {
-                case "text":
-                    if (ConfigModel.ThemeTextWeight == "加粗")
-                        font_type = ":bold";
-                    else if(ConfigModel.ThemeTextWeight == "倾斜")
-                        font_type = ":italic";
-                    else if (ConfigModel.ThemeTextWeight == "加粗 倾斜")
-                        font_type = ":bold:italic";
-                    else
-                        font_type = "";
-                    CurrentSkin.Style.font_face = ConfigModel.ThemeTextFont + font_type;
-                    break;
-                case "label":
-                    if (ConfigModel.ThemeLabelWeight == "加粗")
-                        font_type = ":bold";
-                    else if (ConfigModel.ThemeLabelWeight == "倾斜")
-                        font_type = ":italic";
-                    else if (ConfigModel.ThemeLabelWeight == "加粗 倾斜")
-                        font_type = ":bold:italic";
-                    else
-                        font_type = "";
-                    CurrentSkin.Style.label_font_face = ConfigModel.ThemeLabelFont + font_type;
-                    break;
-                case "comment":
-                    if (ConfigModel.ThemeCommentWeight == "加粗")
-                        font_type = ":bold";
-                    else if (ConfigModel.ThemeCommentWeight == "倾斜")
-                        font_type = ":italic";
-                    else if (ConfigModel.ThemeCommentWeight == "加粗 倾斜")
-                        font_type = ":bold:italic";
-                    else
-                        font_type = "";
-                    CurrentSkin.Style.comment_font_face = ConfigModel.ThemeCommentFont + font_type;
-                    break;
-                default:
-                    break;
-            }
-            ConfigModel.SaveConfig();
-            UpdateCurrentSkin(null);
-        }
-
-        [RelayCommand]
-        public void UpdateFontSize(object obj)
-        {
-            string type = obj.ToString();
-            double font_size = 14;
-            switch (type)
-            {
-                case "text":
-                    if (ConfigModel.ThemeTextSize == "小号")
-                        font_size = 12;
-                    else if (ConfigModel.ThemeTextSize == "中号")
-                        font_size = 15;
-                    else
-                        font_size = 18;
-                    CurrentSkin.Style.font_point = font_size.ToString();
-                    break;
-                case "label":
-                    if (ConfigModel.ThemeLabelSize == "小号")
-                        font_size = 12;
-                    else if (ConfigModel.ThemeLabelSize == "中号")
-                        font_size = 15;
-                    else
-                        font_size = 18;
-                    CurrentSkin.Style.label_font_point = font_size.ToString();
-                    break;
-                case "comment":
-                    if (ConfigModel.ThemeCommentSize == "小号")
-                        font_size = 12;
-                    else if (ConfigModel.ThemeCommentSize == "中号")
-                        font_size = 15;
-                    else
-                        font_size = 18;
-                    CurrentSkin.Style.comment_font_point = font_size.ToString();
-                    break;
-                default:
-                    break;
-            }
-            ConfigModel.SaveConfig();
-            UpdateCurrentSkin(null);
-        }
-
         [RelayCommand]
         public void ChangeSkin(object obj)
         {
@@ -187,6 +97,10 @@ namespace WubiMaster.ViewModels
                     SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
                 else
                     SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
+
+                // 从配置是加载字体信息
+                GetCadidateFont();
+                GetCadidateFontSize();
 
                 UpdateCurrentSkin(null);
             }
@@ -713,7 +627,10 @@ namespace WubiMaster.ViewModels
             UpdateCurrentSkin(null);
         }
 
-        // 更新当前显示的皮肤
+        /// <summary>
+        /// 更新当前皮肤信息
+        /// </summary>
+        /// <param name="obj"></param>
         public void UpdateCurrentSkin(object obj)
         {
             // 将config中的配置更新到当前皮肤中
@@ -726,6 +643,31 @@ namespace WubiMaster.ViewModels
             ConfigModel.SaveConfig();
 
             SetColor();
+        }
+
+        /// <summary>
+        /// 设置或更改候选项字型
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void UpdateFont(object obj)
+        {
+            GetCadidateFont();
+            ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
+        }
+
+        /// <summary>
+        /// 设置或更改候选项字号
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void UpdateFontSize(object obj)
+        {
+            GetCadidateFontSize();
+
+            ConfigModel.SaveConfig();
+            UpdateCurrentSkin(null);
         }
 
         /// <summary>
@@ -875,6 +817,74 @@ namespace WubiMaster.ViewModels
                 LogHelper.Error(ex.ToString());
                 return Colors.Black;
             }
+        }
+
+        // 从配置获取字体信息
+        private void GetCadidateFont()
+        {
+            string font_type = "";
+            if (ConfigModel.ThemeTextWeight == "加粗")
+                font_type = ":bold";
+            else if (ConfigModel.ThemeTextWeight == "倾斜")
+                font_type = ":italic";
+            else if (ConfigModel.ThemeTextWeight == "加粗 倾斜")
+                font_type = ":bold:italic";
+            else
+                font_type = "";
+            CurrentSkin.Style.font_face = ConfigModel.ThemeTextFont + font_type;
+
+            string label_type = "";
+            if (ConfigModel.ThemeLabelWeight == "加粗")
+                label_type = ":bold";
+            else if (ConfigModel.ThemeLabelWeight == "倾斜")
+                label_type = ":italic";
+            else if (ConfigModel.ThemeLabelWeight == "加粗 倾斜")
+                label_type = ":bold:italic";
+            else
+                label_type = "";
+            CurrentSkin.Style.label_font_face = ConfigModel.ThemeLabelFont + label_type;
+
+            string comment_type = "";
+            if (ConfigModel.ThemeCommentWeight == "加粗")
+                comment_type = ":bold";
+            else if (ConfigModel.ThemeCommentWeight == "倾斜")
+                comment_type = ":italic";
+            else if (ConfigModel.ThemeCommentWeight == "加粗 倾斜")
+                comment_type = ":bold:italic";
+            else
+                comment_type = "";
+            CurrentSkin.Style.comment_font_face = ConfigModel.ThemeCommentFont + comment_type;
+        }
+
+        // 从配置里获取字号信息
+        private void GetCadidateFontSize()
+        {
+            double font_size = 14;
+            if (ConfigModel.ThemeTextSize == "小号")
+                font_size = 12;
+            else if (ConfigModel.ThemeTextSize == "中号")
+                font_size = 15;
+            else
+                font_size = 18;
+            CurrentSkin.Style.font_point = font_size.ToString();
+
+            double label_size = 14;
+            if (ConfigModel.ThemeLabelSize == "小号")
+                label_size = 12;
+            else if (ConfigModel.ThemeLabelSize == "中号")
+                label_size = 15;
+            else
+                label_size = 18;
+            CurrentSkin.Style.label_font_point = label_size.ToString();
+
+            double comment_size = 14;
+            if (ConfigModel.ThemeCommentSize == "小号")
+                comment_size = 12;
+            else if (ConfigModel.ThemeCommentSize == "中号")
+                comment_size = 15;
+            else
+                comment_size = 18;
+            CurrentSkin.Style.comment_font_point = comment_size.ToString();
         }
 
         private void LoadColorShemes()

@@ -160,7 +160,6 @@
         <!--编码内嵌时的样式-->
         <Style x:Key="hilited_text_style" TargetType="TextBlock">
             <Setter Property="FontSize" Value="18" />
-            <Setter Property="FontFamily" Value="{Binding ElementName=color_scheme_control, Path=FontFace}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0" />
@@ -544,7 +543,7 @@
             <!--文本垂直模式-->
             <TabItem IsEnabled="False" IsSelected="{Binding ElementName=color_scheme_control, Path=TextVertical, Mode=OneWay}">
                 <Viewbox MaxHeight="170">
-                    <Grid Width="Auto" HorizontalAlignment="Center">
+                    <Grid MinWidth="140" HorizontalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
@@ -553,7 +552,7 @@
                         <!--编码内嵌-->
                         <Grid Visibility="{Binding ElementName=color_scheme_control, Path=InlinePreedit, Converter={StaticResource Bool2Visibility}}">
                             <TextBlock HorizontalAlignment="Left"
-                                       FontSize="12"
+                                       FontSize="15"
                                        Style="{StaticResource hilited_text_style}"
                                        Text="ksvt" />
                         </Grid>
@@ -593,6 +592,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Border Grid.RowSpan="4"
+                                                Width="Auto"
                                                 Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerTV}"
                                                 Style="{StaticResource v_hilited_candidate_border_style}">

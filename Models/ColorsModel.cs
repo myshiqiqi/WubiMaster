@@ -13,6 +13,13 @@ namespace WubiMaster.Models
         public ColorStyle style { get; set; }
         public Dictionary<string, ColorScheme> preset_color_schemes { get; set; }
         //public Dictionary<string, ColorTheme> color_themes { get; set; }
+
+        public ColorsModel()
+        {
+            description = new Description();
+            style = new ColorStyle();
+            preset_color_schemes = new Dictionary<string, ColorScheme>();
+        }
     }
 
     public class Description

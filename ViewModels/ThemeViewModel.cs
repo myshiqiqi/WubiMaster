@@ -1,14 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using log4net.DateFormatter;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -190,6 +188,61 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
+        /// 新建皮肤
+        /// </summary>
+        [RelayCommand]
+        public void CreateNewSkin(object obj)
+        {
+            try
+            {
+                var new_skin_count = ColorsList.Where(c => c.description.color_name.Contains("New-")).Count() + 1;
+                var new_skin_name = "New-" + new_skin_count;
+
+                ColorSchemeModel csModel = new ColorSchemeModel();
+                csModel.Style = default_color.style;
+                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
+                CurrentSkin = csModel;
+
+                SaveCurrentSkin(new_skin_name);
+                SaveWeaselCustom();
+                LoadColorShemes();
+                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(new_skin_name);
+                UpdateSkinCandidate(null);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("创新新皮肤失败，详情请查看日志");
+                LogHelper.Error(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 将当前皮肤只在到color目录下
+        /// </summary>
+        /// <param name="skinName">名称</param>
+        private void SaveCurrentSkin(string skinName = "")
+        {
+            skinName = string.IsNullOrEmpty(skinName) ? CurrentSkin.Style.color_scheme : skinName;
+
+            CurrentSkin.Style.color_scheme = skinName;
+            CurrentSkin.Style.color_scheme_dark = "";
+            CurrentSkin.UsedColor.author = "中书君";
+            CurrentSkin.UsedColor.name = skinName;
+
+            ColorsModel new_skin_model = new ColorsModel();
+            new_skin_model.description.color_name = skinName;
+            new_skin_model.description.display_name = skinName;
+            new_skin_model.description.create_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            new_skin_model.description.update_time = new_skin_model.description.create_time;
+
+            new_skin_model.style = CurrentSkin.Style;
+            new_skin_model.preset_color_schemes.Add(skinName, CurrentSkin.UsedColor);
+
+            var save_path = GlobalValues.UserPath + $"\\colors\\{skinName}.yaml";
+            YamlHelper.WriteYaml(new_skin_model, save_path);
+        }
+
+        /// <summary>
         /// 删除主题
         /// </summary>
         [RelayCommand]
@@ -228,6 +281,35 @@ namespace WubiMaster.ViewModels
             {
                 LogHelper.Error(ex.ToString());
                 this.ShowMessage("主题删除失败！", DialogType.Fail);
+            }
+        }
+
+        /// <summary>
+        /// 导出皮肤
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void ExportSkin(object obj)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Title = "导出";
+                sfd.FileName = "weasel.custom.yaml";
+                sfd.DefaultExt = ".yaml";
+                sfd.Filter = "Text documents|*.yaml";
+                sfd.InitialDirectory = "";
+
+                if (sfd.ShowDialog() == true)
+                {
+                    var targetPath = sfd.FileName;
+                    SaveWeaselCustom(targetPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("保存失败，详细信息请查看日志");
+                LogHelper.Error(ex.ToString());
             }
         }
 
@@ -762,46 +844,6 @@ namespace WubiMaster.ViewModels
             ConfigHelper.WriteConfigByBool("vertical_text", ColorTemplate.TextVertical);
             ConfigHelper.WriteConfigByBool("horizontal", ColorTemplate.Horizontal);
             ConfigHelper.WriteConfigByBool("is_banyue_mode", ColorTemplate.IsBanyueMode);
-        }
-
-        /// <summary>
-        /// 创建新皮肤
-        /// </summary>
-        [RelayCommand]
-        public void CreateNewSkin(object obj)
-        {
-
-        }
-
-        /// <summary>
-        /// 导出皮肤
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void ExportSkin(object obj)
-        {
-            try
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "导出";
-                sfd.FileName = "weasel.custom.yaml";
-                sfd.DefaultExt = ".yaml";
-                sfd.Filter = "Text documents|*.yaml";
-                sfd.InitialDirectory = "";
-
-                if (sfd.ShowDialog() == true)
-                {
-                    var targetPath = sfd.FileName;
-                    SaveWeaselCustom(targetPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage("保存失败，详细信息请查看日志");
-                LogHelper.Error(ex.ToString());
-            }
-
-
         }
 
         [RelayCommand]

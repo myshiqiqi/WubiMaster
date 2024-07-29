@@ -195,13 +195,14 @@ namespace WubiMaster.ViewModels
         {
             try
             {
-                var new_skin_count = ColorsList.Where(c => c.description.color_name.Contains("New-")).Count() + 1;
-                var new_skin_name = "New-" + new_skin_count;
+                var new_skin_count = ColorsList.Where(c => c.description.color_name.Contains("Skin-")).Count() + 1;
+                var new_skin_name = "Skin-" + new_skin_count;
 
                 ColorSchemeModel csModel = new ColorSchemeModel();
                 csModel.Style = default_color.style;
                 csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
                 CurrentSkin = csModel;
+                CurrentSkin.Style.color_scheme = new_skin_name;
 
                 SaveCurrentSkin(new_skin_name);
                 SaveWeaselCustom();
@@ -211,35 +212,40 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
-                this.ShowMessage("创新新皮肤失败，详情请查看日志");
+                this.ShowMessage("创建新皮肤失败，详情请查看日志", DialogType.Error);
                 LogHelper.Error(ex.ToString());
             }
         }
 
         /// <summary>
-        /// 将当前皮肤只在到color目录下
+        /// 皮肤重命名
         /// </summary>
-        /// <param name="skinName">名称</param>
-        private void SaveCurrentSkin(string skinName = "")
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void SkinRename(object obj)
         {
-            skinName = string.IsNullOrEmpty(skinName) ? CurrentSkin.Style.color_scheme : skinName;
+            try
+            {
+                if (obj == null) return;
+                var new_skin_name = obj.ToString();
+                if(new_skin_name.Length <= 0)
+                {
+                    this.ShowMessage("请指定一个有效的名称！",DialogType.Warring);
+                    return;
+                }
 
-            CurrentSkin.Style.color_scheme = skinName;
-            CurrentSkin.Style.color_scheme_dark = "";
-            CurrentSkin.UsedColor.author = "中书君";
-            CurrentSkin.UsedColor.name = skinName;
-
-            ColorsModel new_skin_model = new ColorsModel();
-            new_skin_model.description.color_name = skinName;
-            new_skin_model.description.display_name = skinName;
-            new_skin_model.description.create_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            new_skin_model.description.update_time = new_skin_model.description.create_time;
-
-            new_skin_model.style = CurrentSkin.Style;
-            new_skin_model.preset_color_schemes.Add(skinName, CurrentSkin.UsedColor);
-
-            var save_path = GlobalValues.UserPath + $"\\colors\\{skinName}.yaml";
-            YamlHelper.WriteYaml(new_skin_model, save_path);
+                SaveCurrentSkin(new_skin_name);
+                SaveWeaselCustom();
+                LoadColorShemes();
+                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+                UpdateSkinCandidate(null);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("重命名失败，详情请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
+          
         }
 
         /// <summary>
@@ -308,7 +314,7 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
-                this.ShowMessage("保存失败，详细信息请查看日志");
+                this.ShowMessage("保存失败，详细信息请查看日志",DialogType.Error);
                 LogHelper.Error(ex.ToString());
             }
         }
@@ -1128,6 +1134,31 @@ namespace WubiMaster.ViewModels
             ColorTemplate.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
             ColorTemplate.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
             ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
+        }
+
+        /// <summary>
+        /// 将当前皮肤只在到color目录下
+        /// </summary>
+        /// <param name="skinName">名称</param>
+        private void SaveCurrentSkin(string skinName = "")
+        {
+            skinName = string.IsNullOrEmpty(skinName) ? CurrentSkin.Style.color_scheme : skinName;
+
+            CurrentSkin.Style.color_scheme_dark = "";
+            CurrentSkin.UsedColor.author = "中书君";
+            CurrentSkin.UsedColor.name = skinName;
+
+            ColorsModel new_skin_model = new ColorsModel();
+            new_skin_model.description.color_name = CurrentSkin.Style.color_scheme;
+            new_skin_model.description.display_name = skinName;
+            new_skin_model.description.create_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            new_skin_model.description.update_time = new_skin_model.description.create_time;
+
+            new_skin_model.style = CurrentSkin.Style;
+            new_skin_model.preset_color_schemes.Add(CurrentSkin.Style.color_scheme, CurrentSkin.UsedColor);
+
+            var save_path = GlobalValues.UserPath + $"\\colors\\{CurrentSkin.Style.color_scheme}.yaml";
+            YamlHelper.WriteYaml(new_skin_model, save_path);
         }
 
         /// <summary>

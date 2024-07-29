@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using log4net.DateFormatter;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using WubiMaster.Common;
 using WubiMaster.Models;
@@ -458,6 +461,9 @@ namespace WubiMaster.ViewModels
             });
         }
 
+        /// <summary>
+        /// 将当前皮肤样式保存到weasel.custom.yaml中
+        /// </summary>
         [RelayCommand]
         public void SetColor()
         {
@@ -727,6 +733,10 @@ namespace WubiMaster.ViewModels
             UpdateCurrentSkin(null);
         }
 
+        /// <summary>
+        /// 更新模板
+        /// </summary>
+        /// <param name="obj"></param>
         [RelayCommand]
         public void UpdateTemplate(object obj)
         {
@@ -752,6 +762,46 @@ namespace WubiMaster.ViewModels
             ConfigHelper.WriteConfigByBool("vertical_text", ColorTemplate.TextVertical);
             ConfigHelper.WriteConfigByBool("horizontal", ColorTemplate.Horizontal);
             ConfigHelper.WriteConfigByBool("is_banyue_mode", ColorTemplate.IsBanyueMode);
+        }
+
+        /// <summary>
+        /// 创建新皮肤
+        /// </summary>
+        [RelayCommand]
+        public void CreateNewSkin(object obj)
+        {
+
+        }
+
+        /// <summary>
+        /// 导出皮肤
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void ExportSkin(object obj)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Title = "导出";
+                sfd.FileName = "weasel.custom.yaml";
+                sfd.DefaultExt = ".yaml";
+                sfd.Filter = "Text documents|*.yaml";
+                sfd.InitialDirectory = "";
+
+                if (sfd.ShowDialog() == true)
+                {
+                    var targetPath = sfd.FileName;
+                    SaveWeaselCustom(targetPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("保存失败，详细信息请查看日志");
+                LogHelper.Error(ex.ToString());
+            }
+
+
         }
 
         [RelayCommand]
@@ -1038,10 +1088,14 @@ namespace WubiMaster.ViewModels
             ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
         }
 
-        private void SaveWeaselCustom()
+        /// <summary>
+        /// 向 weasel.custom.yaml 写入数据
+        /// </summary>
+        private void SaveWeaselCustom(string targetPath = "")
         {
             try
             {
+                targetPath = string.IsNullOrEmpty(targetPath) ? weaselCustomPath : targetPath;
                 WeaselCustomDetails = new WeaselCustomModel();
                 WeaselCustomDetails.patch = new CustomPatch();
                 WeaselCustomDetails.patch.preset_color_schemes = new Dictionary<string, ColorScheme>();
@@ -1049,7 +1103,7 @@ namespace WubiMaster.ViewModels
                 string name = ColorsList[ColorIndex].description.color_name;
                 WeaselCustomDetails.patch.preset_color_schemes.Add(name, CurrentSkin.UsedColor);
 
-                YamlHelper.WriteYaml(WeaselCustomDetails, weaselCustomPath);
+                YamlHelper.WriteYaml(WeaselCustomDetails, targetPath);
             }
             catch (Exception ex)
             {

@@ -92,10 +92,12 @@
 
                             <Button Width="60"
                                     Margin="0,0,10,0"
+                                    Command="{Binding ExportSkinCommand}"
                                     Content="导出" />
 
                             <Button Width="60"
                                     Margin="0,0,10,0"
+                                    Command="{Binding CreateNewSkinCommand}"
                                     Content="新建" />
 
                             <Button Width="60"

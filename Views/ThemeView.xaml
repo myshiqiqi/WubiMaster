@@ -102,12 +102,13 @@
 
                             <Button Width="60"
                                     Margin="0,0,10,0"
-                                    Command="{Binding DeleteColorCommand}"
+                                    Command="{Binding DeleteSkinCommand}"
                                     Content="{StaticResource ThemeStr6}" />
 
                             <Button Width="60"
+                                    Click="Button_Click"
                                     Command="{Binding SaveSkinCommand}"
-                                    Content="保存" Click="Button_Click" />
+                                    Content="保存" />
                         </StackPanel>
 
                         <Separator Grid.Row="1"

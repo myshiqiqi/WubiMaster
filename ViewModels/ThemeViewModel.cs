@@ -218,10 +218,10 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 删除主题
+        /// 删除皮肤
         /// </summary>
         [RelayCommand]
-        public void DeleteColor()
+        public void DeleteSkin()
         {
             try
             {
@@ -248,9 +248,12 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
+                this.ShowMessage("主题删除成功！", DialogType.Success);
+
+                // 删除完成后, 默认选中第一个皮肤外观
                 LoadColorShemes();
                 ColorIndex = 0;
-                this.ShowMessage("主题删除成功！", DialogType.Success);
+                SaveWeaselCustom();
             }
             catch (Exception ex)
             {

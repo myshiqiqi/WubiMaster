@@ -29,10 +29,6 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private bool themeUseShade;
 
-        // 是否启用随机配色
-        [ObservableProperty]
-        private bool theme_RandomColor;
-
         // 是否启用跟随主题
         [ObservableProperty]
         private bool theme_FollowTheme;

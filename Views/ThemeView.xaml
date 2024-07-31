@@ -105,7 +105,9 @@
                                     Command="{Binding DeleteColorCommand}"
                                     Content="{StaticResource ThemeStr6}" />
 
-                            <Button Width="60" Content="保存" />
+                            <Button Width="60"
+                                    Command="{Binding SaveSkinCommand}"
+                                    Content="保存" Click="Button_Click" />
                         </StackPanel>
 
                         <Separator Grid.Row="1"

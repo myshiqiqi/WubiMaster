@@ -206,8 +206,8 @@ namespace WubiMaster.ViewModels
 
                 SaveCurrentSkin(new_skin_name);
                 SaveWeaselCustom();
-                LoadColorShemes();
-                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(new_skin_name);
+                ReLoadColorShemes();
+
                 UpdateSkinCandidate(null);
             }
             catch (Exception ex)
@@ -215,37 +215,6 @@ namespace WubiMaster.ViewModels
                 this.ShowMessage("创建新皮肤失败，详情请查看日志", DialogType.Error);
                 LogHelper.Error(ex.ToString());
             }
-        }
-
-        /// <summary>
-        /// 皮肤重命名
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void SkinRename(object obj)
-        {
-            try
-            {
-                if (obj == null) return;
-                var new_skin_name = obj.ToString();
-                if(new_skin_name.Length <= 0)
-                {
-                    this.ShowMessage("请指定一个有效的名称！",DialogType.Warring);
-                    return;
-                }
-
-                SaveCurrentSkin(new_skin_name);
-                SaveWeaselCustom();
-                LoadColorShemes();
-                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
-                UpdateSkinCandidate(null);
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage("重命名失败，详情请查看日志", DialogType.Error);
-                LogHelper.Error(ex.ToString());
-            }
-          
         }
 
         /// <summary>
@@ -314,7 +283,7 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
-                this.ShowMessage("保存失败，详细信息请查看日志",DialogType.Error);
+                this.ShowMessage("保存失败，详细信息请查看日志", DialogType.Error);
                 LogHelper.Error(ex.ToString());
             }
         }
@@ -550,6 +519,27 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
+        /// 保存皮肤到 colors 目录下
+        /// </summary>
+        [RelayCommand]
+        public void SaveSkin(object obj)
+        {
+            try
+            {
+                var skin_name = CurrentSkin.UsedColor.name;
+                SaveCurrentSkin(skin_name);
+                ReLoadColorShemes();
+
+                this.ShowMessage($"皮肤【{skin_name}】保存成功", DialogType.Success);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("保存失败，详情请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
+        }
+
+        /// <summary>
         /// 将当前皮肤样式保存到weasel.custom.yaml中
         /// </summary>
         [RelayCommand]
@@ -719,6 +709,44 @@ namespace WubiMaster.ViewModels
                     break;
             }
             UpdateCurrentSkin(null);
+        }
+
+        /// <summary>
+        /// 皮肤重命名
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void SkinRename(object obj)
+        {
+            try
+            {
+                if (obj == null) return;
+                var new_skin_name = obj.ToString();
+                if (new_skin_name.Length <= 0)
+                {
+                    this.ShowMessage("请指定一个有效的名称！", DialogType.Warring);
+                    return;
+                }
+                var all_names = ColorsList.Select(c => c.description.display_name).ToList();
+                if (all_names.Contains(new_skin_name))
+                {
+                    this.ShowMessage("皮肤名称不可重复！", DialogType.Warring);
+                    return;
+                }
+
+                SaveCurrentSkin(new_skin_name);
+                SaveWeaselCustom();
+                ReLoadColorShemes();
+
+                UpdateSkinCandidate(null);
+
+                this.ShowMessage("重命名成功",DialogType.Success);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("重命名失败，详情请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -985,6 +1013,14 @@ namespace WubiMaster.ViewModels
             CurrentSkin.Style.comment_font_point = comment_size.ToString();
         }
 
+        // 重新加载皮肤集
+        private void ReLoadColorShemes()
+        {
+            LoadColorShemes();
+            ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+        }
+
+        // 从 colors 文件夹下加载皮肤集
         private void LoadColorShemes()
         {
             if (!Directory.Exists(GlobalValues.UserPath + "\\colors"))

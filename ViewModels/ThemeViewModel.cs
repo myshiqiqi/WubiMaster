@@ -431,6 +431,7 @@ namespace WubiMaster.ViewModels
                         label_color = (SolidColorBrush)theme_resource["bg-200"];
                         candidate_text_color = (SolidColorBrush)theme_resource["bg-200"];
                         comment_text_color = (SolidColorBrush)theme_resource["bg-200"];
+                        candidate_back_color = back_color;
                     }
                     else if (hilited_candidate_index == 3)
                     {
@@ -468,20 +469,6 @@ namespace WubiMaster.ViewModels
                     CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(candidate_back_color.ToString());
 
                     UpdateCurrentSkin(null);
-
-
-                    // 如果包含 custom 文件，先将其删除掉
-                    if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
-                    {
-                        File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
-                    }
-
-                    // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-                    SaveWeaselCustom();
-
-                    string colorScheme = ColorsList[ColorIndex].description.color_name;
-                    ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-                    //ServiceHelper.Deployer();
                 }
                 catch (Exception ex)
                 {
@@ -518,12 +505,6 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void SetColor()
         {
-            // 如果包含 custom 文件，先将其删除掉
-            if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
-            {
-                File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
-            }
-
             // 将 colors 文件下的主题数据写入到 custom 外观文件中去
             SaveWeaselCustom();
 
@@ -1178,6 +1159,9 @@ namespace WubiMaster.ViewModels
             try
             {
                 targetPath = string.IsNullOrEmpty(targetPath) ? weaselCustomPath : targetPath;
+                if (File.Exists(targetPath))
+                    File.Delete(targetPath);
+
                 WeaselCustomDetails = new WeaselCustomModel();
                 WeaselCustomDetails.patch = new CustomPatch();
                 WeaselCustomDetails.patch.preset_color_schemes = new Dictionary<string, ColorScheme>();

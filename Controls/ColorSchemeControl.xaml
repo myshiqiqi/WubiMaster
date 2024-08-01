@@ -224,7 +224,7 @@
             <Setter Property="Width" Value="Auto" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Margin" Value="0" />
+            <Setter Property="Margin" Value="0,1" />
             <Setter Property="Padding" Value="3,0" />
         </Style>
 
@@ -360,6 +360,8 @@
 
                                     <Border Grid.Row="1"
                                             Grid.ColumnSpan="4"
+                                            Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=CenterBorderCorner}"
                                             Style="{StaticResource hilited_candidate_border_style}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -386,6 +388,8 @@
 
                                     <Border Grid.Row="2"
                                             Grid.ColumnSpan="4"
+                                            Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=LastBorderCornerV}"
                                             Style="{StaticResource hilited_candidate_border_style}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -453,7 +457,8 @@
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
                                     <!--首选项-->
-                                    <Border Padding="0"
+                                    <Border Margin="1"
+                                            Padding="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             BorderThickness="0"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}"
@@ -492,9 +497,9 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Margin="4,0"
+                                    <Border Margin="1"
                                             Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=CenterBorderCorner}"
                                             Style="{StaticResource hilited_candidate_border_style}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -521,9 +526,9 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Margin="4,0"
+                                    <Border Margin="1"
                                             Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}">
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=LastBorderCornerH}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
@@ -647,7 +652,11 @@
                                             </Grid>
                                         </Border>
 
-                                        <Border Grid.Column="1" Style="{StaticResource v_hilited_candidate_border_style}">
+                                        <Border Grid.Column="1"
+                                                Width="Auto"
+                                                Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
+                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=CenterBorderCorner}"
+                                                Style="{StaticResource v_hilited_candidate_border_style}">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
@@ -683,7 +692,11 @@
                                             </Grid>
                                         </Border>
 
-                                        <Border Grid.Column="2" Style="{StaticResource v_hilited_candidate_border_style}">
+                                        <Border Grid.Column="2"
+                                                Width="Auto"
+                                                Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
+                                                CornerRadius="{Binding ElementName=color_scheme_control, Path=LastBorderCornerTV}"
+                                                Style="{StaticResource v_hilited_candidate_border_style}">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />

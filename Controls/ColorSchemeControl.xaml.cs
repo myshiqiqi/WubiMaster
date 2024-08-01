@@ -670,6 +670,60 @@ namespace WubiMaster.Controls
             set { SetValue(HiliteBorderCornerHProperty, value); }
         }
 
+
+        /// <summary>
+        /// 横排显示中间项的圆角度
+        /// </summary>
+        public CornerRadius CenterBorderCorner
+        {
+            get { return (CornerRadius)GetValue(CenterBorderCornerProperty); }
+            set { SetValue(CenterBorderCornerProperty, value); }
+        }
+
+        public static readonly DependencyProperty CenterBorderCornerProperty =
+            DependencyProperty.Register("CenterBorderCorner", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+        /// <summary>
+        /// 横向皮肤最后选项的圆角度
+        /// </summary>
+        public CornerRadius LastBorderCornerH
+        {
+            get { return (CornerRadius)GetValue(LastBorderCornerHProperty); }
+            set { SetValue(LastBorderCornerHProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastBorderCornerHProperty =
+            DependencyProperty.Register("LastBorderCornerH", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+        /// <summary>
+        /// 文本纵向皮肤最后选项的圆角度
+        /// </summary>
+        public CornerRadius LastBorderCornerTV
+        {
+            get { return (CornerRadius)GetValue(LastBorderCornerTVProperty); }
+            set { SetValue(LastBorderCornerTVProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastBorderCornerTVProperty =
+            DependencyProperty.Register("LastBorderCornerTV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+        /// <summary>
+        /// 垂直皮肤最后选项的圆角度
+        /// </summary>
+        public CornerRadius LastBorderCornerV
+        {
+            get { return (CornerRadius)GetValue(LastBorderCornerVProperty); }
+            set { SetValue(LastBorderCornerVProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastBorderCornerVProperty =
+            DependencyProperty.Register("LastBorderCornerV", typeof(CornerRadius), typeof(ColorSchemeControl), new PropertyMetadata(new CornerRadius(0)));
+
+
+
         /// <summary>
         /// 高亮背景圆角值-文本纵向布局
         /// </summary>
@@ -1298,27 +1352,37 @@ namespace WubiMaster.Controls
                 c.Vertical = !c.Horizontal;
             }
 
-            // # 判断是不是天圆地方（半月）模式
+            #region 天圆地方模式处理
+            //CenterBorderCorner
             /**「天圓地方」佈局：由 margin 與 hilite_padding 確定, 當margin <= hilite_padding時生效**/
             if (c.InlinePreedit)
             {
                 // 当编码在行内时
-
                 if (double.Parse(styleModel.layout.margin_x) <= double.Parse(styleModel.layout.hilite_padding))
                 {
+                    // # 天圆地方模式
                     c.IsBanYueMode = true;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
                     c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
+                    c.LastBorderCornerV = new CornerRadius(0, 0, c.RoundCorner, c.RoundCorner);
+                    c.LastBorderCornerH = new CornerRadius(0, c.RoundCorner, c.RoundCorner, 0);
+                    c.LastBorderCornerTV = new CornerRadius(0, c.RoundCorner, c.RoundCorner, 0);
+                    c.CenterBorderCorner = new CornerRadius(0);
                     c.HiliteBorderMargin = new Thickness(-2);
                     c.BorderPadding = new Thickness(0);
                 }
                 else
                 {
+                    // # 非天圆地方模式
                     c.IsBanYueMode = false;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerTV = new CornerRadius(c.RoundCorner);
+                    c.CenterBorderCorner = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(0);
                     c.BorderPadding = new Thickness(3);
                 }
@@ -1332,6 +1396,10 @@ namespace WubiMaster.Controls
                     c.HiliteBorderCornerTV = new CornerRadius(0);
                     c.HiliteBorderCornerV = new CornerRadius(0);
                     c.HiliteBorderCornerH = new CornerRadius(0, 0, 0, c.RoundCorner);
+                    c.LastBorderCornerV = new CornerRadius(0, 0, c.RoundCorner, c.RoundCorner);
+                    c.LastBorderCornerH = new CornerRadius(0, c.RoundCorner, c.RoundCorner, 0);
+                    c.LastBorderCornerTV = new CornerRadius(0, c.RoundCorner, c.RoundCorner, 0);
+                    c.CenterBorderCorner = new CornerRadius(0);
                     c.HiliteBorderMargin = new Thickness(-2);
                     c.CandidateBorderMargin = new Thickness(-2, -2, 0, 2);
                     c.CandidateBorderCorner = new CornerRadius(c.RoundCorner, 0, 0, 0);
@@ -1343,13 +1411,19 @@ namespace WubiMaster.Controls
                     c.IsBanYueMode = false;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerH = new CornerRadius(c.RoundCorner);
+                    c.LastBorderCornerTV = new CornerRadius(c.RoundCorner);
+                    c.CenterBorderCorner = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(0);
                     c.CandidateBorderMargin = new Thickness(0, 0, 0, 2);  // 编码区的外边距
                     c.CandidateBorderCorner = new CornerRadius(c.RoundCorner);  // 编码区的圆角值
                     c.BorderPadding = new Thickness(3);
                 }
             }
+            #endregion
+
 
             /**处理阴影**/
             // 判断是否要启用阴影效果

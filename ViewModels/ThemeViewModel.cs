@@ -63,228 +63,6 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 切换皮肤
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void ChangeSkin(object obj)
-        {
-            if (obj == null) return;
-
-            try
-            {
-                var cModel = ColorsList.First(c => c.description.color_name == obj.ToString());
-                if (cModel == null) throw new NullReferenceException($"找不到皮肤对象: {obj.ToString()}");
-
-                ColorIndex = ColorsList.IndexOf(cModel);
-                // 利用反射创建对象的副本
-                // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
-                ColorSchemeModel _colorModel = new ColorSchemeModel();
-                _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
-                _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().ConfigValue;
-                // 加载其它项，如序号标签之类
-                _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                //_colorModel.OtherProperty.MarkText = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
-                _colorModel.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
-                //if (!ConfigModel.ThemeUseShade)
-                //    _colorModel.Style.layout.shadow_radius = "0";
-                CurrentSkin = _colorModel;
-
-                if (ConfigModel.IsTemplateAll)
-                    SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
-                else
-                    SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
-
-                // 从配置是加载字体信息
-                GetCadidateFont();
-                GetCadidateFontSize();
-
-                UpdateCurrentSkin(null);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("选中的样式在外观文件中不存在！", DialogType.Error);
-            }
-        }
-
-        /// <summary>
-        /// 皮肤跟随主题
-        /// </summary>
-        [RelayCommand]
-        public void ColorFromTheme()
-        {
-            App.Current.Dispatcher.BeginInvoke(() =>
-            {
-                try
-                {
-                    LoadCurrentSkin();
-
-                    if (ConfigModel.Theme_FollowTheme)
-                    {
-                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
-
-                        SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                        SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                        SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
-                        SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                        SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
-                        SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
-                        SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
-                        SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
-                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
-                        SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
-                        SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
-                        SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
-
-                        //CurrentSkin.UsedColor.color_format = "argb";
-                        CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
-                        CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(comment_text_color.ToString());
-                        CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(label_color.ToString());
-                        CurrentSkin.UsedColor.back_color = ColorConverterHelper.ConverterToRime(back_color.ToString());
-                        CurrentSkin.UsedColor.shadow_color = ColorConverterHelper.ConverterToRime(shadow_color.ToString());
-                        CurrentSkin.UsedColor.border_color = ColorConverterHelper.ConverterToRime(border_color.ToString());
-                        CurrentSkin.UsedColor.hilited_text_color = ColorConverterHelper.ConverterToRime(hilited_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_back_color = ColorConverterHelper.ConverterToRime(hilited_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorConverterHelper.ConverterToRime(hilited_candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(hilited_candidate_back_color.ToString());
-                        CurrentSkin.UsedColor.hilited_label_color = ColorConverterHelper.ConverterToRime(hilited_label_color.ToString());
-                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorConverterHelper.ConverterToRime(hilited_comment_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_text_color = ColorConverterHelper.ConverterToRime(candidate_text_color.ToString());
-                        CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(candidate_back_color.ToString());
-
-                        UpdateCurrentSkin(null);
-                    }
-
-                    // 如果包含 custom 文件，先将其删除掉
-                    if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
-                    {
-                        File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
-                    }
-
-                    // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-                    SaveWeaselCustom();
-
-                    string colorScheme = ColorsList[ColorIndex].description.color_name;
-                    ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-                    ServiceHelper.Deployer();
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex.ToString());
-                    this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 新建皮肤
-        /// </summary>
-        [RelayCommand]
-        public void CreateNewSkin(object obj)
-        {
-            try
-            {
-                var new_skin_count = ColorsList.Where(c => c.description.color_name.Contains("Skin-")).Count() + 1;
-                var new_skin_name = "Skin-" + new_skin_count;
-
-                ColorSchemeModel csModel = new ColorSchemeModel();
-                csModel.Style = default_color.style;
-                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
-                CurrentSkin = csModel;
-                CurrentSkin.Style.color_scheme = new_skin_name;
-
-                SaveCurrentSkin(new_skin_name);
-                SaveWeaselCustom();
-                ReLoadColorShemes();
-
-                UpdateSkinCandidate(null);
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage("创建新皮肤失败，详情请查看日志", DialogType.Error);
-                LogHelper.Error(ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 删除皮肤
-        /// </summary>
-        [RelayCommand]
-        public void DeleteSkin()
-        {
-            try
-            {
-                var ask = this.ShowAskMessage("被删除的主题无法恢复，确定要执行删除操作吗？");
-                if (!((bool)ask))
-                {
-                    return;
-                }
-
-                string color_name = CurrentSkin.Style.color_scheme;
-                ColorSchemeModel csModel = new ColorSchemeModel();
-                csModel.Style = default_color.style;
-                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
-                CurrentSkin = csModel;
-
-                string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
-                if (File.Exists(yaml_name))
-                {
-                    File.Delete(yaml_name);
-                }
-                else
-                {
-                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
-                    return;
-                }
-
-                this.ShowMessage("主题删除成功！", DialogType.Success);
-
-                // 删除完成后, 默认选中第一个皮肤外观
-                LoadColorShemes();
-                ColorIndex = 0;
-                SaveWeaselCustom();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                this.ShowMessage("主题删除失败！", DialogType.Fail);
-            }
-        }
-
-        /// <summary>
-        /// 导出皮肤
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void ExportSkin(object obj)
-        {
-            try
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "导出";
-                sfd.FileName = "weasel.custom.yaml";
-                sfd.DefaultExt = ".yaml";
-                sfd.Filter = "Text documents|*.yaml";
-                sfd.InitialDirectory = "";
-
-                if (sfd.ShowDialog() == true)
-                {
-                    var targetPath = sfd.FileName;
-                    SaveWeaselCustom(targetPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage("保存失败，详细信息请查看日志", DialogType.Error);
-                LogHelper.Error(ex.ToString());
-            }
-        }
-
-        /// <summary>
         /// AI 配色
         /// </summary>
         [RelayCommand]
@@ -489,6 +267,228 @@ namespace WubiMaster.ViewModels
                     this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
                 }
             });
+        }
+
+        /// <summary>
+        /// 切换皮肤
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void ChangeSkin(object obj)
+        {
+            if (obj == null) return;
+
+            try
+            {
+                var cModel = ColorsList.First(c => c.description.color_name == obj.ToString());
+                if (cModel == null) throw new NullReferenceException($"找不到皮肤对象: {obj.ToString()}");
+
+                ColorIndex = ColorsList.IndexOf(cModel);
+                // 利用反射创建对象的副本
+                // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
+                ColorSchemeModel _colorModel = new ColorSchemeModel();
+                _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
+                _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);//cModel.preset_color_schemes.FirstOrDefault().ConfigValue;
+                // 加载其它项，如序号标签之类
+                _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+                _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+                //_colorModel.OtherProperty.MarkText = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
+                _colorModel.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
+                //if (!ConfigModel.ThemeUseShade)
+                //    _colorModel.Style.layout.shadow_radius = "0";
+                CurrentSkin = _colorModel;
+
+                if (ConfigModel.IsTemplateAll)
+                    SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
+                else
+                    SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
+
+                // 从配置是加载字体信息
+                GetCadidateFont();
+                GetCadidateFontSize();
+
+                UpdateTemplate(null);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("选中的样式在外观文件中不存在！", DialogType.Error);
+            }
+        }
+
+        /// <summary>
+        /// 皮肤跟随主题
+        /// </summary>
+        [RelayCommand]
+        public void ColorFromTheme()
+        {
+            App.Current.Dispatcher.BeginInvoke(() =>
+            {
+                try
+                {
+                    LoadCurrentSkin();
+
+                    if (ConfigModel.Theme_FollowTheme)
+                    {
+                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
+
+                        SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush label_color = (SolidColorBrush)App.Current.FindResource("text-200");
+                        SolidColorBrush back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush shadow_color = (SolidColorBrush)App.Current.FindResource("primary-300");
+                        SolidColorBrush border_color = (SolidColorBrush)App.Current.FindResource("primary-200");
+                        SolidColorBrush hilited_text_color = (SolidColorBrush)App.Current.FindResource("accent-200");
+                        SolidColorBrush hilited_back_color = (SolidColorBrush)App.Current.FindResource("accent-100");
+                        SolidColorBrush hilited_candidate_text_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+                        SolidColorBrush hilited_candidate_back_color = (SolidColorBrush)App.Current.FindResource("primary-100");
+                        SolidColorBrush hilited_label_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush hilited_comment_text_color = (SolidColorBrush)App.Current.FindResource("bg-200");
+                        SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
+                        SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
+
+                        //CurrentSkin.UsedColor.color_format = "argb";
+                        CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
+                        CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(comment_text_color.ToString());
+                        CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(label_color.ToString());
+                        CurrentSkin.UsedColor.back_color = ColorConverterHelper.ConverterToRime(back_color.ToString());
+                        CurrentSkin.UsedColor.shadow_color = ColorConverterHelper.ConverterToRime(shadow_color.ToString());
+                        CurrentSkin.UsedColor.border_color = ColorConverterHelper.ConverterToRime(border_color.ToString());
+                        CurrentSkin.UsedColor.hilited_text_color = ColorConverterHelper.ConverterToRime(hilited_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_back_color = ColorConverterHelper.ConverterToRime(hilited_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_text_color = ColorConverterHelper.ConverterToRime(hilited_candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.hilited_candidate_back_color = ColorConverterHelper.ConverterToRime(hilited_candidate_back_color.ToString());
+                        CurrentSkin.UsedColor.hilited_label_color = ColorConverterHelper.ConverterToRime(hilited_label_color.ToString());
+                        CurrentSkin.UsedColor.hilited_comment_text_color = ColorConverterHelper.ConverterToRime(hilited_comment_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_text_color = ColorConverterHelper.ConverterToRime(candidate_text_color.ToString());
+                        CurrentSkin.UsedColor.candidate_back_color = ColorConverterHelper.ConverterToRime(candidate_back_color.ToString());
+
+                        UpdateCurrentSkin(null);
+                    }
+
+                    // 如果包含 custom 文件，先将其删除掉
+                    if (File.Exists(GlobalValues.UserPath + @"\weasel.custom.yaml"))
+                    {
+                        File.Delete(GlobalValues.UserPath + @"\weasel.custom.yaml");
+                    }
+
+                    // 将 colors 文件下的主题数据写入到 custom 外观文件中去
+                    SaveWeaselCustom();
+
+                    string colorScheme = ColorsList[ColorIndex].description.color_name;
+                    ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
+                    ServiceHelper.Deployer();
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex.ToString());
+                    this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 新建皮肤
+        /// </summary>
+        [RelayCommand]
+        public void CreateNewSkin(object obj)
+        {
+            try
+            {
+                var new_skin_count = ColorsList.Where(c => c.description.color_name.Contains("Skin-")).Count() + 1;
+                var new_skin_name = "Skin-" + new_skin_count;
+
+                ColorSchemeModel csModel = new ColorSchemeModel();
+                csModel.Style = default_color.style;
+                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
+                CurrentSkin = csModel;
+                CurrentSkin.Style.color_scheme = new_skin_name;
+
+                SaveCurrentSkin(new_skin_name);
+                SaveWeaselCustom();
+                ReLoadColorShemes();
+
+                UpdateSkinCandidate(null);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("创建新皮肤失败，详情请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 删除皮肤
+        /// </summary>
+        [RelayCommand]
+        public void DeleteSkin()
+        {
+            try
+            {
+                var ask = this.ShowAskMessage("被删除的主题无法恢复，确定要执行删除操作吗？");
+                if (!((bool)ask))
+                {
+                    return;
+                }
+
+                string color_name = CurrentSkin.Style.color_scheme;
+                ColorSchemeModel csModel = new ColorSchemeModel();
+                csModel.Style = default_color.style;
+                csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
+                CurrentSkin = csModel;
+
+                string yaml_name = @$"{GlobalValues.UserPath}\colors\{color_name}.yaml";
+                if (File.Exists(yaml_name))
+                {
+                    File.Delete(yaml_name);
+                }
+                else
+                {
+                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
+                    return;
+                }
+
+                this.ShowMessage("主题删除成功！", DialogType.Success);
+
+                // 删除完成后, 默认选中第一个皮肤外观
+                LoadColorShemes();
+                ColorIndex = 0;
+                SaveWeaselCustom();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+                this.ShowMessage("主题删除失败！", DialogType.Fail);
+            }
+        }
+
+        /// <summary>
+        /// 导出皮肤
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void ExportSkin(object obj)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Title = "导出";
+                sfd.FileName = "weasel.custom.yaml";
+                sfd.DefaultExt = ".yaml";
+                sfd.Filter = "Text documents|*.yaml";
+                sfd.InitialDirectory = "";
+
+                if (sfd.ShowDialog() == true)
+                {
+                    var targetPath = sfd.FileName;
+                    SaveWeaselCustom(targetPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("保存失败，详细信息请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -850,7 +850,14 @@ namespace WubiMaster.ViewModels
                     CurrentSkin.Style.layout.corner_radius = "10";
                     CurrentSkin.Style.layout.round_corner = "10";
                 }
-
+                if (ConfigModel.IsShowBorder)
+                {
+                    CurrentSkin.Style.layout.border_width = "2";
+                }
+                else
+                {
+                    CurrentSkin.Style.layout.border_width = "0";
+                }
 
                 UpdateCurrentSkin(null);
                 ConfigModel.SaveConfig();
@@ -859,7 +866,6 @@ namespace WubiMaster.ViewModels
             {
                 LogHelper.Error(ex.ToString());
             }
-            
         }
 
         [RelayCommand]
@@ -993,13 +999,6 @@ namespace WubiMaster.ViewModels
             else
                 comment_size = 18;
             CurrentSkin.Style.comment_font_point = comment_size.ToString();
-        }
-
-        // 重新加载皮肤集
-        private void ReLoadColorShemes()
-        {
-            LoadColorShemes();
-            ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
         }
 
         // 从 colors 文件夹下加载皮肤集
@@ -1152,6 +1151,13 @@ namespace WubiMaster.ViewModels
             ConfigModel.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
             ConfigModel.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
             ConfigModel.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
+        }
+
+        // 重新加载皮肤集
+        private void ReLoadColorShemes()
+        {
+            LoadColorShemes();
+            ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
         }
 
         /// <summary>

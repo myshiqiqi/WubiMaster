@@ -441,7 +441,8 @@
                                 VerticalAlignment="Center"
                                 Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
                                 CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
-                                SnapsToDevicePixels="True">
+                                SnapsToDevicePixels="True"
+                                Style="{StaticResource back_border_style}">
 
                             <!--主体元素-->
                             <Grid Margin="0">

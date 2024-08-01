@@ -282,7 +282,6 @@
                                                              CheckedState="直角"
                                                              Command="{Binding UpdateTemplateCommand}"
                                                              IsChecked="{Binding ConfigModel.IsOrthogonal, Mode=TwoWay}"
-                                                             IsEnabled="{Binding ConfigModel.TextVertical, Converter={StaticResource Bool2Reverse}}"
                                                              UnCheckedState="圆角" />
                                     </Grid>
 
@@ -294,8 +293,7 @@
                                                              VerticalAlignment="Center"
                                                              CheckedState="显示"
                                                              Command="{Binding UpdateTemplateCommand}"
-                                                             IsChecked="{Binding ConfigModel.Horizontal, Mode=TwoWay}"
-                                                             IsEnabled="{Binding ConfigModel.TextVertical, Converter={StaticResource Bool2Reverse}}"
+                                                             IsChecked="{Binding ConfigModel.IsShowBorder, Mode=TwoWay}"
                                                              UnCheckedState="隐藏" />
                                     </Grid>
 

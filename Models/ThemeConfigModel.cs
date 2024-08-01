@@ -133,6 +133,10 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private bool isOrthogonal;
 
-
+        /// <summary>
+        /// 是否显示边框
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowBorder;
     }
 }

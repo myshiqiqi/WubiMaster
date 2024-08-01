@@ -858,9 +858,19 @@ namespace WubiMaster.ViewModels
                 {
                     CurrentSkin.Style.layout.border_width = "0";
                 }
+                if (ConfigModel.IsShadowRadius)
+                {
+                    CurrentSkin.Style.layout.shadow_radius = "8";
+                }
+                else
+                {
+                    CurrentSkin.Style.layout.shadow_radius = "0";
+                }
 
                 UpdateCurrentSkin(null);
                 ConfigModel.SaveConfig();
+
+                SaveWeaselCustom();
             }
             catch (Exception ex)
             {

@@ -581,7 +581,6 @@
                         </Grid>
 
                         <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
-
                             <Border Padding="0"
                                     CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
                                     Style="{StaticResource back_border_style}">

@@ -138,5 +138,11 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private bool isShowBorder;
+
+        /// <summary>
+        /// 是否启用阴影效果
+        /// </summary>
+        [ObservableProperty]
+        private bool isShadowRadius;
     }
 }

@@ -1308,7 +1308,7 @@ namespace WubiMaster.Controls
             c.HilitedCandidateBackColor = c.BrushConvter(schemeModel.hilited_candidate_back_color, schemeModel.back_color, colorFormat: color_format);
             c.HilitedCandidateTextColor = c.BrushConvter(schemeModel.hilited_candidate_text_color, c.HilitedTextColor.ToString(), colorFormat: color_format);
             c.HilitedCandidateBorderColor = c.BrushConvter(schemeModel.hilited_candidate_border_color, schemeModel.hilited_candidate_back_color, colorFormat: color_format);
-            c.RoundCorner = 10;//double.Parse(styleModel.layout.round_corner);
+            c.RoundCorner = double.Parse(styleModel.layout.round_corner);
             c.HilitedLabelColor = c.BrushConvter(schemeModel.hilited_label_color, Colors.Gray.ToString(), colorFormat: color_format);
             c.MarkText = styleModel.mark_text;
             c.HilitedMarkColor = c.BrushConvter(schemeModel.hilited_mark_color, schemeModel.text_color, colorFormat: color_format);

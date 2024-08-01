@@ -90,5 +90,49 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private string themeCommentSize = "中号";
+
+        /// <summary>
+        /// 是否将编码内嵌到行内
+        /// </summary>
+        [ObservableProperty]
+        private bool inLine;
+
+        /// <summary>
+        /// 是否采用文本垂直模式
+        /// </summary>
+        [ObservableProperty]
+        private bool textVertical;
+
+        /// <summary>
+        /// 是否切换到半月模式，即天圆地方模式
+        /// </summary>
+        [ObservableProperty]
+        private bool isBanyueMode;
+
+        /// <summary>
+        /// 是否横各显示外观
+        /// </summary>
+        [ObservableProperty]
+        private bool horizontal;
+
+        /// <summary>
+        /// 是否将模板应用到所有皮肤
+        /// </summary>
+        [ObservableProperty]
+        private bool isTemplateAll;
+
+        /// <summary>
+        /// 文本垂直模式时，候选项是否自左向右排列
+        /// </summary>
+        [ObservableProperty]
+        private bool isTextLeftToRight;
+
+        /// <summary>
+        /// 边框是否启用直角模式
+        /// </summary>
+        [ObservableProperty]
+        private bool isOrthogonal;
+
+
     }
 }

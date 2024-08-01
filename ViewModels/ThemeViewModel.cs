@@ -27,9 +27,6 @@ namespace WubiMaster.ViewModels
         private List<ColorsModel> colorsList;
 
         [ObservableProperty]
-        private ColorTemplateModel colorTemplate;
-
-        [ObservableProperty]
         private ThemeConfigModel configModel;
 
         [ObservableProperty]
@@ -54,7 +51,7 @@ namespace WubiMaster.ViewModels
         {
             ConfigModel = new ThemeConfigModel();
             ColorsList = new List<ColorsModel>();
-            ColorTemplate = new ColorTemplateModel();
+            //ColorTemplate = new ColorTemplateModel();
             CandidateModel = new ColorCandidateModel();
             DefaultCustomDetails = new DefaultCustomModel();
 
@@ -94,7 +91,7 @@ namespace WubiMaster.ViewModels
                 //    _colorModel.Style.layout.shadow_radius = "0";
                 CurrentSkin = _colorModel;
 
-                if (ColorTemplate.IsTemplateAll)
+                if (ConfigModel.IsTemplateAll)
                     SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
                 else
                     SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
@@ -826,28 +823,43 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void UpdateTemplate(object obj)
         {
-            CurrentSkin.Style.inline_preedit = ColorTemplate.InLine.ToString();
-            CurrentSkin.Style.vertical_text = ColorTemplate.TextVertical.ToString();
-            if (ColorTemplate.IsBanyueMode)
+            try
             {
-                CurrentSkin.Style.layout.margin_x = "0";
-                CurrentSkin.Style.layout.margin_y = "0";
+                CurrentSkin.Style.inline_preedit = ConfigModel.InLine.ToString();
+                CurrentSkin.Style.vertical_text = ConfigModel.TextVertical.ToString();
+                if (ConfigModel.IsBanyueMode)
+                {
+                    CurrentSkin.Style.layout.margin_x = "0";
+                    CurrentSkin.Style.layout.margin_y = "0";
+                }
+                else
+                {
+                    double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
+                    CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
+                    CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+                }
+                CurrentSkin.Style.horizontal = ConfigModel.Horizontal.ToString();
+                CurrentSkin.Style.vertical_text_left_to_right = ConfigModel.IsTextLeftToRight.ToString();
+                if (ConfigModel.IsOrthogonal)
+                {
+                    CurrentSkin.Style.layout.corner_radius = "0";
+                    CurrentSkin.Style.layout.round_corner = "0";
+                }
+                else
+                {
+                    CurrentSkin.Style.layout.corner_radius = "10";
+                    CurrentSkin.Style.layout.round_corner = "10";
+                }
+
+
+                UpdateCurrentSkin(null);
+                ConfigModel.SaveConfig();
             }
-            else
+            catch (Exception ex)
             {
-                double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
-                CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
-                CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+                LogHelper.Error(ex.ToString());
             }
-            CurrentSkin.Style.horizontal = ColorTemplate.Horizontal.ToString();
-
-            UpdateCurrentSkin(null);
-
-            ConfigHelper.WriteConfigByBool("is_template_all", ColorTemplate.IsTemplateAll);
-            ConfigHelper.WriteConfigByBool("inline_preedit", ColorTemplate.InLine);
-            ConfigHelper.WriteConfigByBool("vertical_text", ColorTemplate.TextVertical);
-            ConfigHelper.WriteConfigByBool("horizontal", ColorTemplate.Horizontal);
-            ConfigHelper.WriteConfigByBool("is_banyue_mode", ColorTemplate.IsBanyueMode);
+            
         }
 
         [RelayCommand]
@@ -1045,7 +1057,7 @@ namespace WubiMaster.ViewModels
         private void LoadConfig()
         {
             // 加载是否是将模板应用于全部皮肤
-            ColorTemplate.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
+            ConfigModel.IsTemplateAll = ConfigHelper.ReadConfigByBool("is_template_all");
             LoadTemplate();
         }
 
@@ -1134,12 +1146,12 @@ namespace WubiMaster.ViewModels
 
         private void LoadTemplate()
         {
-            if (!ColorTemplate.IsTemplateAll)
+            if (!ConfigModel.IsTemplateAll)
                 return;
-            ColorTemplate.InLine = ConfigHelper.ReadConfigByBool("inline_preedit");
-            ColorTemplate.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
-            ColorTemplate.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
-            ColorTemplate.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
+            ConfigModel.InLine = ConfigHelper.ReadConfigByBool("inline_preedit");
+            ConfigModel.TextVertical = ConfigHelper.ReadConfigByBool("vertical_text");
+            ConfigModel.Horizontal = ConfigHelper.ReadConfigByBool("horizontal");
+            ConfigModel.IsBanyueMode = ConfigHelper.ReadConfigByBool("is_banyue_mode");
         }
 
         /// <summary>
@@ -1195,9 +1207,9 @@ namespace WubiMaster.ViewModels
 
         private void SetColorFromTemp()
         {
-            CurrentSkin.Style.inline_preedit = ColorTemplate.InLine.ToString();
-            CurrentSkin.Style.vertical_text = ColorTemplate.TextVertical.ToString();
-            if (ColorTemplate.IsBanyueMode)
+            CurrentSkin.Style.inline_preedit = ConfigModel.InLine.ToString();
+            CurrentSkin.Style.vertical_text = ConfigModel.TextVertical.ToString();
+            if (ConfigModel.IsBanyueMode)
             {
                 CurrentSkin.Style.layout.margin_x = "0";
                 CurrentSkin.Style.layout.margin_y = "0";
@@ -1208,7 +1220,7 @@ namespace WubiMaster.ViewModels
                 CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
                 CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
             }
-            CurrentSkin.Style.horizontal = ColorTemplate.Horizontal.ToString();
+            CurrentSkin.Style.horizontal = ConfigModel.Horizontal.ToString();
         }
 
         private void SetTempFromColor()
@@ -1216,10 +1228,10 @@ namespace WubiMaster.ViewModels
             double lay_margin = double.Parse(CurrentSkin.Style.layout.margin_x);
             double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
 
-            ColorTemplate.InLine = bool.Parse(CurrentSkin.Style.inline_preedit);
-            ColorTemplate.TextVertical = bool.Parse(CurrentSkin.Style.vertical_text);
-            ColorTemplate.IsBanyueMode = lay_margin <= lay_hilite_padding;
-            ColorTemplate.Horizontal = bool.Parse(CurrentSkin.Style.horizontal);
+            ConfigModel.InLine = bool.Parse(CurrentSkin.Style.inline_preedit);
+            ConfigModel.TextVertical = bool.Parse(CurrentSkin.Style.vertical_text);
+            ConfigModel.IsBanyueMode = lay_margin <= lay_hilite_padding;
+            ConfigModel.Horizontal = bool.Parse(CurrentSkin.Style.horizontal);
         }
 
         // 切换智能换肤

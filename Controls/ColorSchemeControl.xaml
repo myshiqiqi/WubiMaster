@@ -299,7 +299,9 @@
                     </Grid>
 
                     <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
-                        <Border Padding="{Binding ElementName=color_scheme_control, Path=BorderPadding}" Style="{StaticResource back_border_style}">
+                        <Border Padding="{Binding ElementName=color_scheme_control, Path=BorderPadding}"
+                                CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
+                                Style="{StaticResource back_border_style}">
 
                             <!--主体元素-->
                             <Grid>
@@ -438,7 +440,7 @@
                         <Border Padding="{Binding ElementName=color_scheme_control, Path=BorderPadding}"
                                 VerticalAlignment="Center"
                                 Background="{Binding ElementName=color_scheme_control, Path=BackColor}"
-                                CornerRadius="10"
+                                CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
                                 SnapsToDevicePixels="True">
 
                             <!--主体元素-->
@@ -579,7 +581,9 @@
 
                         <Grid Grid.Row="1" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=TextColor}">
 
-                            <Border Padding="0" Style="{StaticResource back_border_style}">
+                            <Border Padding="0"
+                                    CornerRadius="{Binding ElementName=color_scheme_control, Path=RoundCorner}"
+                                    Style="{StaticResource back_border_style}">
 
                                 <!--主体元素-->
                                 <Grid Margin="{Binding ElementName=color_scheme_control, Path=ContentMargin}">

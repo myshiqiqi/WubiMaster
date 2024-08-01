@@ -342,14 +342,17 @@
                                 </Grid>
                             </StackPanel>
 
-                            <Grid Grid.Row="1" Margin="20">
+                            <Grid Grid.Row="1" Margin="15">
                                 <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                                     <c:ColorSchemeControl BackColor="{DynamicResource primary-300}"
                                                           BorderColor="{DynamicResource primary-100}"
                                                           BorderPadding="3"
                                                           CandidateBorderCorner="10"
                                                           CandidateTextColor="{DynamicResource bg-100}"
+                                                          CommentFontPoint="15"
                                                           CommentTextColor="{DynamicResource bg-200}"
+                                                          FontFace="华文琥珀"
+                                                          FontPoint="18"
                                                           HilitedBackColor="{DynamicResource bg-100}"
                                                           HilitedCandidateBackColor="{DynamicResource accent-200}"
                                                           HilitedCandidateTextColor="{DynamicResource accent-100}"
@@ -359,6 +362,7 @@
                                                           InlinePreedit="False"
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource bg-200}"
+                                                          LabelFontPoint="16"
                                                           UnInlinePreedit="True" />
                                 </Grid>
 
@@ -368,7 +372,10 @@
                                                           BorderPadding="3"
                                                           CandidateBorderCorner="10"
                                                           CandidateTextColor="{DynamicResource text-100}"
+                                                          CommentFontPoint="15"
                                                           CommentTextColor="{DynamicResource text-200}"
+                                                          FontFace="楷体"
+                                                          FontPoint="18"
                                                           HilitedBackColor="{DynamicResource primary-200}"
                                                           HilitedCandidateBackColor="{DynamicResource accent-100}"
                                                           HilitedCandidateTextColor="{DynamicResource bg-100}"
@@ -378,6 +385,7 @@
                                                           InlinePreedit="False"
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource text-200}"
+                                                          LabelFontPoint="16"
                                                           UnInlinePreedit="True" />
                                 </Grid>
 
@@ -387,7 +395,10 @@
                                                           BorderPadding="3"
                                                           CandidateBorderCorner="10"
                                                           CandidateTextColor="{DynamicResource text-100}"
+                                                          CommentFontPoint="15"
                                                           CommentTextColor="{DynamicResource text-200}"
+                                                          FontFace="../Fonts/#方正启体_GBK"
+                                                          FontPoint="18"
                                                           HilitedBackColor="{DynamicResource accent-100}"
                                                           HilitedCandidateBackColor="{DynamicResource primary-100}"
                                                           HilitedCandidateTextColor="{DynamicResource bg-100}"
@@ -397,6 +408,7 @@
                                                           InlinePreedit="False"
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource text-200}"
+                                                          LabelFontPoint="16"
                                                           UnInlinePreedit="True" />
                                 </Grid>
 

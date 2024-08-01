@@ -363,6 +363,9 @@
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource bg-200}"
                                                           LabelFontPoint="16"
+                                                          Label_1="Ⅰ"
+                                                          Label_2="Ⅱ"
+                                                          Label_3="Ⅲ"
                                                           UnInlinePreedit="True" />
                                 </Grid>
 
@@ -386,6 +389,11 @@
                                                           IsBanYueMode="False"
                                                           LabelColor="{DynamicResource text-200}"
                                                           LabelFontPoint="16"
+                                                          LabelFontStyle="Italic"
+                                                          LabelFontWeight="Bold"
+                                                          Label_1="1 "
+                                                          Label_2="2 "
+                                                          Label_3="3 "
                                                           UnInlinePreedit="True" />
                                 </Grid>
 

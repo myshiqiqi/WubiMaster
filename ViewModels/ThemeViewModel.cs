@@ -315,8 +315,6 @@ namespace WubiMaster.ViewModels
             {
                 try
                 {
-                    LoadCurrentSkin();
-
                     SolidColorBrush text_color = (SolidColorBrush)theme_resource["text-100"];
                     SolidColorBrush comment_text_color = (SolidColorBrush)theme_resource["text-200"];
                     SolidColorBrush label_color = (SolidColorBrush)theme_resource["text-200"];

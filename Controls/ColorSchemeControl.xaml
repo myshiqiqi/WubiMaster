@@ -134,7 +134,7 @@
         </Style>
 
         <!--候选项文本的字体样式-->
-        <Style x:Key="candidate_text_style" TargetType="TextBlock">
+        <Style x:Key="candidate_font_style" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="{Binding ElementName=color_scheme_control, Path=FontFace}" />
             <Setter Property="FontWeight" Value="{Binding ElementName=color_scheme_control, Path=FontFaceWeight}" />
             <Setter Property="FontStyle" Value="{Binding ElementName=color_scheme_control, Path=FontFaceStyle}" />
@@ -157,9 +157,9 @@
             <Setter Property="FontSize" Value="{Binding ElementName=color_scheme_control, Path=CommentFontPoint}" />
         </Style>
 
-        <!--编码内嵌时的样式-->
+        <!--编码样式-->
         <Style x:Key="hilited_text_style"
-               BasedOn="{StaticResource candidate_text_style}"
+               BasedOn="{StaticResource candidate_font_style}"
                TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -167,9 +167,19 @@
             <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}" />
         </Style>
 
-        <!--候选文本样式-->
-        <Style x:Key="hilited_candidate_text_style"
-               BasedOn="{StaticResource candidate_text_style}"
+        <!--其它候选项字体样式-->
+        <Style x:Key="candidate_text_style"
+               BasedOn="{StaticResource candidate_font_style}"
+               TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Foreground" Value="{Binding ElementName=color_scheme_control, Path=CandidateTextColor}" />
+        </Style>
+
+        <!--高亮候选文本样式-->
+        <Style x:Key="hilited_candidate_font_style"
+               BasedOn="{StaticResource candidate_font_style}"
                TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -239,8 +249,8 @@
         </Style>
 
         <!--文本垂直候选文本样式-->
-        <Style x:Key="v_hilited_candidate_text_style"
-               BasedOn="{StaticResource candidate_text_style}"
+        <Style x:Key="v_hilited_candidate_font_style"
+               BasedOn="{StaticResource candidate_font_style}"
                TargetType="TextBlock">
             <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Self}, Path=FontSize}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -338,7 +348,7 @@
 
                                             <TextBlock Grid.Column="2"
                                                        Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
-                                                       Style="{StaticResource hilited_candidate_text_style}"
+                                                       Style="{StaticResource hilited_candidate_font_style}"
                                                        Text="中书君" />
 
                                             <TextBlock Grid.Column="3"
@@ -365,7 +375,7 @@
                                                        Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
                                             <TextBlock Grid.Column="2"
-                                                       Style="{StaticResource hilited_candidate_text_style}"
+                                                       Style="{StaticResource hilited_candidate_font_style}"
                                                        Text="五笔斋" />
 
                                             <TextBlock Grid.Column="3"
@@ -391,7 +401,7 @@
                                                        Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
 
                                             <TextBlock Grid.Column="2"
-                                                       Style="{StaticResource hilited_candidate_text_style}"
+                                                       Style="{StaticResource hilited_candidate_font_style}"
                                                        Text="空山明月" />
 
                                             <TextBlock Grid.Column="3"
@@ -471,7 +481,7 @@
                                             <TextBlock Grid.Row="0"
                                                        Grid.Column="2"
                                                        Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
-                                                       Style="{StaticResource hilited_candidate_text_style}"
+                                                       Style="{StaticResource hilited_candidate_font_style}"
                                                        Text="中书君" />
 
                                             <TextBlock Grid.Row="0"
@@ -501,7 +511,7 @@
 
                                             <TextBlock Grid.Row="0"
                                                        Grid.Column="2"
-                                                       Style="{StaticResource hilited_text_style}"
+                                                       Style="{StaticResource candidate_text_style}"
                                                        Text="五笔斋" />
 
                                             <TextBlock Grid.Row="0"
@@ -529,7 +539,7 @@
 
                                             <TextBlock Grid.Row="0"
                                                        Grid.Column="2"
-                                                       Style="{StaticResource hilited_text_style}"
+                                                       Style="{StaticResource candidate_text_style}"
                                                        Text="空山明月" />
 
                                             <TextBlock Grid.Row="0"
@@ -583,7 +593,7 @@
                                                        Margin="2,5,0,5"
                                                        VerticalAlignment="Top"
                                                        Foreground="{Binding ElementName=color_scheme_control, Path=HilitedTextColor}"
-                                                       Style="{StaticResource candidate_text_style}"
+                                                       Style="{StaticResource candidate_font_style}"
                                                        Text="ksvt"
                                                        TextWrapping="Wrap" />
                                         </Border>
@@ -616,7 +626,7 @@
 
                                                 <TextBlock Grid.Row="2"
                                                            Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCandidateTextColor}"
-                                                           Style="{StaticResource v_hilited_candidate_text_style}"
+                                                           Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="中书君" />
 
                                                 <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
@@ -652,7 +662,7 @@
                                                            Text="{Binding ElementName=color_scheme_control, Path=Label_2}" />
 
                                                 <TextBlock Grid.Row="2"
-                                                           Style="{StaticResource v_hilited_candidate_text_style}"
+                                                           Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="五笔斋" />
 
                                                 <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
@@ -688,7 +698,7 @@
                                                            Text="{Binding ElementName=color_scheme_control, Path=Label_3}" />
 
                                                 <TextBlock Grid.Row="2"
-                                                           Style="{StaticResource v_hilited_candidate_text_style}"
+                                                           Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="空山明月" />
 
                                                 <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">

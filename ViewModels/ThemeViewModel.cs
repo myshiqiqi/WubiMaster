@@ -51,7 +51,6 @@ namespace WubiMaster.ViewModels
         {
             ConfigModel = new ThemeConfigModel();
             ColorsList = new List<ColorsModel>();
-            //ColorTemplate = new ColorTemplateModel();
             CandidateModel = new ColorCandidateModel();
             DefaultCustomDetails = new DefaultCustomModel();
 
@@ -280,6 +279,9 @@ namespace WubiMaster.ViewModels
 
             try
             {
+                if (ColorsList == null || ColorsList.Count <= 0)
+                    throw new NullReferenceException("皮肤集合为空，无法从 colors 目录获取皮肤信息");
+
                 var cModel = ColorsList.First(c => c.description.color_name == obj.ToString());
                 if (cModel == null) throw new NullReferenceException($"找不到皮肤对象: {obj.ToString()}");
 
@@ -307,7 +309,7 @@ namespace WubiMaster.ViewModels
                 GetCadidateFont();
                 GetCadidateFontSize();
 
-                UpdateTemplate(null);
+                UpdateCurrentSkin(null);
             }
             catch (Exception ex)
             {
@@ -404,11 +406,10 @@ namespace WubiMaster.ViewModels
                 CurrentSkin = csModel;
                 CurrentSkin.Style.color_scheme = new_skin_name;
 
+                UpdateCurrentSkin(null);
                 SaveCurrentSkin(new_skin_name);
                 SaveWeaselCustom();
                 ReLoadColorShemes();
-
-                UpdateSkinCandidate(null);
             }
             catch (Exception ex)
             {
@@ -825,47 +826,7 @@ namespace WubiMaster.ViewModels
         {
             try
             {
-                CurrentSkin.Style.inline_preedit = ConfigModel.InLine.ToString();
-                CurrentSkin.Style.vertical_text = ConfigModel.TextVertical.ToString();
-                if (ConfigModel.IsBanyueMode)
-                {
-                    CurrentSkin.Style.layout.margin_x = "0";
-                    CurrentSkin.Style.layout.margin_y = "0";
-                }
-                else
-                {
-                    double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
-                    CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
-                    CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
-                }
-                CurrentSkin.Style.horizontal = ConfigModel.Horizontal.ToString();
-                CurrentSkin.Style.vertical_text_left_to_right = ConfigModel.IsTextLeftToRight.ToString();
-                if (ConfigModel.IsOrthogonal)
-                {
-                    CurrentSkin.Style.layout.corner_radius = "0";
-                    CurrentSkin.Style.layout.round_corner = "0";
-                }
-                else
-                {
-                    CurrentSkin.Style.layout.corner_radius = "10";
-                    CurrentSkin.Style.layout.round_corner = "10";
-                }
-                if (ConfigModel.IsShowBorder)
-                {
-                    CurrentSkin.Style.layout.border_width = "2";
-                }
-                else
-                {
-                    CurrentSkin.Style.layout.border_width = "0";
-                }
-                if (ConfigModel.IsShadowRadius)
-                {
-                    CurrentSkin.Style.layout.shadow_radius = "8";
-                }
-                else
-                {
-                    CurrentSkin.Style.layout.shadow_radius = "0";
-                }
+                SetColorFromTemp();
 
                 UpdateCurrentSkin(null);
                 ConfigModel.SaveConfig();
@@ -1178,7 +1139,7 @@ namespace WubiMaster.ViewModels
         {
             skinName = string.IsNullOrEmpty(skinName) ? CurrentSkin.Style.color_scheme : skinName;
 
-            CurrentSkin.Style.color_scheme_dark = "";
+            CurrentSkin.Style.color_scheme_dark = CurrentSkin.Style.color_scheme;
             CurrentSkin.UsedColor.author = "中书君";
             CurrentSkin.UsedColor.name = skinName;
 
@@ -1221,6 +1182,9 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// 将模板配置是的信息写入当前皮肤对象中
+        /// </summary>
         private void SetColorFromTemp()
         {
             CurrentSkin.Style.inline_preedit = ConfigModel.InLine.ToString();
@@ -1232,13 +1196,42 @@ namespace WubiMaster.ViewModels
             }
             else
             {
-                double lay_hilite_padding = double.Parse(CurrentSkin.Style.layout.hilite_padding);
-                CurrentSkin.Style.layout.margin_x = (lay_hilite_padding + 3).ToString();
-                CurrentSkin.Style.layout.margin_y = (lay_hilite_padding + 3).ToString();
+                CurrentSkin.Style.layout.margin_x = default_color.style.layout.margin_x;
+                CurrentSkin.Style.layout.margin_y = default_color.style.layout.margin_y;
             }
             CurrentSkin.Style.horizontal = ConfigModel.Horizontal.ToString();
+            CurrentSkin.Style.vertical_text_left_to_right = ConfigModel.IsTextLeftToRight.ToString();
+            if (ConfigModel.IsOrthogonal)
+            {
+                CurrentSkin.Style.layout.corner_radius = "0";
+                CurrentSkin.Style.layout.round_corner = "0";
+            }
+            else
+            {
+                CurrentSkin.Style.layout.corner_radius = default_color.style.layout.corner_radius;
+                CurrentSkin.Style.layout.round_corner = default_color.style.layout.round_corner;
+            }
+            if (ConfigModel.IsShowBorder)
+            {
+                CurrentSkin.Style.layout.border_width = default_color.style.layout.border_width;
+            }
+            else
+            {
+                CurrentSkin.Style.layout.border_width = "0";
+            }
+            if (ConfigModel.IsShadowRadius)
+            {
+                CurrentSkin.Style.layout.shadow_radius = default_color.style.layout.shadow_radius;
+            }
+            else
+            {
+                CurrentSkin.Style.layout.shadow_radius = "0";
+            }
         }
 
+        /// <summary>
+        /// 将当前皮肤的模板信息写入模板配置中
+        /// </summary>
         private void SetTempFromColor()
         {
             double lay_margin = double.Parse(CurrentSkin.Style.layout.margin_x);
@@ -1248,6 +1241,9 @@ namespace WubiMaster.ViewModels
             ConfigModel.TextVertical = bool.Parse(CurrentSkin.Style.vertical_text);
             ConfigModel.IsBanyueMode = lay_margin <= lay_hilite_padding;
             ConfigModel.Horizontal = bool.Parse(CurrentSkin.Style.horizontal);
+            ConfigModel.IsOrthogonal = int.Parse(CurrentSkin.Style.layout.round_corner) <= 0;
+            ConfigModel.IsShowBorder = int.Parse(CurrentSkin.Style.layout.border_width) > 0;
+            ConfigModel.IsShadowRadius = int.Parse(CurrentSkin.Style.layout.shadow_radius) > 0;
         }
 
         // 切换智能换肤

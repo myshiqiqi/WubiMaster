@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 using System.Security.Cryptography.Xml;
 
 namespace WubiMaster.Models
@@ -14,10 +15,14 @@ namespace WubiMaster.Models
         [ObservableProperty]
         private OtherPropertyModel otherProperty;
 
+        [ObservableProperty]
+        private Dictionary<string, ColorScheme> presetColorSchemes;
+
         public ColorSchemeModel()
         {
             Style = new ColorStyle();
             UsedColor = new ColorScheme();
+            PresetColorSchemes = new Dictionary<string, ColorScheme>();
             OtherProperty = new OtherPropertyModel();
 
             // 初始化一些默认值

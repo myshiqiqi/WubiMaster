@@ -144,5 +144,11 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private bool isShadowRadius;
+
+        /// <summary>
+        /// 夜间主题名称
+        /// </summary>
+        [ObservableProperty]
+        private string darkSchemaName = "default";
     }
 }

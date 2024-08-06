@@ -47,4 +47,11 @@
     <sys:String x:Key="萤火虫">RireflyTheme</sys:String>
     <sys:String x:Key="星际远航">VoyageTheme</sys:String>
     <sys:String x:Key="静谧的热情">PassionTheme</sys:String>
-</ResourceDictionary>
+    <sys:String x:Key="青苹果">GreenApplesTheme</sys:String>
+    <sys:String x:Key="青天">BlueSkyTheme</sys:String>
+    <sys:String x:Key="碧水">ClearWaterTheme</sys:String>
+    <sys:String x:Key="寺庙">TempleTheme</sys:String>
+    <sys:String x:Key="运动">SportsTheme</sys:String>
+    <sys:String x:Key="竹林">BambooForestTheme</sys:String>
+    <sys:String x:Key="带刺的玫瑰">RoseTheme</sys:String>
+</ResourceDictionary> 

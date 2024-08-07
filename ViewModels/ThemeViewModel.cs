@@ -1237,6 +1237,8 @@ namespace WubiMaster.ViewModels
         /// <param name="skinName">名称</param>
         private void SaveCurrentSkin(string skinName = "")
         {
+            // 保存当前皮肤时，只保存主皮肤信息，夜间皮肤不保存
+
             skinName = string.IsNullOrEmpty(skinName) ? CurrentSkin.Style.color_scheme : skinName;
 
             CurrentSkin.UsedColor.name = skinName;
@@ -1247,8 +1249,11 @@ namespace WubiMaster.ViewModels
             new_skin_model.description.create_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             new_skin_model.description.update_time = new_skin_model.description.create_time;
 
-            new_skin_model.style = CurrentSkin.Style;
-            new_skin_model.preset_color_schemes = CurrentSkin.PresetColorSchemes;
+            var _style = CopyOut.TransReflection<ColorStyle, ColorStyle>(CurrentSkin.Style);
+            var _color = CopyOut.TransReflection<ColorScheme, ColorScheme>(CurrentSkin.UsedColor);
+            _style.color_scheme_dark = CurrentSkin.Style.color_scheme;
+            new_skin_model.style = _style;
+            new_skin_model.preset_color_schemes.Add(CurrentSkin.Style.color_scheme, _color);
 
             var save_path = GlobalValues.UserPath + $"\\colors\\{CurrentSkin.Style.color_scheme}.yaml";
             YamlHelper.WriteYaml(new_skin_model, save_path);

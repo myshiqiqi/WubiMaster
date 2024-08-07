@@ -421,7 +421,7 @@ namespace WubiMaster.ViewModels
                 ColorSchemeModel csModel = new ColorSchemeModel();
                 csModel.Style = default_color.style;
                 csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
-                csModel.PresetColorSchemes = default_color.preset_color_schemes;
+                csModel.PresetColorSchemes.Add(new_skin_name, default_color.preset_color_schemes.FirstOrDefault().Value);
 
                 CurrentSkin = csModel;
                 CurrentSkin.Style.color_scheme = new_skin_name;
@@ -798,6 +798,9 @@ namespace WubiMaster.ViewModels
         /// <param name="obj"></param>
         public void UpdateCurrentSkin(object obj)
         {
+            // 将UsedColor信息同步到PresetColorSchemes
+            CurrentSkin.PresetColorSchemes[CurrentSkin.Style.color_scheme] = CurrentSkin.UsedColor;
+
             // 将config中的配置更新到当前皮肤中
             CurrentSkin.OtherProperty.IsUseShade = ConfigModel.ThemeUseShade;  // 是否使用阴影效果
 

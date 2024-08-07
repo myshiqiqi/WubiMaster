@@ -466,7 +466,9 @@ namespace WubiMaster.ViewModels
                 this.ShowMessage("主题删除成功！", DialogType.Success);
 
                 // 删除完成后, 默认选中第一个皮肤外观
+                var dark_name = ConfigModel.DarkSchemaName;
                 LoadColorShemes();
+                ConfigModel.DarkSchemaName = dark_name;
                 ColorIndex = 0;
                 SaveWeaselCustom();
             }
@@ -756,7 +758,8 @@ namespace WubiMaster.ViewModels
         {
             var dark_skin_name = ConfigModel.DarkSchemaName;
 
-            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName)) return;
+            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName))
+                dark_skin_name = ConfigModel.DarkSchemaName = "default";
             CurrentSkin.Style.color_scheme_dark = ConfigModel.DarkSchemaName;
 
             // 当设定为默认时，需要将夜间主题删除掉
@@ -1220,7 +1223,11 @@ namespace WubiMaster.ViewModels
         // 重新加载皮肤集
         private void ReLoadColorShemes()
         {
+            // 在重新加载皮肤List的时候，绑定的夜间皮肤名称会变成null
+            // 因此这里提前将已经设定的夜间皮肤名称提取出来
+            var dark_name = ConfigModel.DarkSchemaName;
             LoadColorShemes();
+            ConfigModel.DarkSchemaName = dark_name;
             ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
         }
 

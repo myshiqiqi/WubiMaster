@@ -21,9 +21,6 @@ namespace WubiMaster.ViewModels
         private ColorCandidateModel candidateModel;
 
         [ObservableProperty]
-        private int colorIndex = -1;
-
-        [ObservableProperty]
         private List<ColorsModel> colorsList;
 
         [ObservableProperty]
@@ -74,7 +71,7 @@ namespace WubiMaster.ViewModels
                 LoadColorShemes();
                 LoadCurrentSkin();
                 ConfigModel.DarkSchemaName = "default";
-                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+                ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
 
                 ConfigModel.SaveConfig();
             }
@@ -309,7 +306,7 @@ namespace WubiMaster.ViewModels
                 if (cModel == null) throw new NullReferenceException($"找不到皮肤对象: {obj.ToString()}");
 
                 // 切换下拉列表
-                ColorIndex = ColorsList.IndexOf(cModel);
+                ConfigModel.ColorIndex = ColorsList.IndexOf(cModel);
 
                 // 利用反射创建对象的副本
                 // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
@@ -363,7 +360,7 @@ namespace WubiMaster.ViewModels
 
                     if (ConfigModel.Theme_FollowTheme)
                     {
-                        ChangeSkin(ColorsList[ColorIndex].description.color_name);
+                        ChangeSkin(ColorsList[ConfigModel.ColorIndex].description.color_name);
 
                         SolidColorBrush text_color = (SolidColorBrush)App.Current.FindResource("text-100");
                         SolidColorBrush comment_text_color = (SolidColorBrush)App.Current.FindResource("text-200");
@@ -408,7 +405,7 @@ namespace WubiMaster.ViewModels
                     // 将 colors 文件下的主题数据写入到 custom 外观文件中去
                     SaveWeaselCustom();
 
-                    string colorScheme = ColorsList[ColorIndex].description.color_name;
+                    string colorScheme = ColorsList[ConfigModel.ColorIndex].description.color_name;
                     ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
                     ServiceHelper.Deployer();
                 }
@@ -465,7 +462,7 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
-                
+
 
                 string color_name = CurrentSkin.Style.color_scheme;
                 // 如果判断是模板皮肤，则不可删除
@@ -507,7 +504,7 @@ namespace WubiMaster.ViewModels
                     ConfigModel.DarkSchemaName = "default";
                 else
                     ConfigModel.DarkSchemaName = dark_name;
-                ColorIndex = 0;
+                ConfigModel.ColorIndex = 0;
                 SaveWeaselCustom();
             }
             catch (Exception ex)
@@ -576,7 +573,7 @@ namespace WubiMaster.ViewModels
             // 将 colors 文件下的主题数据写入到 custom 外观文件中去
             SaveWeaselCustom();
 
-            string colorScheme = ColorsList[ColorIndex].description.color_name;
+            string colorScheme = ColorsList[ConfigModel.ColorIndex].description.color_name;
             ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
         }
 
@@ -959,8 +956,7 @@ namespace WubiMaster.ViewModels
         {
             if (is_loaded) return;
 
-            if (ColorIndex == -1)
-                LoadCurrentSkin();
+            LoadCurrentSkin();
 
             is_loaded = true;
         }
@@ -1236,7 +1232,7 @@ namespace WubiMaster.ViewModels
                 _colorModel.Style = WeaselCustomDetails.patch.style;
                 _colorModel.UsedColor = WeaselCustomDetails.patch.preset_color_schemes[shemeName];
                 CurrentSkin = _colorModel;
-                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(shemeName);
+                ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(shemeName);
             }
             catch (Exception ex)
             {
@@ -1263,7 +1259,7 @@ namespace WubiMaster.ViewModels
             var dark_name = ConfigModel.DarkSchemaName;
             LoadColorShemes();
             ConfigModel.DarkSchemaName = dark_name;
-            ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+            ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
         }
 
         /// <summary>

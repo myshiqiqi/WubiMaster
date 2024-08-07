@@ -85,7 +85,7 @@
                                       HorizontalAlignment="Left"
                                       DisplayMemberPath="description.display_name"
                                       ItemsSource="{Binding ColorsList}"
-                                      SelectedIndex="{Binding ColorIndex}"
+                                      SelectedIndex="{Binding ConfigModel.ColorIndex}"
                                       SelectedValuePath="description.color_name">
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="SelectionChanged">

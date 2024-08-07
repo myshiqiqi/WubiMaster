@@ -150,5 +150,11 @@ namespace WubiMaster.Models
         /// </summary>
         [ObservableProperty]
         private string darkSchemaName = "default";
+
+        /// <summary>
+        /// 选中的皮肤index
+        /// </summary>
+        [ObservableProperty]
+        private int colorIndex;
     }
 }

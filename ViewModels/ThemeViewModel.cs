@@ -69,13 +69,14 @@ namespace WubiMaster.ViewModels
         // 当初始化后重新加载皮肤
         private void ReLoadCurrentSkin(object recipient, string message)
         {
-            if (ColorIndex == -1)
+            try
             {
+                ReLoadColorShemes();
                 LoadCurrentSkin();
             }
-            else
+            catch (Exception ex)
             {
-                SaveWeaselCustom();
+                LogHelper.Error(ex.ToString());
             }
         }
 
@@ -460,7 +461,21 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
+                
+
                 string color_name = CurrentSkin.Style.color_scheme;
+                // 如果判断是模板皮肤，则不可删除
+                var _skin = ColorsList.FirstOrDefault(c => c.style.color_scheme == color_name);
+                if (_skin == null)
+                {
+                    this.ShowMessage("找不到要删除的就题文件！", DialogType.Warring);
+                    return;
+                }
+                else if (bool.Parse(_skin.description.is_template))
+                {
+                    this.ShowMessage("默认皮肤不可删除", DialogType.Warring);
+                    return;
+                }
                 ColorSchemeModel csModel = new ColorSchemeModel();
                 csModel.Style = default_color.style;
                 csModel.UsedColor = default_color.preset_color_schemes.FirstOrDefault().Value;
@@ -1089,6 +1104,7 @@ namespace WubiMaster.ViewModels
                 FileInfo[] files = dInfo.GetFiles();
 
                 var _colorsList = new List<ColorsModel>();
+                var _darkColorsList = new List<ColorsModel>();
                 for (int i = 0; i < files.Length; i++)
                 {
                     try
@@ -1099,9 +1115,11 @@ namespace WubiMaster.ViewModels
                         if (cModel.description.color_name == "default")
                         {
                             default_color = cModel;
+                            _darkColorsList.Add(cModel);
                             continue;
                         }
                         _colorsList.Add(cModel);
+                        _darkColorsList.Add(cModel);
                     }
                     catch (Exception ex)
                     {
@@ -1111,8 +1129,7 @@ namespace WubiMaster.ViewModels
                 }
 
                 ColorsList = _colorsList;
-                DarkColorsList = _colorsList;
-                DarkColorsList.Add(default_color);
+                DarkColorsList = _darkColorsList;
             }
             catch (Exception ex)
             {
@@ -1177,7 +1194,7 @@ namespace WubiMaster.ViewModels
                 WeaselCustomDetails = new WeaselCustomModel();
                 WeaselCustomDetails.patch = new CustomPatch();
 
-                var default_skin = ColorsList.FirstOrDefault(c => c.description.is_template == "true");
+                var default_skin = ColorsList.FirstOrDefault(c => bool.Parse(c.description.is_template) == true);
                 WeaselCustomDetails.patch.style = default_skin.style;
                 WeaselCustomDetails.patch.preset_color_schemes = default_skin.preset_color_schemes;
 

@@ -530,10 +530,12 @@ namespace WubiMaster.ViewModels
                 finally
                 {
                     // 启动服务
+                    await Task.Delay(200);
                     UpdateWubiSchemaTip();
                     lodingView.ClosePop();
+                    await Task.Delay(200);
                     ServiceHelper.RunService();
-                    await Task.Delay(500);
+                    await Task.Delay(200);
                     CmdHelper.RunCmd(GlobalValues.ProcessPath, "WeaselDeployer.exe /deploy");
                 }
             });

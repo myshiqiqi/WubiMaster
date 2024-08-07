@@ -468,7 +468,12 @@ namespace WubiMaster.ViewModels
                 // 删除完成后, 默认选中第一个皮肤外观
                 var dark_name = ConfigModel.DarkSchemaName;
                 LoadColorShemes();
-                ConfigModel.DarkSchemaName = dark_name;
+                // 如果当前删除的皮肤正好是设置的夜间皮肤
+                // 则将夜间皮肤切换成默认
+                if (dark_name == color_name)
+                    ConfigModel.DarkSchemaName = "default";
+                else
+                    ConfigModel.DarkSchemaName = dark_name;
                 ColorIndex = 0;
                 SaveWeaselCustom();
             }
@@ -783,7 +788,8 @@ namespace WubiMaster.ViewModels
                     var last_key = CurrentSkin.PresetColorSchemes.Last().Key;
                     CurrentSkin.PresetColorSchemes.Remove(last_key);
                 }
-                CurrentSkin.PresetColorSchemes.Add(dark_skin_name, dark_skin_dict.FirstOrDefault().Value);
+                if (!CurrentSkin.PresetColorSchemes.ContainsKey(dark_skin_name))
+                    CurrentSkin.PresetColorSchemes.Add(dark_skin_name, dark_skin_dict.FirstOrDefault().Value);
             }
 
             SaveWeaselCustom();

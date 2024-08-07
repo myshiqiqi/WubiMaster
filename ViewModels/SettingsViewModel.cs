@@ -391,6 +391,10 @@ namespace WubiMaster.ViewModels
             ServiceIsRun = ServiceHelper.FindService();
         }
 
+        /// <summary>
+        /// 初始化五笔配置
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task GetRimeWubiAsync()
         {
@@ -511,6 +515,7 @@ namespace WubiMaster.ViewModels
 
                     // 首页同步，默认五笔方案设置为86
                     WeakReferenceMessenger.Default.Send<string, string>("86", "ChangeShcemaState");
+                    WeakReferenceMessenger.Default.Send<string, string>("null", "ReLoadCurrentSkin");
 
                     lodingView.ClosePop();
                     this.ShowMessage("初始化成功", DialogType.Success);

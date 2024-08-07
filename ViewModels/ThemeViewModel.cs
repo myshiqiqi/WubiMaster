@@ -60,9 +60,23 @@ namespace WubiMaster.ViewModels
 
             WeakReferenceMessenger.Default.Register<string, string>(this, "ChangeColorScheme", ChangeColorScheme);
             WeakReferenceMessenger.Default.Register<string, string>(this, "SmartSkinColor", SmartSkinColor);
+            WeakReferenceMessenger.Default.Register<string, string>(this, "ReLoadCurrentSkin", ReLoadCurrentSkin);
 
             LoadColorShemes();
             LoadConfig();
+        }
+
+        // 当初始化后重新加载皮肤
+        private void ReLoadCurrentSkin(object recipient, string message)
+        {
+            if (ColorIndex == -1)
+            {
+                LoadCurrentSkin();
+            }
+            else
+            {
+                SaveWeaselCustom();
+            }
         }
 
         /// <summary>
@@ -763,7 +777,8 @@ namespace WubiMaster.ViewModels
         {
             var dark_skin_name = ConfigModel.DarkSchemaName;
 
-            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName))
+            var has_dark_skin = DarkColorsList.FirstOrDefault(d => d.style.color_scheme == dark_skin_name);
+            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName) || has_dark_skin == null)
                 dark_skin_name = ConfigModel.DarkSchemaName = "default";
             CurrentSkin.Style.color_scheme_dark = ConfigModel.DarkSchemaName;
 
@@ -1158,10 +1173,13 @@ namespace WubiMaster.ViewModels
             }
             catch (Exception ex)
             {
+                // 如果没有custom，则使用默认皮肤
                 WeaselCustomDetails = new WeaselCustomModel();
                 WeaselCustomDetails.patch = new CustomPatch();
-                WeaselCustomDetails.patch.style = WeaselDetails.style;
-                WeaselCustomDetails.patch.preset_color_schemes = WeaselDetails.preset_color_schemes;
+
+                var default_skin = ColorsList.FirstOrDefault(c => c.description.is_template == "true");
+                WeaselCustomDetails.patch.style = default_skin.style;
+                WeaselCustomDetails.patch.preset_color_schemes = default_skin.preset_color_schemes;
 
                 // 将从 custom 中加载到的信息同步到 current color 对象中
                 ColorSchemeModel csModel = new ColorSchemeModel();
@@ -1171,18 +1189,8 @@ namespace WubiMaster.ViewModels
 
             try
             {
-                // 对夜间主题进行处理
-                // 首次加载的时候，判断有是否有使用夜间皮肤
-                // 非首次加载，切换皮肤的时候就可以不用关注夜间皮肤
-                // 这里需要关注的一个点是：新建的皮肤要默认把夜间和日间皮肤名称设定为一致的名称
-
                 // 加载当前使用的主题名称
                 string shemeName = WeaselCustomDetails.patch.style.color_scheme;
-                // 夜间皮肤名称
-                if (WeaselCustomDetails.patch.style.color_scheme == WeaselCustomDetails.patch.style.color_scheme_dark)
-                    ConfigModel.DarkSchemaName = "default";
-                else
-                    ConfigModel.DarkSchemaName = WeaselCustomDetails.patch.style.color_scheme_dark;
                 // 切换到当前皮肤
                 ChangeSkin(shemeName);
             }

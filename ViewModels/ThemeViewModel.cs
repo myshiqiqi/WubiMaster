@@ -71,8 +71,12 @@ namespace WubiMaster.ViewModels
         {
             try
             {
-                ReLoadColorShemes();
+                LoadColorShemes();
                 LoadCurrentSkin();
+                ConfigModel.DarkSchemaName = "default";
+                ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+
+                ConfigModel.SaveConfig();
             }
             catch (Exception ex)
             {

@@ -318,14 +318,8 @@ namespace WubiMaster.ViewModels
                 GetCadidateFont();
                 GetCadidateFontSize();
 
-                // 夜间皮肤处理
-                // 夜间皮肤名称
-                if (CurrentSkin.Style.color_scheme == CurrentSkin.Style.color_scheme_dark)
-                    ConfigModel.DarkSchemaName = "default";
-                else if(CurrentSkin.Style.color_scheme_dark == null)
-                    ConfigModel.DarkSchemaName = "default";
-                else
-                    ConfigModel.DarkSchemaName = CurrentSkin.Style.color_scheme_dark;
+                // 夜间皮肤信息处理
+                SaveDarkSchema();
 
                 UpdateCurrentSkin(null);
             }

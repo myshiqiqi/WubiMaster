@@ -1190,11 +1190,11 @@ namespace WubiMaster.Controls
             c.TextColor = c.BrushConvter(schemeModel.text_color, colorFormat: color_format);
             c.FontPoint = double.Parse(styleModel.font_point);
             c.LabelFontPoint = string.IsNullOrEmpty(styleModel.label_font_point) ? c.FontPoint : double.Parse(styleModel.label_font_point);
-            c.LabelColor = c.BrushConvter(schemeModel.label_color, Colors.Gray.ToString(), "argb");
+            c.LabelColor = c.BrushConvter(schemeModel.label_color, Colors.Gray.ToString(), colorFormat: color_format);
             c.CommentFontPoint = string.IsNullOrEmpty(styleModel.comment_font_point) ? c.FontPoint : double.Parse(styleModel.comment_font_point);
             c.LabelFontFace = string.IsNullOrEmpty(styleModel.label_font_face) ? c.FontFace : new FontFamily(styleModel.label_font_face);
             c.CommentFontFace = string.IsNullOrEmpty(styleModel.comment_font_face) ? c.FontFace : new FontFamily(styleModel.comment_font_face);
-            c.CommentTextColor = c.BrushConvter(schemeModel.comment_text_color, Colors.Gray.ToString(), "argb");
+            c.CommentTextColor = c.BrushConvter(schemeModel.comment_text_color, Colors.Gray.ToString(), colorFormat: color_format);
 
             #region 候选文本字体处理
 

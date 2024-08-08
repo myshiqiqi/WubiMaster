@@ -165,7 +165,7 @@ namespace WubiMaster.ViewModels
                     List<string> accent_colors = new List<string>() { "accent-100", "accent-200" };
                     List<string> bg_colors = new List<string>() { "bg-100", "bg-200", "bg-300" };
                     var hilited_candidate_random = new Random();
-                    int hilited_candidate_index = hilited_candidate_random.Next(5);
+                    int hilited_candidate_index = hilited_candidate_random.Next(4);
                     if (hilited_candidate_index == 0)
                     {
                         // 背景色
@@ -243,24 +243,6 @@ namespace WubiMaster.ViewModels
                         // 编码区颜色
                         hilited_text_color = (SolidColorBrush)theme_resource["text-100"];
                         hilited_back_color = back_color;
-                    }
-                    else if (hilited_candidate_index == 4)
-                    {
-                        // 背景色
-                        back_color = Brushes.Transparent;
-                        // 边框色
-                        border_color = Brushes.Transparent;
-                        // 首选背景色
-                        hilited_candidate_back_color = (SolidColorBrush)theme_resource[primary_colors[new Random().Next(primary_colors.Count)]];
-                        // 首选文字色
-                        hilited_candidate_text_color = (SolidColorBrush)theme_resource["bg-100"];
-                        hilited_label_color = hilited_candidate_text_color;
-                        hilited_comment_text_color = hilited_candidate_text_color;
-                        // 编码区颜色
-                        int accent_incex = new Random().Next(accent_colors.Count);
-                        hilited_text_color = (SolidColorBrush)theme_resource[accent_colors[accent_incex]];
-                        accent_colors.RemoveAt(accent_incex);
-                        hilited_back_color = (SolidColorBrush)theme_resource[accent_colors[new Random().Next(accent_colors.Count)]];
                     }
 
                     CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
@@ -377,7 +359,6 @@ namespace WubiMaster.ViewModels
                         SolidColorBrush candidate_text_color = (SolidColorBrush)App.Current.FindResource("text-100");
                         SolidColorBrush candidate_back_color = (SolidColorBrush)App.Current.FindResource("bg-100");
 
-                        //CurrentSkin.UsedColor.color_format = "argb";
                         CurrentSkin.UsedColor.text_color = ColorConverterHelper.ConverterToRime(text_color.ToString());
                         CurrentSkin.UsedColor.comment_text_color = ColorConverterHelper.ConverterToRime(comment_text_color.ToString());
                         CurrentSkin.UsedColor.label_color = ColorConverterHelper.ConverterToRime(label_color.ToString());

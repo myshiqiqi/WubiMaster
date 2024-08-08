@@ -1461,8 +1461,6 @@ namespace WubiMaster.Controls
             //}
             // 拆分字根提示是否显示
             c.IsShowSpelling = c.ColorModel.OtherProperty.ShowSpelling;
-
-            Console.WriteLine();
         }
 
         private Brush BrushConvter(string colorTxt, string defaultColor = "0x00000000", string colorFormat = "abgr")

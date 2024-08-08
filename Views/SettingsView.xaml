@@ -371,11 +371,11 @@
 
                                 <c:StateToggleButton Width="120"
                                                      Height="28"
-                                                     CheckedState="左"
+                                                     CheckedState="右"
                                                      Command="{Binding WinStateLayoutCommand}"
                                                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
                                                      IsChecked="{Binding WinStateChecked}"
-                                                     UnCheckedState="右" />
+                                                     UnCheckedState="左" />
                             </StackPanel>
                         </c:SettingPanel.SettingContent>
                     </c:SettingPanel>

@@ -1363,7 +1363,7 @@ namespace WubiMaster.Controls
                     // # 天圆地方模式
                     c.IsBanYueMode = true;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner, 0, 0, c.RoundCorner);
-                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner, c.RoundCorner, 0, 0);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner - 2, c.RoundCorner - 2, 0, 0);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner - 2, 0, 0, c.RoundCorner - 2);
                     c.LastBorderCornerV = new CornerRadius(0, 0, c.RoundCorner, c.RoundCorner);
                     c.LastBorderCornerH = new CornerRadius(0, c.RoundCorner, c.RoundCorner, 0);
@@ -1377,14 +1377,14 @@ namespace WubiMaster.Controls
                     // # 非天圆地方模式
                     c.IsBanYueMode = false;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
-                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner - 2);
                     c.LastBorderCornerV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner - 2);
                     c.LastBorderCornerH = new CornerRadius(c.RoundCorner);
                     c.LastBorderCornerTV = new CornerRadius(c.RoundCorner);
                     c.CenterBorderCorner = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderMargin = new Thickness(0);
-                    c.BorderPadding = new Thickness(3);
+                    c.BorderPadding = new Thickness(2);
                 }
             }
             else // 当编码在高亮区时
@@ -1410,7 +1410,7 @@ namespace WubiMaster.Controls
                     // 判断为普通模式
                     c.IsBanYueMode = false;
                     c.HiliteBorderCornerTV = new CornerRadius(c.RoundCorner);
-                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner);
+                    c.HiliteBorderCornerV = new CornerRadius(c.RoundCorner - 2);
                     c.LastBorderCornerV = new CornerRadius(c.RoundCorner);
                     c.HiliteBorderCornerH = new CornerRadius(c.RoundCorner - 2);
                     c.LastBorderCornerH = new CornerRadius(c.RoundCorner);
@@ -1419,7 +1419,7 @@ namespace WubiMaster.Controls
                     c.HiliteBorderMargin = new Thickness(0);
                     c.CandidateBorderMargin = new Thickness(0, 0, 0, 2);  // 编码区的外边距
                     c.CandidateBorderCorner = new CornerRadius(c.RoundCorner - 2);  // 编码区的圆角值
-                    c.BorderPadding = new Thickness(3);
+                    c.BorderPadding = new Thickness(2);
                 }
             }
             #endregion

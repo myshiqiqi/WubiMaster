@@ -312,7 +312,7 @@
 
                                 <!--编码-->
                                 <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                                    <Border Margin="0,0,0,0" Style="{StaticResource hilited_border_style}">
+                                    <Border Margin="0,0,0,2" Style="{StaticResource hilited_border_style}">
                                         <TextBlock Style="{StaticResource hilited_text_style}" Text="ksvt" />
                                     </Border>
                                 </Grid>
@@ -326,6 +326,7 @@
 
                                     <!--高亮候选-->
                                     <Border Grid.ColumnSpan="4"
+                                            Margin="0"
                                             Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerV}"
                                             Style="{StaticResource hilited_candidate_border_style}">

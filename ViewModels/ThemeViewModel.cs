@@ -305,6 +305,12 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        [RelayCommand]
+        public void ImportSkin(object obj)
+        {
+
+        }
+
         /// <summary>
         /// 皮肤跟随主题
         /// </summary>

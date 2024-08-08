@@ -405,7 +405,7 @@
                                                           CandidateTextColor="{DynamicResource text-100}"
                                                           CommentFontPoint="15"
                                                           CommentTextColor="{DynamicResource text-200}"
-                                                          FontFace="../Fonts/#方正启体_GBK"
+                                                          FontFace="微软雅黑"
                                                           FontPoint="18"
                                                           HilitedBackColor="{DynamicResource accent-100}"
                                                           HilitedCandidateBackColor="{DynamicResource primary-100}"

@@ -372,6 +372,8 @@ namespace WubiMaster.ViewModels
                     LogHelper.Error(ex.ToString());
                     this.ShowMessage("设置主题过程发生错误，请查看日志", DialogType.Error);
                 }
+
+                ConfigModel.SaveConfig();
             });
         }
 
@@ -541,6 +543,9 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// 随机换肤开关
+        /// </summary>
         [RelayCommand]
         public void SetRandomColor()
         {
@@ -553,6 +558,8 @@ namespace WubiMaster.ViewModels
                 ChangeSkin(rdModel.style.color_scheme);
                 ServiceHelper.Deployer();
             }
+
+            ConfigModel.SaveConfig();
         }
 
         [RelayCommand]

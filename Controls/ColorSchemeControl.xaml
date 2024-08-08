@@ -119,7 +119,8 @@
 
                                 <Grid>
                                     <ContentPresenter x:Name="ContentSite"
-                                                      Width="0" Height="0"
+                                                      Width="0"
+                                                      Height="0"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"
                                                       ContentSource="Header"
@@ -451,7 +452,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid Visibility="{Binding ElementName=color_scheme_control, Path=UnInlinePreedit, Converter={StaticResource Bool2Visibility}}">
-                                    <Border Margin="0" Style="{StaticResource hilited_border_style}">
+                                    <Border Margin="0,0,0,1" Style="{StaticResource hilited_border_style}">
                                         <TextBlock Style="{StaticResource hilited_text_style}" Text="ksvt" />
                                     </Border>
                                 </Grid>
@@ -459,12 +460,9 @@
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
                                     <!--首选项-->
-                                    <Border Margin="1"
-                                            Padding="0"
-                                            Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                    <Border Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             BorderThickness="0"
-                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}"
-                                            Style="{StaticResource hilited_candidate_border_style}">
+                                            CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}">
 
                                         <Grid>
                                             <Grid.ColumnDefinitions>

@@ -937,7 +937,8 @@ namespace WubiMaster.ViewModels
         {
             if (is_loaded) return;
 
-            LoadCurrentSkin();
+            if (!ConfigModel.Theme_FollowTheme && !ConfigModel.Theme_RandomSkin)
+                LoadCurrentSkin();
 
             is_loaded = true;
         }

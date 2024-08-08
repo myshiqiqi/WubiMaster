@@ -1334,11 +1334,14 @@ namespace WubiMaster.ViewModels
             }
             if (ConfigModel.IsShadowRadius)
             {
-                CurrentSkin.Style.layout.shadow_radius = default_color.style.layout.shadow_radius;
+                CurrentSkin.Style.layout.shadow_radius = "8";//default_color.style.layout.shadow_radius;
+                CurrentSkin.UsedColor.shadow_color = "0x66000000";
+                CurrentSkin.PresetColorSchemes.FirstOrDefault().Value.shadow_color = "0x66000000";
             }
             else
             {
                 CurrentSkin.Style.layout.shadow_radius = "0";
+                CurrentSkin.PresetColorSchemes.FirstOrDefault().Value.shadow_color = "0x00000000";
             }
         }
 

@@ -461,7 +461,8 @@
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
                                     <!--首选项-->
-                                    <Border Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
+                                    <Border Padding="0,0,10,0"
+                                            Background="{Binding ElementName=color_scheme_control, Path=HilitedCandidateBackColor}"
                                             BorderThickness="0"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=HiliteBorderCornerH}">
 
@@ -498,7 +499,7 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Margin="1"
+                                    <Border Padding="0,0,10,0"
                                             Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=CenterBorderCorner}"
                                             Style="{StaticResource hilited_candidate_border_style}">
@@ -527,7 +528,7 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Margin="1"
+                                    <Border Padding="0,0,10,0"
                                             Background="{Binding ElementName=color_scheme_control, Path=CandidateBackColor}"
                                             CornerRadius="{Binding ElementName=color_scheme_control, Path=LastBorderCornerH}">
                                         <Grid>
@@ -563,7 +564,7 @@
             </TabItem>
             <!--文本垂直模式-->
             <TabItem IsEnabled="False" IsSelected="{Binding ElementName=color_scheme_control, Path=TextVertical, Mode=OneWay}">
-                <Viewbox MaxHeight="170">
+                <Viewbox Width="130" MaxHeight="170">
                     <Grid MinWidth="130" HorizontalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -638,7 +639,9 @@
                                                            Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="中书君" />
 
-                                                <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}">
+                                                <StackPanel Grid.Row="3"
+                                                            TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=HilitedCommentTextColor}"
+                                                            Visibility="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}">
                                                     <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
                                                         <TextBlock.RenderTransform>
                                                             <RotateTransform Angle="90" />
@@ -678,7 +681,9 @@
                                                            Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="五笔斋" />
 
-                                                <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
+                                                <StackPanel Grid.Row="3"
+                                                            TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
+                                                            Visibility="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}">
                                                     <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
                                                         <TextBlock.RenderTransform>
                                                             <RotateTransform Angle="90" />
@@ -718,7 +723,9 @@
                                                            Style="{StaticResource v_hilited_candidate_font_style}"
                                                            Text="空山明月" />
 
-                                                <StackPanel Grid.Row="3" TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}">
+                                                <StackPanel Grid.Row="3"
+                                                            TextBlock.Foreground="{Binding ElementName=color_scheme_control, Path=CommentTextColor}"
+                                                            Visibility="{Binding ElementName=color_scheme_control, Path=IsShowSpelling, Converter={StaticResource Bool2Visibility}}">
                                                     <TextBlock Style="{StaticResource v_spelling_style}" Text="〈">
                                                         <TextBlock.RenderTransform>
                                                             <RotateTransform Angle="90" />

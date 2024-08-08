@@ -521,19 +521,6 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 将当前皮肤样式保存到weasel.custom.yaml中
-        /// </summary>
-        [RelayCommand]
-        public void SetColor()
-        {
-            // 将 colors 文件下的主题数据写入到 custom 外观文件中去
-            SaveWeaselCustom();
-
-            string colorScheme = ColorsList[ConfigModel.ColorIndex].description.color_name;
-            ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
-        }
-
-        /// <summary>
         /// 设定夜间皮肤
         /// </summary>
         /// <param name="obj"></param>
@@ -763,7 +750,7 @@ namespace WubiMaster.ViewModels
 
             ConfigModel.SaveConfig();
 
-            SetColor();
+            SaveWeaselCustom();
         }
 
         /// <summary>
@@ -843,6 +830,9 @@ namespace WubiMaster.ViewModels
             }
         }
 
+        /// <summary>
+        /// Loaded
+        /// </summary>
         [RelayCommand]
         public void ViewLoaded()
         {

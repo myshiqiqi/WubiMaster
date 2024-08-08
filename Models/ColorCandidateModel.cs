@@ -158,12 +158,12 @@ namespace WubiMaster.Models
         private void InitLabelDict()
         {
             LabelDict = new Dictionary<string, string>();
+            AddLabel("1, 2, 3, 4, 5, 6, 7, 8, 9, 10");
             AddLabel("㊀, ㊁, ㊂, ㊃, ㊄, ㊅, ㊆, ㊇, ㊈, ㊉");
             AddLabel("〡, 〢, 〣, 〤, 〥, 〦, 〧, 〨, 〩, 〸, 〹, 〺");
             AddLabel("甲, 乙, 丙, 丁, 戊, 己, 庚, 辛, 壬, 癸");
             AddLabel("子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥");
             AddLabel("Ⅰ, Ⅱ, Ⅲ, Ⅳ, Ⅴ, Ⅵ, Ⅶ, Ⅷ, Ⅸ, Ⅹ, Ⅺ, Ⅻ");
-            AddLabel("1, 2, 3, 4, 5, 6, 7, 8, 9, 10");
             AddLabel("⑴, ⑵, ⑶, ⑷, ⑸, ⑹, ⑺, ⑻, ⑼, ⑽");
             AddLabel("☰, ☱, ☲, ☳, ☴, ☵, ☶, ☷");
             AddLabel("♈, ♉, ♊, ♋, ♌, ♍, ♎, ♏, ♐, ♑, ♒, ♓");
@@ -193,7 +193,7 @@ namespace WubiMaster.Models
         private void InitSuffixList()
         {
             LabelSuffixList = new List<string>();
-            string[] suffix_strs = "无,.,空格,-,|,■,□,→,↣,➼,➤,~,:,#,*,+,●".Split(",");
+            string[] suffix_strs = "无,.,空格,■,□,+,●".Split(",");
             for (int i = 0; i < suffix_strs.Length; i++)
             {
                 LabelSuffixList.Add(suffix_strs[i]);

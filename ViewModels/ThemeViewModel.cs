@@ -9,7 +9,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using WubiMaster.Common;
-using WubiMaster.Controls;
 using WubiMaster.Models;
 using WubiMaster.Views.PopViews;
 
@@ -24,13 +23,13 @@ namespace WubiMaster.ViewModels
         private List<ColorsModel> colorsList;
 
         [ObservableProperty]
-        private List<ColorsModel> darkColorsList;
-
-        [ObservableProperty]
         private ThemeConfigModel configModel;
 
         [ObservableProperty]
         private ColorSchemeModel currentSkin;
+
+        [ObservableProperty]
+        private List<ColorsModel> darkColorsList;
 
         private ColorsModel default_color;
 
@@ -61,24 +60,6 @@ namespace WubiMaster.ViewModels
 
             LoadColorShemes();
             LoadConfig();
-        }
-
-        // 当初始化后重新加载皮肤
-        private void ReLoadCurrentSkin(object recipient, string message)
-        {
-            try
-            {
-                LoadColorShemes();
-                LoadCurrentSkin();
-                ConfigModel.DarkSchemaName = "default";
-                ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
-
-                ConfigModel.SaveConfig();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-            }
         }
 
         /// <summary>
@@ -293,28 +274,24 @@ namespace WubiMaster.ViewModels
                 // 利用反射创建对象的副本
                 // 避免在修改了临时的皮肤外观时，导致列表中的皮肤对象值也发生变化
                 ColorSchemeModel _colorModel = new ColorSchemeModel();
-                _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);//cModel.style;
+                _colorModel.Style = CopyOut.TransReflection<ColorStyle, ColorStyle>(cModel.style);
                 _colorModel.UsedColor = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes.FirstOrDefault().Value);
                 foreach (var k in cModel.preset_color_schemes.Keys)
                 {
                     var _schema = CopyOut.TransReflection<ColorScheme, ColorScheme>(cModel.preset_color_schemes[k]);
                     _colorModel.PresetColorSchemes.Add(k, _schema);
                 }
-
-                // 加载其它项，如序号标签之类
-                _colorModel.OtherProperty.LabelStr = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                _colorModel.OtherProperty.LabelSuffix = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                _colorModel.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
                 CurrentSkin = _colorModel;
 
-                if (ConfigModel.IsTemplateAll)
-                    SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
-                else
-                    SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
+                // 从模板加载样式
+                ChangeTemplate();
 
                 // 从配置是加载字体信息
                 GetCadidateFont();
                 GetCadidateFontSize();
+
+                // 更新候选项标签样式
+                ChangeCandidate();
 
                 // 夜间皮肤信息处理
                 SaveDarkSchema();
@@ -443,8 +420,6 @@ namespace WubiMaster.ViewModels
                     return;
                 }
 
-
-
                 string color_name = CurrentSkin.Style.color_scheme;
                 // 如果判断是模板皮肤，则不可删除
                 var _skin = ColorsList.FirstOrDefault(c => c.style.color_scheme == color_name);
@@ -556,6 +531,27 @@ namespace WubiMaster.ViewModels
 
             string colorScheme = ColorsList[ConfigModel.ColorIndex].description.color_name;
             ConfigHelper.WriteConfigByString("color_scheme", colorScheme);
+        }
+
+        /// <summary>
+        /// 设定夜间皮肤
+        /// </summary>
+        /// <param name="obj"></param>
+        [RelayCommand]
+        public void SetDarkSkin(object obj)
+        {
+            try
+            {
+                SaveDarkSchema();
+
+                ConfigModel.SaveConfig();
+                this.ShowMessage("夜间皮肤设定成功", DialogType.Success);
+            }
+            catch (Exception ex)
+            {
+                this.ShowMessage("夜间皮肤设定失败，详情请查看日志", DialogType.Error);
+                LogHelper.Error(ex.ToString());
+            }
         }
 
         [RelayCommand]
@@ -750,64 +746,6 @@ namespace WubiMaster.ViewModels
         }
 
         /// <summary>
-        /// 设定夜间皮肤
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        public void SetDarkSkin(object obj)
-        {
-            try
-            {
-                SaveDarkSchema();
-
-                ConfigModel.SaveConfig();
-                this.ShowMessage("夜间皮肤设定成功", DialogType.Success);
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage("夜间皮肤设定失败，详情请查看日志", DialogType.Error);
-                LogHelper.Error(ex.ToString());
-            }
-        }
-
-        private void SaveDarkSchema()
-        {
-            var dark_skin_name = ConfigModel.DarkSchemaName;
-
-            var has_dark_skin = DarkColorsList.FirstOrDefault(d => d.style.color_scheme == dark_skin_name);
-            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName) || has_dark_skin == null)
-                dark_skin_name = ConfigModel.DarkSchemaName = "default";
-            CurrentSkin.Style.color_scheme_dark = ConfigModel.DarkSchemaName;
-
-            // 当设定为默认时，需要将夜间主题删除掉
-            if (dark_skin_name == "default")
-            {
-                CurrentSkin.Style.color_scheme_dark = CurrentSkin.Style.color_scheme;
-                if (CurrentSkin.PresetColorSchemes.Count >= 2)
-                {
-                    var last_schema = CurrentSkin.PresetColorSchemes.Last().Key;
-                    CurrentSkin.PresetColorSchemes.Remove(last_schema);
-                }
-            }
-            else
-            {
-                var dark_skin = ColorsList.Where(c => c.style.color_scheme == dark_skin_name).FirstOrDefault();
-                if (dark_skin == null) { throw new Exception($"找不到夜间皮肤信息：{dark_skin_name}"); }
-                var dark_skin_dict = dark_skin.preset_color_schemes;
-
-                if (CurrentSkin.PresetColorSchemes.Count >= 2)
-                {
-                    var last_key = CurrentSkin.PresetColorSchemes.Last().Key;
-                    CurrentSkin.PresetColorSchemes.Remove(last_key);
-                }
-                if (!CurrentSkin.PresetColorSchemes.ContainsKey(dark_skin_name))
-                    CurrentSkin.PresetColorSchemes.Add(dark_skin_name, dark_skin_dict.FirstOrDefault().Value);
-            }
-
-            SaveWeaselCustom();
-        }
-
-        /// <summary>
         /// 更新当前皮肤信息
         /// </summary>
         /// <param name="obj"></param>
@@ -862,34 +800,7 @@ namespace WubiMaster.ViewModels
         {
             try
             {
-                // 首先需要将新值更新到model中
-                CandidateModel.Change();
-
-                // 候选序号样式
-                string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
-                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
-                CurrentSkin.OtherProperty.LabelStr = candidate_str;
-
-                // 候选个数设定
-                string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
-                DefaultCustomDetails.SetAttribute(DefaultCustomDetails.PageSize, candidate_count);
-
-                // 候选序号后缀（标签符）
-                string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
-                CurrentSkin.OtherProperty.LabelSuffix = suffix_str;
-                suffix_str = suffix_str == "无" ? "" : suffix_str;
-                suffix_str = suffix_str == "空格" ? " " : suffix_str;
-                CurrentSkin.Style.label_format = "%s" + suffix_str;
-
-                // mark 符
-                //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
-                //CurrentSkin.OtherProperty.MarkText = mark_str;
-                //CurrentSkin.Style.mark_text = mark_str;
-
-                // 是否显示拆分提示
-                CurrentSkin.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
-
-                DefaultCustomDetails.Write();
+                ChangeCandidate();
                 UpdateCurrentSkin(null);
 
                 CandidateModel.SaveConfig();
@@ -950,10 +861,52 @@ namespace WubiMaster.ViewModels
             return targetBrush;
         }
 
+        // 设置或更新候选项配置，比如标签，分隔符之类
+        private void ChangeCandidate()
+        {
+            // 首先需要将新值更新到model中
+            CandidateModel.Change();
+
+            // 候选序号样式
+            string candidate_str = CandidateModel.LabelDict.Values.ToList()[CandidateModel.LabelIndex];
+            DefaultCustomDetails.SetAttribute(DefaultCustomDetails.SelectLabels, candidate_str);
+            CurrentSkin.OtherProperty.LabelStr = candidate_str;
+
+            // 候选个数设定
+            string candidate_count = CandidateModel.NumList[CandidateModel.NumIndex];
+            DefaultCustomDetails.SetAttribute(DefaultCustomDetails.PageSize, candidate_count);
+
+            // 候选序号后缀（标签符）
+            string suffix_str = CandidateModel.LabelSuffixList[CandidateModel.LabelSuffixIndex];
+            CurrentSkin.OtherProperty.LabelSuffix = suffix_str;
+            suffix_str = suffix_str == "无" ? "" : suffix_str;
+            suffix_str = suffix_str == "空格" ? " " : suffix_str;
+            CurrentSkin.Style.label_format = "%s" + suffix_str;
+
+            // mark 符
+            //string mark_str = CandidateModel.MarkTextList[CandidateModel.MarkTextIndex];
+            //CurrentSkin.OtherProperty.MarkText = mark_str;
+            //CurrentSkin.Style.mark_text = mark_str;
+
+            // 是否显示拆分提示
+            CurrentSkin.OtherProperty.ShowSpelling = ConfigModel.ThemeShowSpell;
+
+            DefaultCustomDetails.Write();
+        }
+
         private void ChangeColorScheme(object recipient, string message)
         {
             LoadColorShemes();
             LoadCustomColor();
+        }
+
+        // 从模板中更新样式布局
+        private void ChangeTemplate()
+        {
+            if (ConfigModel.IsTemplateAll)
+                SetColorFromTemp();  // 当模板应用于单个文件时，将当前主题的样式同步到模板对象中
+            else
+                SetTempFromColor();  // 当模板应用于全部文件时，从模板对象中修改当前主题模板样式
         }
 
         private Color ColorConvter(string colorTxt, string defaultColor = "0x000000", string colorFormat = "abgr")
@@ -1198,7 +1151,6 @@ namespace WubiMaster.ViewModels
                 this.ShowMessage("加载当前使用的皮肤出错，详情请查看日志", DialogType.Error);
                 LogHelper.Error(ex.ToString());
             }
-
         }
 
         private void LoadCustomColor()
@@ -1244,6 +1196,24 @@ namespace WubiMaster.ViewModels
             ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
         }
 
+        // 当初始化后重新加载皮肤
+        private void ReLoadCurrentSkin(object recipient, string message)
+        {
+            try
+            {
+                LoadColorShemes();
+                LoadCurrentSkin();
+                ConfigModel.DarkSchemaName = "default";
+                ConfigModel.ColorIndex = ColorsList.Select(c => c.description.color_name).ToList().IndexOf(CurrentSkin.Style.color_scheme);
+
+                ConfigModel.SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.ToString());
+            }
+        }
+
         /// <summary>
         /// 只在当前皮肤
         /// 将当前皮肤只在到color目录下
@@ -1271,6 +1241,43 @@ namespace WubiMaster.ViewModels
 
             var save_path = GlobalValues.UserPath + $"\\colors\\{CurrentSkin.Style.color_scheme}.yaml";
             YamlHelper.WriteYaml(new_skin_model, save_path);
+        }
+
+        private void SaveDarkSchema()
+        {
+            var dark_skin_name = ConfigModel.DarkSchemaName;
+
+            var has_dark_skin = DarkColorsList.FirstOrDefault(d => d.style.color_scheme == dark_skin_name);
+            if (string.IsNullOrEmpty(ConfigModel.DarkSchemaName) || has_dark_skin == null)
+                dark_skin_name = ConfigModel.DarkSchemaName = "default";
+            CurrentSkin.Style.color_scheme_dark = ConfigModel.DarkSchemaName;
+
+            // 当设定为默认时，需要将夜间主题删除掉
+            if (dark_skin_name == "default")
+            {
+                CurrentSkin.Style.color_scheme_dark = CurrentSkin.Style.color_scheme;
+                if (CurrentSkin.PresetColorSchemes.Count >= 2)
+                {
+                    var last_schema = CurrentSkin.PresetColorSchemes.Last().Key;
+                    CurrentSkin.PresetColorSchemes.Remove(last_schema);
+                }
+            }
+            else
+            {
+                var dark_skin = ColorsList.Where(c => c.style.color_scheme == dark_skin_name).FirstOrDefault();
+                if (dark_skin == null) { throw new Exception($"找不到夜间皮肤信息：{dark_skin_name}"); }
+                var dark_skin_dict = dark_skin.preset_color_schemes;
+
+                if (CurrentSkin.PresetColorSchemes.Count >= 2)
+                {
+                    var last_key = CurrentSkin.PresetColorSchemes.Last().Key;
+                    CurrentSkin.PresetColorSchemes.Remove(last_key);
+                }
+                if (!CurrentSkin.PresetColorSchemes.ContainsKey(dark_skin_name))
+                    CurrentSkin.PresetColorSchemes.Add(dark_skin_name, dark_skin_dict.FirstOrDefault().Value);
+            }
+
+            SaveWeaselCustom();
         }
 
         /// <summary>

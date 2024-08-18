@@ -310,6 +310,7 @@ namespace WubiMaster.ViewModels
         {
             // 打开文件选择对话框
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "导入皮肤文件";
             openFileDialog.Filter = "YAML文件|*.yaml";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             if (openFileDialog.ShowDialog() == true)
@@ -325,24 +326,45 @@ namespace WubiMaster.ViewModels
                         string yaml_content = File.ReadAllText(file_path);
 
                         // 解析 yaml 文件内容
-                        ColorSchemeModel color_scheme = YamlHelper.Deserizlize<ColorSchemeModel>(yaml_content);
+                        ColorsModel cModel = YamlHelper.Deserizlize<ColorsModel>(yaml_content);
+
+                        // 将 cModel 转成为 CurrentSkin
+                        CurrentSkin.Style = cModel.style;
+                        CurrentSkin.UsedColor = cModel.preset_color_schemes.FirstOrDefault().Value;
+                        CurrentSkin.PresetColorSchemes = cModel.preset_color_schemes;
+
+                        // 检查 ColorList 中是否已经存在同名皮肤
+                        // 如果存在，则提示用户
+
+                        // 如果 ColorList 中包含同名文件，给出提示
+                        if (ColorsList.Any(c => c.description.color_name == cModel.description.color_name))
+                        {
+                            this.ShowMessage("皮肤名称已存在，请重新命名皮肤文件！", DialogType.Error);
+                            return;
+                        }
 
                         // 读取 yaml 文件名作为皮肤名称
                         string color_name = Path.GetFileNameWithoutExtension(file_name);
 
                         // 保存到 colors 目录
                         string save_path = GlobalValues.UserPath + @"\colors";
-                        if (!Directory.Exists(save_path))
+                        if (Directory.Exists(save_path))
                         {
-                            Directory.CreateDirectory(save_path);
+                            SaveCurrentSkin(color_name, save_path);
+                            ReLoadColorShemes();
                         }
+                        else
+                        {
+                            throw new DirectoryNotFoundException("colors 目录不存在！");
+                        }
+
+                        this.ShowMessage("导入成功！", DialogType.Success);
                     }
                     catch (Exception ex)
                     {
                         LogHelper.Error(ex.ToString());
                     }
                 }
-
             }
         }
 

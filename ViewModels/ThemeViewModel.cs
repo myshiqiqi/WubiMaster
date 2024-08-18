@@ -308,7 +308,42 @@ namespace WubiMaster.ViewModels
         [RelayCommand]
         public void ImportSkin(object obj)
         {
+            // 打开文件选择对话框
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "YAML文件|*.yaml";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string file_path = openFileDialog.FileName;
+                string file_name = Path.GetFileNameWithoutExtension(file_path);
+                string file_ext = Path.GetExtension(file_path);
+                if (file_ext.ToLower() == ".yaml")
+                {
+                    try
+                    {
+                        // 读取 yaml 文件内容
+                        string yaml_content = File.ReadAllText(file_path);
 
+                        // 解析 yaml 文件内容
+                        ColorSchemeModel color_scheme = YamlHelper.Deserizlize<ColorSchemeModel>(yaml_content);
+
+                        // 读取 yaml 文件名作为皮肤名称
+                        string color_name = Path.GetFileNameWithoutExtension(file_name);
+
+                        // 保存到 colors 目录
+                        string save_path = GlobalValues.UserPath + @"\colors";
+                        if (!Directory.Exists(save_path))
+                        {
+                            Directory.CreateDirectory(save_path);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Error(ex.ToString());
+                    }
+                }
+
+            }
         }
 
         /// <summary>
@@ -489,15 +524,18 @@ namespace WubiMaster.ViewModels
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Title = "导出";
-                sfd.FileName = "weasel.custom.yaml";
+                sfd.FileName = $"{CurrentSkin.UsedColor.name}.yaml";
                 sfd.DefaultExt = ".yaml";
-                sfd.Filter = "Text documents|*.yaml";
-                sfd.InitialDirectory = "";
+                sfd.Filter = "YAML文件|*.yaml";
+                sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
 
                 if (sfd.ShowDialog() == true)
                 {
                     var targetPath = sfd.FileName;
-                    SaveWeaselCustom(targetPath);
+                    var file_name = Path.GetFileNameWithoutExtension(targetPath);
+                    SaveCurrentSkin(file_name, save_path: targetPath);
+
+                    this.ShowMessage($"皮肤[{file_name}.yaml]导出成功！", DialogType.Success);
                 }
             }
             catch (Exception ex)
@@ -1222,7 +1260,7 @@ namespace WubiMaster.ViewModels
         /// 将当前皮肤只在到color目录下
         /// </summary>
         /// <param name="skinName">名称</param>
-        private void SaveCurrentSkin(string skinName = "")
+        private void SaveCurrentSkin(string skinName = "", string save_path = "")
         {
             // 保存当前皮肤时，只保存主皮肤信息，夜间皮肤不保存
 
@@ -1242,7 +1280,8 @@ namespace WubiMaster.ViewModels
             new_skin_model.style = _style;
             new_skin_model.preset_color_schemes.Add(CurrentSkin.Style.color_scheme, _color);
 
-            var save_path = GlobalValues.UserPath + $"\\colors\\{CurrentSkin.Style.color_scheme}.yaml";
+            if (string.IsNullOrEmpty(save_path))
+                save_path = GlobalValues.UserPath + $"\\colors\\{CurrentSkin.Style.color_scheme}.yaml";
             YamlHelper.WriteYaml(new_skin_model, save_path);
         }
 

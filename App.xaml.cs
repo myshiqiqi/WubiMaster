@@ -60,15 +60,15 @@ namespace WubiMaster
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            StringBuilder sbEx = new StringBuilder();
+            StringBuilder sbEx = new();
             if (e.IsTerminating)
             {
                 sbEx.Append("程序发生致命错误，将终止，请联系开发人员！\n");
             }
 
-            if (e.ExceptionObject is Exception)
+            if (e.ExceptionObject is Exception ex)
             {
-                sbEx.Append(((Exception)e.ExceptionObject).Message);
+                sbEx.Append(ex.Message);
             }
             else
             {

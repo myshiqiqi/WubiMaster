@@ -16,7 +16,7 @@ namespace WubiMaster
     public partial class App : Application
     {
         private static ViewModelLocator? locator;
-        private Mutex mutex;
+        private Mutex? mutex;
         public static bool IsMaximized { get; set; }
         public static ViewModelLocator? Locator => locator ??= App.Current.FindResource("Locator") as ViewModelLocator;
 
@@ -42,14 +42,14 @@ namespace WubiMaster
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //bool ret;
-            //mutex = new Mutex(true, "WubiMaster", out ret);
-            //if (!ret)
-            //{
-            //    LogHelper.Info("禁止启用多个进程");
-            //    Environment.Exit(0);
-            //    return;
-            //}
+            if (mutex != null) return;
+            mutex = new Mutex(true, "WubiMaster", out bool ret);
+            if (!ret)
+            {
+                LogHelper.Info("禁止启用多个进程");
+                Environment.Exit(0);
+                return;
+            }
 
             LogHelper.Info("程序启动");
 
@@ -77,7 +77,7 @@ namespace WubiMaster
             this.ShowMessage(sbEx.ToString(), DialogType.Error);
         }
 
-        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
             LogHelper.Fatal(e.Exception.Message);
             e.SetObserved();

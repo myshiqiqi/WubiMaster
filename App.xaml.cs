@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using WubiMaster.Common;
+using WubiMaster.ViewModels;
 
 namespace WubiMaster
 {
     public partial class App : Application
     {
+        private static ViewModelLocator? locator;
         private Mutex mutex;
         public static bool IsMaximized { get; set; }
+        public static ViewModelLocator? Locator => locator ??= App.Current.FindResource("Locator") as ViewModelLocator;
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {

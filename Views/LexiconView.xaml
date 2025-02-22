@@ -15,7 +15,7 @@
         <vm:LexiconViewModel />
     </UserControl.DataContext>
 
-    <Grid>
+    <Grid Visibility="Collapsed">
         <Grid.RowDefinitions>
             <RowDefinition Height="45" />
             <RowDefinition />
@@ -49,126 +49,9 @@
                           ToolTip="自造词" />
         </Grid>
 
-        <Grid Grid.Row="1">
-
-            <DataGrid x:Name="DataGrid"
-                      ItemsSource="{Binding CikuList}"
-                      Style="{StaticResource DataGridStyle}">
-
-                <DataGrid.Columns>
-
-                    <DataGridCheckBoxColumn ElementStyle="{StaticResource CheckBoxStyle}" Header="C">
-                        <DataGridCheckBoxColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <CheckBox />
-                            </DataTemplate>
-                        </DataGridCheckBoxColumn.HeaderTemplate>
-                    </DataGridCheckBoxColumn>
-
-                    <DataGridTextColumn Width="80"
-                                        Binding="{Binding Id}"
-                                        Header="ID" />
-                    <DataGridTextColumn Width="100"
-                                        Binding="{Binding Code}"
-                                        Header="编码" />
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Text}"
-                                        Header="词" />
-                    <DataGridTextColumn Width="100"
-                                        Binding="{Binding Weight}"
-                                        Header="权重" />
-                    <DataGridTextColumn Width="120"
-                                        Binding="{Binding Group}"
-                                        Header="分组" />
-                    <DataGridTemplateColumn Header="操作">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" TextBlock.FontFamily="../Fonts/#iconfont">
-
-                                    <Border Width="20"
-                                            Height="20 "
-                                            Margin="3,0"
-                                            Background="{DynamicResource accent-100}"
-                                            CornerRadius="10">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource text-100}"
-                                                   Text="&#xe60e;" />
-                                    </Border>
-
-                                    <Border Width="20"
-                                            Height="20 "
-                                            Margin="3,0"
-                                            Background="Red"
-                                            CornerRadius="10">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="White"
-                                                   Text="&#xe629;" />
-                                    </Border>
-
-                                    <Border Width="20"
-                                            Height="20 "
-                                            Margin="3,0"
-                                            Background="{DynamicResource accent-100}"
-                                            CornerRadius="10">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource text-200}"
-                                                   Text="&#xe60c;" />
-                                    </Border>
-
-                                    <Border Width="20"
-                                            Height="20 "
-                                            Margin="3,0"
-                                            Background="{DynamicResource accent-100}"
-                                            CornerRadius="10">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource text-200}"
-                                                   Text="&#xe60d;" />
-                                    </Border>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-
-        <StackPanel Grid.Row="2"
-                    Margin="20,0,25,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Orientation="Horizontal">
-
-            <ComboBox Width="100"
-                      Height="28"
-                      Background="{DynamicResource bg-200}"
-                      BorderBrush="{DynamicResource primary-200}"
-                      SelectedIndex="0">
-                <ComboBoxItem>默认</ComboBoxItem>
-                <ComboBoxItem>写作243242424</ComboBoxItem>
-                <ComboBoxItem>游戏</ComboBoxItem>
-                <ComboBoxItem>全部</ComboBoxItem>
-                <ComboBoxItem>写作</ComboBoxItem>
-                <ComboBoxItem>游戏</ComboBoxItem>
-                <ComboBoxItem>全部</ComboBoxItem>
-                <ComboBoxItem>写作</ComboBoxItem>
-                <ComboBoxItem>游戏</ComboBoxItem>
-                <ComboBoxItem>全部</ComboBoxItem>
-                <ComboBoxItem>写作</ComboBoxItem>
-                <ComboBoxItem>游戏</ComboBoxItem>
-            </ComboBox>
-
-            <TextBlock Margin="10,0,0,0"
-                       VerticalAlignment="Center"
-                       Foreground="{DynamicResource text-100}"
-                       Text="分组" />
-        </StackPanel>
 
 
-        <c:PagingControl Grid.Row="2"
+        <!--<c:PagingControl Grid.Row="2"
                          Margin="0,0,25,0"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Bottom"
@@ -180,6 +63,6 @@
                          PreviousPageCommand="{Binding ToPreviousPageCommand}"
                          SelectedIndexOfCount="{Binding PageControlIndex, Mode=TwoWay}"
                          TotalPageCount="{Binding TotalPageCount}"
-                         PageIndex="{Binding PageNumber}" />
+                         PageIndex="{Binding PageNumber}" />-->
     </Grid>
 </UserControl>

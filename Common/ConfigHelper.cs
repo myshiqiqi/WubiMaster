@@ -1,64 +1,61 @@
-﻿using System;
+﻿namespace WubiMaster.Common;
 
-namespace WubiMaster.Common
+public class ConfigHelper
 {
-    public class ConfigHelper
+    public static bool ReadConfigByBool(string key, bool defaultValue = false)
     {
-        public static bool ReadConfigByBool(string key, bool defaultValue = false)
+        string value = JsonConfigHelper.ReadConfig(key);
+        if (string.IsNullOrEmpty(value))
         {
-            string value = JsonConfigHelper.ReadConfig(key);
-            if (string.IsNullOrEmpty(value))
-            {
-                return defaultValue;
-            }
-
-            return bool.Parse(value);
+            return defaultValue;
         }
 
-        public static int ReadConfigByInt(string key, int defaultValue = -1)
-        {
-            string value = JsonConfigHelper.ReadConfig(key);
-            if (string.IsNullOrEmpty(value))
-            {
-                return defaultValue;
-            }
+        return bool.Parse(value);
+    }
 
-            return Convert.ToInt32(value);
+    public static int ReadConfigByInt(string key, int defaultValue = -1)
+    {
+        string value = JsonConfigHelper.ReadConfig(key);
+        if (string.IsNullOrEmpty(value))
+        {
+            return defaultValue;
         }
 
-        public static string ReadConfigByString(string key, string defaultValue = "")
-        {
-            string value = JsonConfigHelper.ReadConfig(key);
-            if (string.IsNullOrEmpty(value))
-            {
-                return defaultValue;
-            }
+        return Convert.ToInt32(value);
+    }
 
-            return value;
+    public static string ReadConfigByString(string key, string defaultValue = "")
+    {
+        string value = JsonConfigHelper.ReadConfig(key);
+        if (string.IsNullOrEmpty(value))
+        {
+            return defaultValue;
         }
 
-        public static void WriteConfigByBool(string key, bool value)
-        {
-            JsonConfigHelper.WriteConfig(key, value.ToString());
-        }
+        return value;
+    }
 
-        public static void WriteConfigByInt(string key, int value)
+    public static void WriteConfigByBool(string key, bool value)
+    {
+        JsonConfigHelper.WriteConfig(key, value.ToString());
+    }
+
+    public static void WriteConfigByInt(string key, int value)
+    {
+        JsonConfigHelper.WriteConfig(key, value.ToString());
+    }
+
+    public static void WriteConfigByString(string key, string value)
+    {
+        try
         {
-            JsonConfigHelper.WriteConfig(key, value.ToString());
+            JsonConfigHelper.WriteConfig(key, value);
         }
-        public static void WriteConfigByString(string key, string value)
+        catch (Exception ex)
         {
-            try
-            {
-                JsonConfigHelper.WriteConfig(key, value);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-                if (ex is UnauthorizedAccessException)
-                    App.Current.MainWindow.ShowMessage("当前用户没有权限读取配置文件");
-            }
-            
+            LogHelper.Error(ex.ToString());
+            if (ex is UnauthorizedAccessException)
+                App.Current.MainWindow.ShowMessage("当前用户没有权限读取配置文件");
         }
     }
 }

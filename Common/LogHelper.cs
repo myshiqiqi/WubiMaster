@@ -1,132 +1,128 @@
 ﻿using log4net;
-using System;
-using System.Diagnostics;
-using System.IO;
 
-namespace WubiMaster.Common
+namespace WubiMaster.Common;
+
+public class LogHelper
 {
-    public class LogHelper
+    private static ILog Log = LogManager.GetLogger(typeof(LogHelper));
+    private static string LogDirectory = AppDomain.CurrentDomain.BaseDirectory + "Logs";
+
+    static LogHelper()
     {
-        private static ILog Log = LogManager.GetLogger(typeof(LogHelper));
-        private static string LogDirectory = AppDomain.CurrentDomain.BaseDirectory + "Logs";
+        if (!Directory.Exists(LogDirectory))
+            Directory.CreateDirectory(LogDirectory);
+        LogHelper.RemoveLogs();
+    }
 
-        static LogHelper()
+    private static string AppendClassLine(string msg)
+    {
+        string logStr = msg;
+
+        try
         {
-            if (!Directory.Exists(LogDirectory))
-                Directory.CreateDirectory(LogDirectory);
-            LogHelper.RemoveLogs();
+            StackTrace st = new StackTrace(true);
+            StackFrame sf = st.GetFrame(2);
+            logStr = $"{msg} [{Path.GetFileName(sf.GetFileName())}: {sf.GetFileLineNumber().ToString()}]";
         }
+        catch { }
 
-        public static void Debug(string msg, bool addTrace = false)
+        return logStr;
+    }
+
+    private static void RemoveLogs()
+    {
+        try
         {
-            string message = "";
+            string logPath = AppDomain.CurrentDomain.BaseDirectory + "Logs\\";
+            DirectoryInfo root = new DirectoryInfo(logPath);
+            FileInfo[] logFiles = root.GetFiles();
 
-            if (string.IsNullOrEmpty(msg)) return;
-            if (addTrace)
-                message = AppendClassLine(msg);
-            else
-                message = msg;
+            string logBackDays = ConfigHelper.ReadConfigByString("log_back_days", "30");
+            int backDays = int.Parse(logBackDays);
 
-            string htmlStr = ToHtmlStr(message, "DEBUG", "green");
-            Log.Debug(htmlStr);
+            foreach (var log in logFiles)
+                if ((DateTime.Today - log.LastWriteTime).Days >= backDays)
+                    log.Delete();
         }
-
-        public static void Error(string msg, bool addTrace = false)
+        catch (Exception ex)
         {
-            string message = "";
-
-            if (string.IsNullOrEmpty(msg)) return;
-            if (addTrace)
-                message = AppendClassLine(msg);
-            else
-                message = msg;
-
-            string htmlStr = ToHtmlStr(message, "ERROR", "red");
-            Log.Error(htmlStr);
+            LogHelper.Error(ex.Message);
         }
+    }
 
-        public static void Fatal(string msg, bool addTrace = false)
-        {
-            string message = "";
+    private static string ToHtmlStr(string mesg, string type, string color = "black")
+    {
+        string htmlStr = $"<p style='color:{color}'>{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} [{type}] - {mesg}</p>";
+        return htmlStr;
+    }
 
-            if (string.IsNullOrEmpty(msg)) return;
-            if (addTrace)
-                message = AppendClassLine(msg);
-            else
-                message = msg;
+    public static void Debug(string msg, bool addTrace = false)
+    {
+        string message = "";
 
-            string htmlStr = ToHtmlStr(message, "FATAL", "fuchsia");
-            Log.Fatal(htmlStr);
-        }
+        if (string.IsNullOrEmpty(msg)) return;
+        if (addTrace)
+            message = AppendClassLine(msg);
+        else
+            message = msg;
 
-        public static void Info(string msg, bool addTrace = false)
-        {
-            string message = "";
+        string htmlStr = ToHtmlStr(message, "DEBUG", "green");
+        Log.Debug(htmlStr);
+    }
 
-            if (string.IsNullOrEmpty(msg)) return;
-            if (addTrace)
-                message = AppendClassLine(msg);
-            else
-                message = msg;
+    public static void Error(string msg, bool addTrace = false)
+    {
+        string message = "";
 
-            string htmlStr = ToHtmlStr(message, "INFO", "black");
-            Log.Error(htmlStr);
-        }
+        if (string.IsNullOrEmpty(msg)) return;
+        if (addTrace)
+            message = AppendClassLine(msg);
+        else
+            message = msg;
 
-        public static void Warn(string msg, bool addTrace = false)
-        {
-            string message = "";
+        string htmlStr = ToHtmlStr(message, "ERROR", "red");
+        Log.Error(htmlStr);
+    }
 
-            if (string.IsNullOrEmpty(msg)) return;
-            if (addTrace)
-                message = AppendClassLine(msg);
-            else
-                message = msg;
+    public static void Fatal(string msg, bool addTrace = false)
+    {
+        string message = "";
 
-            string htmlStr = ToHtmlStr(message, "WARN", "orange");
-            Log.Warn(htmlStr);
-        }
+        if (string.IsNullOrEmpty(msg)) return;
+        if (addTrace)
+            message = AppendClassLine(msg);
+        else
+            message = msg;
 
-        private static string AppendClassLine(string msg)
-        {
-            string logStr = msg;
+        string htmlStr = ToHtmlStr(message, "FATAL", "fuchsia");
+        Log.Fatal(htmlStr);
+    }
 
-            try
-            {
-                StackTrace st = new StackTrace(true);
-                StackFrame sf = st.GetFrame(2);
-                logStr = $"{msg} [{Path.GetFileName(sf.GetFileName())}: {sf.GetFileLineNumber().ToString()}]";
-            }
-            catch { }
+    public static void Info(string msg, bool addTrace = false)
+    {
+        string message = "";
 
-            return logStr;
-        }
+        if (string.IsNullOrEmpty(msg)) return;
+        if (addTrace)
+            message = AppendClassLine(msg);
+        else
+            message = msg;
 
-        private static void RemoveLogs()
-        {
-            try
-            {
-                string logPath = AppDomain.CurrentDomain.BaseDirectory + "Logs\\";
-                DirectoryInfo root = new DirectoryInfo(logPath);
-                FileInfo[] logFiles = root.GetFiles();
+        string htmlStr = ToHtmlStr(message, "INFO", "black");
+        Log.Error(htmlStr);
+    }
 
-                string logBackDays = ConfigHelper.ReadConfigByString("log_back_days", "30");
-                int backDays = int.Parse(logBackDays);
+    public static void Warn(string msg, bool addTrace = false)
+    {
+        string message = "";
 
-                foreach (var log in logFiles)
-                    if ((DateTime.Today - log.LastWriteTime).Days >= backDays)
-                        log.Delete();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.Message);
-            }
-        }
+        if (string.IsNullOrEmpty(msg)) return;
+        if (addTrace)
+            message = AppendClassLine(msg);
+        else
+            message = msg;
 
-        private static string ToHtmlStr(string mesg, string type, string color = "black")
-        {
-            string htmlStr = $"<p style='color:{color}'>{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} [{type}] - {mesg}</p>";
-            return htmlStr;
-        }
+        string htmlStr = ToHtmlStr(message, "WARN", "orange");
+        Log.Warn(htmlStr);
     }
 }

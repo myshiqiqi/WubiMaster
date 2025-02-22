@@ -226,4 +226,10 @@ public partial class LexiconViewModel : ObservableObject
             CikuList = temp_list;
         });
     }
+
+    [RelayCommand]
+    private void AddCustomWords(object? obj)
+    {
+        MessageBox.Show("hello");
+    }
 }

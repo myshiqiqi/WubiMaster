@@ -14,68 +14,38 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource Locator}, Path=LexiconViewModel}">
 
-    <Grid d:Background="Red">
+    <Grid d:Background="GreenYellow">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Right">
-            <Button Width="100"
-                    Height="32"
-                    Command="{Binding AddCustomWordsCommand}"
-                    Content="添加词条" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-            <Button Width="100"
-                    Height="32"
-                    Content="删除词条" />
-        </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="选择词库：" />
+                <ComboBox Width="150" Height="32" />
+            </StackPanel>
 
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <TextBlock Text="查询" />
+                <c:SearchTextbox Width="300" />
+            </StackPanel>
 
-        <Grid Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="45" />
-                <RowDefinition />
-                <RowDefinition Height="45" />
-            </Grid.RowDefinitions>
+            <Button Grid.Column="2" Content="词库管理" />
+        </Grid>
 
-            <Grid>
-
-                <c:SearchTextbox Width="300"
-                                 Height="30"
-                                 Margin="18,0,0,0"
-                                 HorizontalAlignment="Left"
-                                 VerticalAlignment="Top"
-                                 BorderCornerRadius="15"
-                                 ShowComboBox="Collapsed"
-                                 TextFontSize="15"
-                                 TextMargin="20 0 0 0"
-                                 TextMaxLength="25"
-                                 WaterMarkText="查询..." />
-
-                <c:IconButton HorizontalAlignment="Right"
-                              VerticalAlignment="Top"
-                              ButtonBackground="{DynamicResource accent-100}"
-                              ButtonCommand="{Binding CreateWordsCommand}"
-                              ButtonForeground="{DynamicResource bg-100}"
-                              ButtonHeight="25"
-                              ButtonPadding="4"
-                              ButtonWidth="25"
-                              IconText="&#xe60f;"
-                              IsEnabled="False"
-                              ToolTip="自造词" />
-            </Grid>
-
-            <!--<c:PagingControl Grid.Row="2"
-                         Margin="0,0,25,0"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Bottom"
-                         CountChangedCommand="{Binding PageControlSelectionChangedCommand}"
-                         FirstPageCommand="{Binding ToFirstPageCommand}"
-                         IsEnabled="{Binding PageControlEnable}"
-                         LastPageCommand="{Binding ToLastPageCommand}"
-                         NextPageCommand="{Binding ToNextPageCommand}"
-                         PreviousPageCommand="{Binding ToPreviousPageCommand}"
-                         SelectedIndexOfCount="{Binding PageControlIndex, Mode=TwoWay}"
-                         TotalPageCount="{Binding TotalPageCount}"
-                         PageIndex="{Binding PageNumber}" />-->
+        <Grid Grid.Row="1">
+            <DataGrid Background="Green" />
         </Grid>
     </Grid>
 

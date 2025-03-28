@@ -18,28 +18,55 @@ public static class YamlHelper
         _jsonserializer = new SerializerBuilder().JsonCompatible().Build();
     }
 
+    /// <summary>
+    /// 从文件中反序列化
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
     public static T DeserializeFromFile<T>(string filePath)
     {
         var yaml = File.ReadAllText(filePath, Encoding.UTF8);
         return Deserizlize<T>(yaml);
     }
 
+    /// <summary>
+    /// 反序列化
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="yaml"></param>
+    /// <returns></returns>
     public static T Deserizlize<T>(string yaml)
     {
         return _deserializer.Deserialize<T>(yaml);
     }
 
+    /// <summary>
+    /// 序列化
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public static string Serialize(object target)
     {
         return _serializer.Serialize(target);
     }
 
+    /// <summary>
+    /// 序列化到文件
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="filePath"></param>
     public static void SerizlizerToFile(object target, string filePath)
     {
         var content = Serialize(target);
         File.WriteAllText(filePath, content, Encoding.UTF8);
     }
 
+    /// <summary>
+    /// 写入Yaml文件
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="filePath"></param>
     public static void WriteYaml(object target, string filePath)
     {
         StreamWriter yamlWriter = File.CreateText(filePath);
@@ -61,6 +88,11 @@ public static class YamlHelper
         File.WriteAllLines(filePath, _list.ToArray(), encoding: Encoding.UTF8);
     }
 
+    /// <summary>
+    /// yaml转json
+    /// </summary>
+    /// <param name="yaml"></param>
+    /// <returns></returns>
     public static string YamlToJson(string yaml)
     {
         var yamlObject = _jsondeserializer.Deserialize(yaml);

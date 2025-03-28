@@ -27,8 +27,33 @@ public partial class LexiconViewModel : ObservableObject
         CikuAllList = new List<CikuModel>();
         WeakReferenceMessenger.Default.Register<string, string>(this, "ReLoadCikuData", ReLoadCikuData);
 
+        LoadCiKus();
         LoadCikuData();
         InitPageControl();
+    }
+
+    /// <summary>
+    /// 加载词库下载选项
+    /// </summary>
+    public void LoadCiKus()
+    {
+        // 默认词库路径
+        var default_ciku_path = GlobalValues.UserPath + @"\wubi.dict.yaml";
+        // 扩展词库路径
+        var extend_ciku_path = GlobalValues.UserPath + @"\wubi.extended.dict.yaml";
+
+
+        if (!File.Exists(extend_ciku_path))
+        {
+            this.ShowMessage($"找不到【wubi.extended.dict.yaml】扩展词库文件", DialogType.Error);
+            return;
+        }
+
+        // # 读取词库名称列表
+        var cikuNames = new List<(string, string)>();
+        cikuNames.Add(("默认词库", default_ciku_path));
+        cikuNames.Add(("扩展词库", extend_ciku_path));
+        cikuNames.Add(("", ""));
     }
 
     private void InitPageControl()
